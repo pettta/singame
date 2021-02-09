@@ -1,0 +1,3 @@
+Hello, my name is Tommy Pett.
+I went to high school at North Penn High School, and I currently major in computer science at Drexel. 
+I have experience programming extensively in python, and I am currently working to learn Java for this project.
