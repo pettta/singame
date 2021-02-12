@@ -20,4 +20,5 @@ public class Window extends Canvas {
         ImageIcon icon = new ImageIcon("src/resources/icon.png");
         frame.setIconImage(icon.getImage());
     }
+
 }
