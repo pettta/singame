@@ -1,7 +1,6 @@
 package sin;
 
 import sin.lib.Lib;
-
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Set;
@@ -21,8 +20,7 @@ public class KeyHandler extends KeyAdapter {
 
     Set<Integer> keys = new TreeSet<Integer>();
 
-    // TODO This code might have to be reworked slightly to account for
-    // say, slowdown effects or something.
+    // TODO This code might have to be reworked slightly to account for speed changine effects.
     public KeyHandler(Game game) {
         this.game = game;
         playerSpeed = game.playerSpeed;

@@ -13,16 +13,11 @@ import java.util.Random;
 
 public class Game extends Canvas implements Runnable {
 
-    // TODO Trig calc up front.
-    // TODO Organize sprites and maps better.
-
     public static final int WIDTH = 640, HEIGHT = 480;
     public static final float playerSpeed = 10;
-    public static final boolean debugmode = true;
+    public static final boolean debugMode = true;
     private boolean running = false;
     private boolean initComplete = false;
-
-
 
     private Thread thread;
     private Random r;
@@ -46,13 +41,11 @@ public class Game extends Canvas implements Runnable {
         gameState = State.Game;
         handler = new Handler();
         menu = new Menu(this);
-        //map = new Map(this, "envy_village.csv", "tileset_world.png");
         this.addMouseListener(menu);
         this.addKeyListener(new KeyHandler(this));
         hud = new HUD();
         r = new Random();
         new Window(WIDTH, HEIGHT, "Sinbusters", this);
-        Lib.init();
         init();
     }
 
@@ -87,7 +80,8 @@ public class Game extends Canvas implements Runnable {
 
     @Override
     public void run() {
-        while(!initComplete) { // Waits to finish initialization before the game loop starts. Fixes null pointers.
+        // Waits to finish initialization before the game loop starts. Fixes null pointers.
+        while(!initComplete) {
             dprint("Waiting...");
             try {
                 Thread.sleep(10);
@@ -97,7 +91,8 @@ public class Game extends Canvas implements Runnable {
         }
         this.requestFocus();
         long lastTime = System.nanoTime();
-        double amountOfTicks = 20; // Defines the amount of ticks per second. Changing alters things drastically.
+        // Ticks per second.
+        double amountOfTicks = 20;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -123,6 +118,7 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
+    // The tick method. Called as much as possible.
     private void tick() {
         if(gameState == State.Game) {
             handler.tick();
@@ -132,7 +128,7 @@ public class Game extends Canvas implements Runnable {
         }
     }
 
-    // The render method. Called every tick.
+    // The render method. Called as much as possible.
     private void render() {
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null) {
@@ -148,7 +144,6 @@ public class Game extends Canvas implements Runnable {
             float dify = player.getYMid() - HEIGHT / 2;
             g2d.translate(-difx, -dify);
             // TRANSLATION START
-            //map.render(g);
             handler.render(g);
             // TRANSLATION END
             g2d.translate(difx, dify);
@@ -161,18 +156,19 @@ public class Game extends Canvas implements Runnable {
         bs.show();
     }
 
-    // The main method. Calls game, with starts both the constructor and the runnable run() method.
+    // The main method. Calls game, which starts both the constructor and the runnable run() method.
     public static void main(String args[]) {
         new Game();
     }
 
     // A method that prints if debug mode, a boolean in this class, is set to true.
     public static void dprint(Object object) {
-        if(debugmode) {
+        if(debugMode) {
             System.out.println(object);
         }
     }
 
+    // Returns the handler.
     public Handler getHandler() {
         return handler;
 
