@@ -6,16 +6,6 @@ import java.awt.image.BufferedImage;
 
 public class Polysprite {
 
-    // The location in the tileset by default of a directional sprite. Cardinal directions.
-    int n = 0;
-    int s = 1;
-    int e = 2;
-    int w = 3;
-    int ne = 4;
-    int nw = 5;
-    int se = 6;
-    int sw = 7;
-
     private BufferedImage[][] images;
 
     /**
@@ -27,6 +17,7 @@ public class Polysprite {
      * That is, row index changes your vertical location and column index changes
      * your horizontal location.
      * In an array it goes [rowIndex][columnIndex].
+     * That is, [y][x].
      */
     public Polysprite(String sheetLoc, int colCount, int rowCount, int width, int height) {
         SpriteSheet sheet = new SpriteSheet(sheetLoc);
@@ -40,6 +31,11 @@ public class Polysprite {
         }
     }
 
+    /**
+     * Receives the current image from the sprite sheet based on the direction the NPC is moving,
+     * the direction they had last time they stopped moving, and the index of their current point in their
+     * animation cycle.
+     */
     public BufferedImage getCurImage(int index, Direction direction, Direction lastDirection) {
         return images[direction != Direction.None ? direction.value : lastDirection.value][direction != Direction.None ? index : 0];
     }

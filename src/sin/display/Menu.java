@@ -17,10 +17,12 @@ public class Menu extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        int ex = e.getX();
-        int ey = e.getY();
-        if(Lib.locIn(ex, ey, 210, 150, 200, 50) && game.gameState == Game.State.Menu) {
-            game.gameState = Game.State.Game;
+        if(game.gameState == Game.State.Menu) {
+            int ex = e.getX();
+            int ey = e.getY();
+            if (Lib.locIn(ex, ey, 210, 150, 200, 50) && game.gameState == Game.State.Menu) {
+                game.gameState = Game.State.Game;
+            }
         }
     }
 
@@ -31,8 +33,6 @@ public class Menu extends MouseAdapter {
 
     public void tick() {
     }
-
-
 
     public void render(Graphics g) {
         Font font = new Font("arial", 1, 50);
