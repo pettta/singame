@@ -50,9 +50,24 @@ public class Vector {
         this.vert = (float) (magnitude * Math.sin(angle));
     }
 
-    // CONSTRUCTOR 3 - Refers to CONSTRUCTOR 2.
+    /**
+     * CONSTRUCTOR 3 - Calls constructor 2.
+     * Creates a vector of the angle from one location to another
+     * with a preset magnitude. This is different from constructor 4, which creates a vector
+     * not with a preset magnitude, but just from the values of the components.
+     */
     public Vector(float xo, float yo, float xf, float yf, float magnitude) {
         this((float) Math.atan2(yf - yo, xf - xo), magnitude);
+    }
+
+    /**
+     * CONSTRUCTOR 4 - Calls constructor 1.
+     * Just an easier way to get the horizontal and vertical components from
+     * two positions, the first one being the start of the vector,
+     * the second being the position pointed towards.
+     */
+    public Vector(float xo, float yo, float xf, float yf) {
+        this(xf - xo, yf - yo, true, true);
     }
 
     /**
