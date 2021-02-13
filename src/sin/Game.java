@@ -21,13 +21,15 @@ public class Game extends Canvas implements Runnable {
 
     private Thread thread;
     private Random r;
-    private Handler handler;
-    private Menu menu;
-    private Map map;
 
+
+    public Handler handler;
+    public Map map;
+    public Menu menu;
     public Player player;
     public HUD hud;
     public State gameState;
+
 
 
     public enum State {
@@ -41,7 +43,7 @@ public class Game extends Canvas implements Runnable {
         gameState = State.Game;
         handler = new Handler();
         menu = new Menu(this);
-        this.addMouseListener(menu);
+        this.addMouseListener(new MouseHandler(this));
         this.addKeyListener(new KeyHandler(this));
         hud = new HUD();
         r = new Random();
@@ -123,8 +125,6 @@ public class Game extends Canvas implements Runnable {
         if(gameState == State.Game) {
             handler.tick();
             hud.tick();
-        } else if (gameState == State.Menu) {
-            menu.tick();
         }
     }
 
