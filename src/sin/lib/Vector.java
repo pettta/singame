@@ -2,12 +2,14 @@ package sin.lib;
 
 public class Vector {
 
-    /**
-     * Keep in mind that sometimes magnitude and angle have not been calculated, so ideally use
-     * getMagnitude() and getAngle() at least once to ensure they have been calculated before you use them
-     * in this class, just to be safe. Probably though, this class won't need to be modified much more so,
-     * not that big of a deal. Actually, I would very much prefer if you didn't modify this class at all.
-     **/
+    /*
+    Keep in mind that sometimes magnitude, angle, and direction have not been calculated, so ideally use
+    getMagnitude() and getAngle() at least once to ensure they have been calculated before you use them
+    in this class, just to be safe. Probably though, this class won't need to be modified much more so,
+    not that big of a deal. Actually, I would very much prefer if you didn't modify this class at all.
+    I can't tell you how much time it took my brain at 3AM to wrap my mind around the trigonometry
+    used in this class, as simple as it is in hindsight.
+    */
 
     float angle, magnitude, horiz, vert;
     boolean angleCalced, magnitudeCalced, directionCalced;
@@ -35,7 +37,7 @@ public class Vector {
      * CONSTRUCTOR 2 - From angle and magnitude.
      * The angle parameter must follow this format.
      *      In radians.
-     *      In what I will call ATAN2 form. See the documentation above getVariable() for more explanation.
+     *      In what I will call ATAN2 form. See the documentation above getAngle() for more explanation.
      * If need be, use the static methods in this class, as well as Math.toRadians()
      * to convert it to the proper form before calling this constructor.
      **/
@@ -48,9 +50,24 @@ public class Vector {
         this.vert = (float) (magnitude * Math.sin(angle));
     }
 
-    // CONSTRUCTOR 3 - Refers to CONSTRUCTOR 2.
+    /**
+     * CONSTRUCTOR 3 - Calls constructor 2.
+     * Creates a vector of the angle from one location to another
+     * with a preset magnitude. This is different from constructor 4, which creates a vector
+     * not with a preset magnitude, but just from the values of the components.
+     */
     public Vector(float xo, float yo, float xf, float yf, float magnitude) {
         this((float) Math.atan2(yf - yo, xf - xo), magnitude);
+    }
+
+    /**
+     * CONSTRUCTOR 4 - Calls constructor 1.
+     * Just an easier way to get the horizontal and vertical components from
+     * two positions, the first one being the start of the vector,
+     * the second being the position pointed towards.
+     */
+    public Vector(float xo, float yo, float xf, float yf) {
+        this(xf - xo, yf - yo, true, true);
     }
 
     /**
@@ -151,7 +168,6 @@ public class Vector {
     }
 
     // Checks if direction has been calculated, and calculates it if hasn't.
-    // TODO make switch
     public Direction getDirection() {
         if(!directionCalced) {
             float pi = (float) Math.PI;
@@ -186,11 +202,15 @@ public class Vector {
         return direction;
     }
 
-    // Based on the positiveness or negativeness of the horizontal and vertical components.
-    // Doesn't save in the class because its static. Only player really is going to use this.
-    // Use this only for objects that can only move 8 directions, because
-    // it will only return N S E W if there is no other component of movement at all besides
-    // the respective direction.
+    /**
+     * Based on the positiveness or negativeness of the horizontal and vertical components.
+     * Doesn't save in the class because its static and uses outside variables
+     * Only player really is going to use this, and is only really in this class for
+     * organization.
+     * Use this only for objects that can only move 8 directions, because
+     * it will only return N S E W if there is no other component of movement at all besides
+     * the respective direction.
+     */
     public static Direction getRoughDirection(float horiz, float vert) {
         if(horiz < 0) {
             if (vert < 0) return Direction.NW;
@@ -207,10 +227,12 @@ public class Vector {
         }
     }
 
-    // Takes an angle in 360 form, returns angle in ATAN2 form. See the documentation above getAngle().
-    // Uses radians. Call Math.toRadians() if need be.
-    // Perhaps calling it 360 form is confusing when really, this parameter takes
-    // a radian value from 0 to 2 * pi.
+    /**
+     * Takes an angle in 360 form, returns angle in ATAN2 form. See the documentation above getAngle().
+     * Uses radians. Call Math.toRadians() if need be.
+     * Perhaps calling it 360 form is confusing when really, this parameter takes
+     * a radian value from 0 to 2 * pi.
+     */
     public static float atan2From360(float angle) {
         float pi = (float) Math.PI;
         if(angle >= 0 && angle <= pi) {

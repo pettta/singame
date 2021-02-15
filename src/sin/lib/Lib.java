@@ -34,25 +34,32 @@ public class Lib {
         return cos[in];
     }
 
+    /**
+     * If var is not within [min, max] inclusive, then returns
+     * the nearest bound. Otherwise just returns var.
+     */
     public static int clamp(int var, int min, int max) {
         if(var >= max) return max;
         else if (var <= min) return min;
         else return var;
     }
 
+    /**
+     * Increments your cur value, setting it back to the min if it is
+     * already equal to the max.
+     */
     public static int cycle(int cur, int min, int max) {
         if (cur < max) return cur + 1;
         else return min;
     }
 
+    /**
+     * Returns true if (mx, my) is within a rectangle that starts at (x, y)
+     * with the defined width and height.
+     */
     public static boolean locIn(int mx, int my, int x, int y, int width, int height) {
         if (mx > x && mx < x + width && my > y && my < y + height) return true;
         return false;
-    }
-
-    public static Direction getNonelessDirection(Direction dir) {
-        if(dir == Direction.None) return Direction.S;
-        return dir;
     }
 
 }

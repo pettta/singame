@@ -2,7 +2,6 @@ package sin;
 
 import sin.materia.Materia;
 import sin.materia.entity.Entity;
-
 import java.awt.*;
 import java.util.LinkedList;
 
