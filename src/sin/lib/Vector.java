@@ -18,7 +18,8 @@ public class Vector {
     /**
      * CONSTRUCTOR 1 - From components.
      * Boolean parameters for calculating angle and magnitude, because you might need one and not the other.
-     * Saves computing power.
+     * Saves computing power. Also, booleans exist for the purpose of differentiating
+     * the two (float, float) constructors.
      **/
     public Vector(float horiz, float vert, boolean calculateAngleNow, boolean calculateMagnitudeNow) {
         if (calculateAngleNow) {
