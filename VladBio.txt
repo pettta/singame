@@ -1,3 +1,3 @@
-Hello. My name is Vlad Muzyka, and I am a CS major in Drexel University. 
+Hello. My name is Vladislav Muzyka, and I am a CS major in Drexel University. 
 I have attended highschool in Philadelphia Academy Charter High. 
 After graduation, I intend to become a software developer.
