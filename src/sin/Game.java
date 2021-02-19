@@ -57,12 +57,14 @@ public class Game extends Canvas implements Runnable {
         player = new Player(883, 438, playerSpeed, this);
         WormShooter worm = new WormShooter(60, 60, this);
         handler.addEnt(player);
-        WormShooter worm1 = new WormShooter(640, 825, this);
-        WormShooter worm2 = new WormShooter(860, 785, this);
-        WormShooter worm3 = new WormShooter(590, 485, this);
+        WormShooter worm1 = new WormShooter(714, 475, this);
+        WormShooter worm2 = new WormShooter(1122, 715, this);
+        WormShooter worm3 = new WormShooter(718, 957, this);
+        WormShooter worm4 = new WormShooter(317, 722, this);
         handler.addEnt(worm1);
         handler.addEnt(worm2);
         handler.addEnt(worm3);
+        handler.addEnt(worm4);
         initComplete = true;
         dprint("Initialization complete!");
     }
