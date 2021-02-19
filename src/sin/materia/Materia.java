@@ -41,6 +41,14 @@ public abstract class Materia {
         return y;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     public float getXMid() {
         return x + (width / 2);
     }

@@ -7,6 +7,9 @@ import sin.lib.EntityType;
 import sin.lib.Lib;
 import sin.lib.Vector;
 import sin.materia.sprite.Polysprite;
+import sin.materia.tile.Tile;
+
+import java.awt.*;
 
 public class Player extends Entity {
 
@@ -31,6 +34,67 @@ public class Player extends Entity {
             indexCounter = 0;
         }
         intersects();
+        //doCollision();
+    }
+
+    public Rectangle getHorizCollision() {
+
+        float bx = x + velX;
+        float by = y + (height / 2);
+        float bw = width + velX / 2;
+        float bh = height / 2;
+
+        return new Rectangle((int) bx, (int) by, (int)bw, (int)bh);
+
+    }
+
+    public Rectangle getVertCollision() {
+        float bx = x;
+        float by = y + (height / 2) + velY;
+        float bw = width;
+        float bh = height / 2 + velY / 2;
+
+        return new Rectangle((int) bx, (int) by, (int)bw, (int)bh);
+    }
+
+
+    public Rectangle getCollisionBounds() {
+        return new Rectangle((int) x, (int) (y + (height / 2)), width, height / 2);
+    }
+
+
+    private boolean doCollision() {
+        for(int i = 0; i < game.map.getTiles().size(); i++) {
+            Tile tile = game.map.getTiles().get(i);
+            if(tile.isCollides()) {
+                if(getHorizCollision().intersects(tile.getBounds())) {
+                    if(velX > 0) {
+                        // Into left of object.
+                        velX = 0;
+                        x = tile.getX() - width;
+                    } else {
+                        // Into right of object.
+                        velX = 0;
+                        x = tile.getX() + tile.getWidth();
+                    }
+                    velY = 0;
+                }
+                if(getVertCollision().intersects(tile.getBounds())) {
+                    if(velY > 0) {
+                        // Into top of object.
+                        velX = 0;
+                        y = tile.getY() - height;
+                    } else {
+                        // Into bottom of object.
+                        velY = 0;
+                        y = tile.getY() + tile.getHeight() - height / 2;
+                    }
+                    velY = 0;
+                }
+
+            }
+        }
+        return false;
     }
 
     private boolean intersects() {

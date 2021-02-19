@@ -22,7 +22,9 @@ public class WormShooter extends Entity {
     public void tick() {
         super.tick();
         shootCounter++;
-        if(shootCounter >= 10) {
+        Vector toPlayer = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid());
+        float distance = toPlayer.getMagnitude();
+        if(shootCounter >= 10 && distance < 125) {
             WormBullet proj = new WormBullet(getXMid(), getYMid(), game, ps.getCurImage(14));
             Vector vector = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid(), speed);
             proj.setVelX(vector.getHorizComp());

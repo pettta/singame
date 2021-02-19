@@ -37,7 +37,7 @@ public class Polysprite {
      * animation cycle.
      */
     public BufferedImage getCurImage(int index, Direction direction, Direction lastDirection) {
-        return images[direction != Direction.None ? direction.value : lastDirection.value][direction != Direction.None ? index : 0];
+        return images[direction != Direction.None ? direction.value : lastDirection != Direction.None ? lastDirection.value : Direction.S.value][direction != Direction.None ? index : 0];
     }
 
     public BufferedImage getCurImage(int index) {

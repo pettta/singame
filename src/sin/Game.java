@@ -14,7 +14,7 @@ import java.util.Random;
 public class Game extends Canvas implements Runnable {
 
     public static final int WIDTH = 640, HEIGHT = 480;
-    public static final float playerSpeed = 10;
+    public static final float playerSpeed = 7;
     public static final boolean debugMode = true;
     private boolean running = false;
     private boolean initComplete = false;
@@ -48,18 +48,21 @@ public class Game extends Canvas implements Runnable {
         hud = new HUD();
         r = new Random();
         new Window(WIDTH, HEIGHT, "Sinbusters", this);
+        map = new Map(this,"testMap02.json", "tileset_world.png");
         init();
     }
 
     public void init() {
         System.out.println(32 / 16 + (32 % 16 > 0 ? 1 : 0));
-        player = new Player(30, 30, playerSpeed, this);
+        player = new Player(883, 438, playerSpeed, this);
         WormShooter worm = new WormShooter(60, 60, this);
         handler.addEnt(player);
-        for (int i = 0; i < 100; i++) {
-            WormShooter tempWorm = new WormShooter(r.nextInt(WIDTH), r.nextInt(HEIGHT), this);
-            handler.addEnt(tempWorm);
-        }
+        WormShooter worm1 = new WormShooter(640, 825, this);
+        WormShooter worm2 = new WormShooter(860, 785, this);
+        WormShooter worm3 = new WormShooter(590, 485, this);
+        handler.addEnt(worm1);
+        handler.addEnt(worm2);
+        handler.addEnt(worm3);
         initComplete = true;
         dprint("Initialization complete!");
     }
@@ -144,7 +147,9 @@ public class Game extends Canvas implements Runnable {
             float dify = player.getYMid() - HEIGHT / 2;
             g2d.translate(-difx, -dify);
             // TRANSLATION START
+            map.render(g);
             handler.render(g);
+            map.renderTop(g);
             // TRANSLATION END
             g2d.translate(difx, dify);
             hud.render(g);

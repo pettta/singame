@@ -27,7 +27,7 @@ public class Vector {
             angleCalced = true;
         }
         if (calculateMagnitudeNow) {
-            this.magnitude = (float) Math.sqrt(Math.pow(horiz, 2) - Math.pow(vert, 2));
+            this.magnitude = (float) Math.sqrt(Math.pow(horiz, 2) + Math.pow(vert, 2));
             magnitudeCalced = true;
         }
         this.horiz = horiz;
