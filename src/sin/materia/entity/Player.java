@@ -34,7 +34,7 @@ public class Player extends Entity {
             indexCounter = 0;
         }
         intersects();
-        //doCollision();
+        //DoCollision();
     }
 
     public Rectangle getHorizCollision() {
