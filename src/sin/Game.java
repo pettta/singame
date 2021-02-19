@@ -48,7 +48,7 @@ public class Game extends Canvas implements Runnable {
         hud = new HUD();
         r = new Random();
         new Window(WIDTH, HEIGHT, "Sinbusters", this);
-        map = new Map(this,"testMap01.json", "tileset_world.png");
+        map = new Map(this,"testMap01.json", "tileset_world1.png");
         init();
     }
 
