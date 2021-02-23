@@ -30,8 +30,12 @@ public class WormBullet extends Entity {
 
     }
 
-    @Override
     public void render(Graphics g) {
+
+    }
+
+    @Override
+    public void renderTop(Graphics g) {
         g.drawImage(img, (int) x, (int) y, null);
 
     }
