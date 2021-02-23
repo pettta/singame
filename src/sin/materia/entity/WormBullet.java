@@ -23,6 +23,8 @@ public class WormBullet extends Entity {
         life++;
         x += velX;
         y += velY;
+        hb.x = (int) x;
+        hb.y = (int) y;
         if(life >= 200) {
             handler.delEnt(this);
 

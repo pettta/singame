@@ -82,7 +82,7 @@ public class Map {
                 BufferedImage image4 = (data[3].getInt(j) == 0) ? null : (tileImages.get(data[3].getInt(j) - 1));
                 BufferedImage image5 = (data[4].getInt(j) == 0) ? null : (tileImages.get(data[4].getInt(j) - 1));
                 BufferedImage image6 = (data[5].getInt(j) == 0) ? null : (tileImages.get(data[5].getInt(j) - 1));
-                boolean collide = data[6].getInt(j) == 0 ? false : true;
+                boolean collide = data[6].getInt(j) == 1 ? true : false;
                 tiles.add(new Tile(x*16, y*16, collide, image1, image2, image3, image4, image5, image6));
                 j++;
             }

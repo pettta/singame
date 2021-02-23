@@ -137,7 +137,7 @@ public class Player extends Entity {
         for(int i = 0; i < handler.getList().size(); i++) {
             Entity ent = handler.getList().get(i);
             if(ent.getType() == EntityType.Projectile) {
-                if(getBounds().intersects(ent.hb)) {
+                if(getBounds().intersects(ent.getBounds())) {
                     handler.delEnt(ent);
                     if(invulnCounter <= 0) {
                         HUD.health -= 20;
