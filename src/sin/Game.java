@@ -48,8 +48,9 @@ public class Game extends Canvas implements Runnable {
         hud = new HUD();
         r = new Random();
         new Window(WIDTH, HEIGHT, "Sinbusters", this);
-        map = new Map(this,"testMap01.json", "tileset_world1.png");
+        map = new Map(this,"testMap02.json", "tileset_world.png");
         init();
+
     }
 
     public void init() {
@@ -151,6 +152,7 @@ public class Game extends Canvas implements Runnable {
             // TRANSLATION START
             map.render(g);
             handler.render(g);
+            handler.renderTop(g);
             map.renderTop(g);
             // TRANSLATION END
             g2d.translate(difx, dify);

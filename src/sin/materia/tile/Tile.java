@@ -19,6 +19,7 @@ public class Tile extends Materia {
         this.image5 = image5;
         this.image6 = image6;
         this.collides = collides;
+        this.hb = new Rectangle((int) x, (int) y, 16, 16);
     }
 
     public boolean isCollides() {
@@ -49,7 +50,7 @@ public class Tile extends Materia {
             g.drawImage(image5, (int) x, (int) y, null);
         }
         if(image6 != null) {
-            g.drawImage(image5, (int) x, (int) y, null);
+            g.drawImage(image6, (int) x, (int) y, null);
         }
     }
 

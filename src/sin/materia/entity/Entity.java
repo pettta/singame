@@ -23,6 +23,8 @@ public class Entity extends Materia {
     public void tick() {
         x += velX;
         y += velY;
+        hb.x = (int) x;
+        hb.y = (int) y;
     }
 
     public void setVelX(float velX) {

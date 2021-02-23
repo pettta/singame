@@ -18,7 +18,7 @@ public class KeyHandler extends KeyAdapter {
 
     private Game game;
 
-    Set<Integer> keys = new TreeSet<Integer>();
+    public Set<Integer> keys = new TreeSet<Integer>();
 
     // TODO This code might have to be reworked slightly to account for speed changine effects.
     public KeyHandler(Game game) {
@@ -34,7 +34,7 @@ public class KeyHandler extends KeyAdapter {
             if(k == W) {
                 if(keys.contains(A) || keys.contains(D)) {
                     game.player.setVelY(-playerSpeedDiagonal);
-                    game.player.setVelX(game.player.getVelX() > 0 ? playerSpeedDiagonal : -playerSpeedDiagonal);
+                    game.player.setVelX(playerSpeedDiagonal * Math.signum(game.player.getVelX()));
                 } else {
                     game.player.setVelY(-playerSpeed);
                 }
@@ -43,7 +43,7 @@ public class KeyHandler extends KeyAdapter {
             if(k == A) {
                 if(keys.contains(W) || keys.contains(S)) {
                     game.player.setVelX(-playerSpeedDiagonal);
-                    game.player.setVelY(game.player.getVelY() > 0 ? playerSpeedDiagonal : -playerSpeedDiagonal);
+                    game.player.setVelY(playerSpeedDiagonal * Math.signum(game.player.getVelY()));
                 } else {
                     game.player.setVelX(-playerSpeed);
                 }
@@ -52,7 +52,7 @@ public class KeyHandler extends KeyAdapter {
             if(k == S) {
                 if(keys.contains(A) || keys.contains(D)) {
                     game.player.setVelY(playerSpeedDiagonal);
-                    game.player.setVelX(game.player.getVelX() > 0 ? playerSpeedDiagonal : -playerSpeedDiagonal);
+                    game.player.setVelX(playerSpeedDiagonal * Math.signum(game.player.getVelX()));
                 } else {
                     game.player.setVelY(playerSpeed);
                 }
@@ -61,7 +61,7 @@ public class KeyHandler extends KeyAdapter {
             if(k == D) {
                 if(keys.contains(W) || keys.contains(S)) {
                     game.player.setVelX(playerSpeedDiagonal);
-                    game.player.setVelY(game.player.getVelY() > 0 ? playerSpeedDiagonal : -playerSpeedDiagonal);
+                    game.player.setVelY(playerSpeedDiagonal * Math.signum(game.player.getVelY()));
                 } else {
                     game.player.setVelX(playerSpeed);
                 }
@@ -84,7 +84,7 @@ public class KeyHandler extends KeyAdapter {
                 }
             } else {
                 if (keys.contains(A) || keys.contains(D)) {
-                    game.player.setVelX(game.player.getVelX() > 0 ? playerSpeed : -playerSpeed);
+                    game.player.setVelX(playerSpeed * Math.signum(game.player.getVelX()));
                 }
                 game.player.setVelY(0);
             }
@@ -102,7 +102,7 @@ public class KeyHandler extends KeyAdapter {
 
             } else {
                 if (keys.contains(W) || keys.contains(S)) {
-                    game.player.setVelY(game.player.getVelY() > 0 ? playerSpeed : -playerSpeed);
+                    game.player.setVelY(playerSpeed * Math.signum(game.player.getVelY()));
                 }
                 game.player.setVelX(0);
             }
@@ -118,7 +118,7 @@ public class KeyHandler extends KeyAdapter {
                 }
             } else {
                 if (keys.contains(A) || keys.contains(D)) {
-                    game.player.setVelX(game.player.getVelX() > 0 ? playerSpeed : -playerSpeed);
+                    game.player.setVelX(playerSpeed * Math.signum(game.player.getVelX()));
                 }
                 game.player.setVelY(0);
             }
@@ -134,7 +134,7 @@ public class KeyHandler extends KeyAdapter {
                 }
             } else {
                 if (keys.contains(W) || keys.contains(S)) {
-                    game.player.setVelY(game.player.getVelY() > 0 ? playerSpeed : -playerSpeed);
+                    game.player.setVelY(playerSpeed * Math.signum(game.player.getVelY()));
                 }
                 game.player.setVelX(0);
             }

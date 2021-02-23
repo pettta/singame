@@ -22,6 +22,12 @@ public class Handler {
             mat.render(g);
         }
     }
+    public void renderTop(Graphics g) {
+        for(int i = 0; i < list.size(); i++) {
+            Materia mat = list.get(i);
+            mat.renderTop(g);
+        }
+    }
 
     public void addEnt(Entity ent) {
         this.list.add(ent);

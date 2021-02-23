@@ -6,6 +6,8 @@ import sin.lib.Lib;
 import sin.lib.Vector;
 import sin.materia.sprite.Polysprite;
 
+import java.awt.*;
+
 public class WormShooter extends Entity {
 
     private int shootCounter;
@@ -17,10 +19,10 @@ public class WormShooter extends Entity {
         this.speed = 10;
         ps = new Polysprite("entities/worm.png",15, 1, width, height);
         image = ps.getCurImage(0);
+        hb = new Rectangle((int) x, (int) y + 6, width, height - 6);
     }
 
     public void tick() {
-        super.tick();
         shootCounter++;
         Vector toPlayer = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid());
         float distance = toPlayer.getMagnitude();
@@ -34,6 +36,14 @@ public class WormShooter extends Entity {
         }
         spriteIndex = Lib.cycle(spriteIndex, 0, 13);
         image = ps.getCurImage(spriteIndex);
+    }
+
+    public void render(Graphics g) {
+        g.drawImage(image.getSubimage(0, 6, 16, 16), (int) x, (int) y + 6, null);
+    }
+
+    public void renderTop(Graphics g) {
+        g.drawImage(image.getSubimage(0, 0, 16, 6), (int) x, (int) y, null);
     }
 
 }

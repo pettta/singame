@@ -17,102 +17,135 @@ public class Player extends Entity {
     Direction lastDirection;
     Polysprite ps;
 
+    boolean horizCollision;
+    boolean vertCollision;
+
     public Player(float x, float y, float speed, Game game) {
         super(x, y, 16, 32, EntityType.Player, game);
         this.speed = speed;
         this.lastDirection = Direction.S;
         this.ps = new Polysprite("entities/player.png",4,8, width, height);
         this.image = ps.getCurImage(0, lastDirection, lastDirection);
+        this.hb = new Rectangle((int)x, (int)y + 16, 16, 16);
+    }
+
+    public void updatePos() {
+        hb.x = (int) x;
+        hb.y = (int) y + 16;
     }
 
     public void tick() {
-        super.tick();
+        doCollision();
+        x += horizCollision ? 0 : velX;
+        y += vertCollision ? 0 : velY;
+        updatePos();
         indexCounter++;
         if(indexCounter >= 4) {
             spriteIndex = Lib.cycle(spriteIndex, 0, 3);
+            Direction dir = getRoughDirection();
+            if(dir == Direction.N || dir == Direction.S || dir == Direction.E || dir == Direction.W) {
+                if(horizCollision || vertCollision) {
+                    spriteIndex = 0;
+                }
+            } else {
+                if (horizCollision && vertCollision) {
+                    spriteIndex = 0;
+                }
+            }
             image = ps.getCurImage(spriteIndex, getRoughDirection(), lastDirection);
             indexCounter = 0;
         }
-        intersects();
-        //DoCollision();
-    }
-
-    public Rectangle getHorizCollision() {
-
-        float bx = x + velX;
-        float by = y + (height / 2);
-        float bw = width + velX / 2;
-        float bh = height / 2;
-
-        return new Rectangle((int) bx, (int) by, (int)bw, (int)bh);
+        horizCollision = false;
+        vertCollision = false;
+        doDamage();
 
     }
 
-    public Rectangle getVertCollision() {
-        float bx = x;
-        float by = y + (height / 2) + velY;
-        float bw = width;
-        float bh = height / 2 + velY / 2;
+    public void doCollision() {
+        // HORIZONTAL COLLISION
+        hb.x += velX;
+        // Tiles
 
-        return new Rectangle((int) bx, (int) by, (int)bw, (int)bh);
-    }
-
-
-    public Rectangle getCollisionBounds() {
-        return new Rectangle((int) x, (int) (y + (height / 2)), width, height / 2);
-    }
-
-
-    private boolean doCollision() {
         for(int i = 0; i < game.map.getTiles().size(); i++) {
             Tile tile = game.map.getTiles().get(i);
-            if(tile.isCollides()) {
-                if(getHorizCollision().intersects(tile.getBounds())) {
-                    if(velX > 0) {
-                        // Into left of object.
-                        velX = 0;
-                        x = tile.getX() - width;
-                    } else {
-                        // Into right of object.
-                        velX = 0;
-                        x = tile.getX() + tile.getWidth();
-                    }
-                    velY = 0;
+            if(tile.isCollides() && hb.intersects(tile.hb)) {
+                hb.x -= velX;
+                while(!hb.intersects(tile.hb)) {
+                    hb.x += Math.signum(velX);
                 }
-                if(getVertCollision().intersects(tile.getBounds())) {
-                    if(velY > 0) {
-                        // Into top of object.
-                        velX = 0;
-                        y = tile.getY() - height;
-                    } else {
-                        // Into bottom of object.
-                        velY = 0;
-                        y = tile.getY() + tile.getHeight() - height / 2;
-                    }
-                    velY = 0;
-                }
+                hb.x -= Math.signum(velX);
+                horizCollision = true;
+                x = hb.x;
 
             }
         }
-        return false;
+
+
+        // Entities
+        for(int i = 0; i < handler.getList().size(); i++) {
+            Entity ent = handler.getList().get(i);
+            if(ent.getType() == EntityType.Enemy) {
+                if(hb.intersects(ent.hb)) {
+                    hb.x -= velX;
+                    while(!hb.intersects(ent.hb)) {
+                        hb.x += Math.signum(velX);
+                    }
+                    hb.x -= Math.signum(velX);
+                    horizCollision = true;
+                    x = hb.x;
+                }
+            }
+        }
+        // VERTICAL COLLISION
+        hb.y += velY;
+        // Tiles
+
+        for(int i = 0; i < game.map.getTiles().size(); i++) {
+            Tile tile = game.map.getTiles().get(i);
+            if(tile.isCollides() && hb.intersects(tile.hb)) {
+                hb.y -= velY;
+                while(!hb.intersects(tile.hb)) {
+                    hb.y += Math.signum(velY);
+                }
+                hb.y -= Math.signum(velY);
+                vertCollision = true;
+                y = hb.y - 16;
+            }
+        }
+
+        // Entities
+        for(int i = 0; i < handler.getList().size(); i++) {
+            Entity ent = handler.getList().get(i);
+            if(ent.getType() == EntityType.Enemy) {
+                if(hb.intersects(ent.hb)) {
+                    hb.y -= velY;
+                    while(!hb.intersects(ent.hb)) {
+                        hb.y += Math.signum(velY);
+                    }
+                    hb.y -= Math.signum(velY);
+                    vertCollision = true;
+                    y = hb.y - 16;
+                }
+            }
+        }
+
     }
 
-    private boolean intersects() {
+
+    private void doDamage() {
         invulnCounter--;
         for(int i = 0; i < handler.getList().size(); i++) {
             Entity ent = handler.getList().get(i);
-            if(ent.getType() == EntityType.Projectile || ent.getType() == EntityType.Enemy) {
-                if(getBounds().intersects(ent.getBounds())) {
+            if(ent.getType() == EntityType.Projectile) {
+                if(getBounds().intersects(ent.hb)) {
                     handler.delEnt(ent);
                     if(invulnCounter <= 0) {
                         HUD.health -= 20;
                         invulnCounter += 20;
-                        return true;
                     }
                 }
             }
         }
-        return false;
     }
 
     public void updateImage() {
@@ -129,6 +162,15 @@ public class Player extends Entity {
 
     public Direction getRoughDirection() {
         return Vector.getRoughDirection(velX, velY);
+    }
+
+    // TODO Change how this is done perhaps to save more memory and for ease of use.
+    public void render(Graphics g) {
+        g.drawImage(image.getSubimage(0, 16, 16, 16), (int) x, (int) y + 16, null);
+    }
+
+    public void renderTop(Graphics g) {
+        g.drawImage(image.getSubimage(0, 0, 16, 16), (int) x, (int) y, null);
     }
 
 }
