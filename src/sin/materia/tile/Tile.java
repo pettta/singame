@@ -1,6 +1,7 @@
 package sin.materia.tile;
 
 import sin.materia.Materia;
+import sin.mundus.Map;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -51,6 +52,12 @@ public class Tile extends Materia {
         }
         if(image6 != null) {
             g.drawImage(image6, (int) x, (int) y, null);
+        }
+    }
+
+    public void drawCollisionBox(Graphics g) {
+        if(collides) {
+            g.drawImage(Map.collisionBox, (int) x, (int) y, null);
         }
     }
 

@@ -22,6 +22,8 @@ public class Map {
     String mapLoc;
     SpriteSheet ss;
 
+    public static BufferedImage collisionBox;
+
     public Map(Game game, String mapLoc, String tilesetLoc) {
         this.game = game;
         this.mapLoc = mapLoc;
@@ -30,6 +32,7 @@ public class Map {
         tiles = new ArrayList<Tile>();
         generateTiles();
         populateMap();
+        collisionBox = tileImages.get(0);
 
     }
 
