@@ -8,8 +8,10 @@ import sin.lib.Lib;
 import sin.lib.Vector;
 import sin.materia.sprite.Polysprite;
 import sin.materia.tile.Tile;
+import sin.mundus.Teleporter;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Player extends Entity {
 
@@ -58,6 +60,7 @@ public class Player extends Entity {
         horizCollision = false;
         vertCollision = false;
         doDamage();
+        doTeleport();
 
     }
 
@@ -144,6 +147,16 @@ public class Player extends Entity {
                         invulnCounter += 20;
                     }
                 }
+            }
+        }
+    }
+
+    public void doTeleport() {
+        ArrayList<Teleporter> teleList = game.map.getTeleporters();
+        for(int i = 0; i < teleList.size(); i++) {
+            Teleporter t = teleList.get(i);
+            if(hb.intersects(t.getBounds())) {
+                t.doTeleport();
             }
         }
     }

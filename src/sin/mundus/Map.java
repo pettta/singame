@@ -80,20 +80,25 @@ public class Map {
             JSONArray teleporters = obj.getJSONArray("teleporters");
             for (int i = 0; i < teleporters.length(); i++) {
                 JSONObject oi = (JSONObject) teleporters.getJSONObject(i);
-                int x;
-                int y;
-                if (obj.has("tileX")) {
-                    x = oi.getInt("tileX") * 16;
-                    y = oi.getInt("tileY") * 16;
+                int x, y, xTo, yTo, width, height;
+                if (oi.getBoolean("useTiles")) {
+                    x = oi.getInt("x") * 16;
+                    y = oi.getInt("y") * 16;
+                    xTo = oi.getInt("xTo") * 16;
+                    yTo = oi.getInt("yTo") * 16;
+                    width = oi.getInt("width") * 16;
+                    height = oi.getInt("height") * 16;
                 } else {
                     x = oi.getInt("x");
                     y = oi.getInt("y");
+                    xTo = oi.getInt("xTo");
+                    yTo = oi.getInt("yTo");
+                    width = oi.getInt("width");
+                    height = oi.getInt("height");
                 }
-                int width = oi.getInt("width");
-                int height = oi.getInt("height");
                 String map = oi.getString("map");
                 String tileset = oi.getString("tileset");
-                teles.add(new Teleporter(map, tileset, x, y, width, height, game));
+                teles.add(new Teleporter(map, tileset, x, y, xTo, yTo, width, height, game));
             }
         }
         if(data.length != 7) {
@@ -130,6 +135,10 @@ public class Map {
 
     public ArrayList<Tile> getTiles() {
         return tiles;
+    }
+
+    public ArrayList<Teleporter> getTeleporters() {
+        return teles;
     }
 
 }

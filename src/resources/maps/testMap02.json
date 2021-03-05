@@ -96,12 +96,15 @@
         }],
  "teleporters":[
 		{
-		 "x":10,
-		 "y":10,
-		 "width":16,
-		 "height":16,
-		 "map":"connectorMapReal.json",
-		 "tileset":"tileset_world.png"
+         "useTiles":true,
+         "x":55,
+         "y":21,
+		 "xTo":10,
+		 "yTo":10,
+		 "width":3,
+		 "height":3,
+		 "map":"testMap01.json",
+		 "tileset":"tileset_old.png"
 		}],
  "nextlayerid":9,
  "nextobjectid":1,

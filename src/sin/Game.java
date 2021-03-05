@@ -55,7 +55,7 @@ public class Game extends Canvas implements Runnable {
 
     public void init() {
         System.out.println(32 / 16 + (32 % 16 > 0 ? 1 : 0));
-        player = new Player(883, 438, playerSpeed, this);
+        player = new Player(400, 900, playerSpeed, this);
         WormShooter worm = new WormShooter(60, 60, this);
         handler.addEnt(player);
         WormShooter worm1 = new WormShooter(714, 475, this);
