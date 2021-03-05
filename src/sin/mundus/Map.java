@@ -121,8 +121,15 @@ public class Map {
     }
 
     public void render(Graphics g) {
+        float minX = game.player.getXMid() - game.WIDTH / 2 - 16;
+        float maxX = game.player.getXMid() + game.WIDTH / 2;
+        float minY = game.player.getYMid() - game.HEIGHT / 2 - 16;
+        float maxY = game.player.getYMid() + game.HEIGHT / 2;
         for(int i = 0; i < tiles.size(); i++) {
-            tiles.get(i).render(g);
+            Tile curTile = tiles.get(i);
+            if(curTile.getX() > minX && curTile.getX() < maxX && curTile.getY() > minY && curTile.getY() < maxY) {
+                tiles.get(i).render(g);
+            }
         }
 
     }
