@@ -94,6 +94,15 @@
          "x":0,
          "y":0
         }],
+ "teleporters":[
+		{
+		 "x":10,
+		 "y":10,
+		 "width":16,
+		 "height":16,
+		 "map":"connectorMapReal.json",
+		 "tileset":"tileset_world.png"
+		}],
  "nextlayerid":9,
  "nextobjectid":1,
  "orientation":"orthogonal",
