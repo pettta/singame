@@ -94,6 +94,18 @@
          "x":0,
          "y":0
         }],
+ "teleporters":[
+ {
+  "useTiles": false,
+  "x":1499,
+  "y":419,
+  "xTo": 50,
+  "yTo": 4000,
+  "width":16,
+  "height":16,
+  "map":"connectormap.json",
+  "tileset":"tileset_world.png"
+ }],
  "nextlayerid":10,
  "nextobjectid":1,
  "orientation":"orthogonal",
