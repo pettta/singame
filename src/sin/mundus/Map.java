@@ -16,6 +16,7 @@ public class Map {
 
     ArrayList<BufferedImage> tileImages;
     ArrayList<Tile> tiles;
+    ArrayList<Teleporter> teles;
 
     int width, height;
     Game game;
@@ -30,6 +31,7 @@ public class Map {
         this.ss = new SpriteSheet("tiles/" + tilesetLoc);
         tileImages = new ArrayList<BufferedImage>();
         tiles = new ArrayList<Tile>();
+        teles = new ArrayList<Teleporter>();
         generateTiles();
         populateMap();
         collisionBox = tileImages.get(0);
@@ -66,12 +68,33 @@ public class Map {
             e.printStackTrace();
         }
         JSONArray layers = obj.getJSONArray("layers");
+
         height = obj.getInt("height");
         width = obj.getInt("width");
         JSONArray[] data = new JSONArray[7];
         for (int i = 0; i < layers.length(); i++) {
             JSONObject oi = (JSONObject) layers.getJSONObject(i);
             data[i] = oi.getJSONArray("data");
+        }
+        if(obj.has("teleporters")) {
+            JSONArray teleporters = obj.getJSONArray("teleporters");
+            for (int i = 0; i < teleporters.length(); i++) {
+                JSONObject oi = (JSONObject) teleporters.getJSONObject(i);
+                int x;
+                int y;
+                if (obj.has("tileX")) {
+                    x = oi.getInt("tileX") * 16;
+                    y = oi.getInt("tileY") * 16;
+                } else {
+                    x = oi.getInt("x");
+                    y = oi.getInt("y");
+                }
+                int width = oi.getInt("width");
+                int height = oi.getInt("height");
+                String map = oi.getString("map");
+                String tileset = oi.getString("tileset");
+                teles.add(new Teleporter(map, tileset, x, y, width, height, game));
+            }
         }
         if(data.length != 7) {
             System.out.println("Map " + mapLoc + " does not have the correct number of layers!");
