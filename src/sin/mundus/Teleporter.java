@@ -15,8 +15,8 @@ public class Teleporter {
         this.tileset = tileset;
         this.x = x;
         this.y = y;
-        this.xTo = x;
-        this.yTo = y;
+        this.xTo = xTo;
+        this.yTo = yTo;
         this.width = width;
         this.height = height;
         this.game = game;
@@ -44,7 +44,9 @@ public class Teleporter {
 
     public void doTeleport() {
         game.player.setX(xTo);
+        System.out.println(xTo);
         game.player.setY(yTo);
+        System.out.println(yTo);
         if(map != "same") {
             game.map = new Map(game, map, tileset);
         }
