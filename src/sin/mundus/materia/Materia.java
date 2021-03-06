@@ -1,4 +1,4 @@
-package sin.materia;
+package sin.mundus.materia;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

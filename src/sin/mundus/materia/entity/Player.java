@@ -1,4 +1,4 @@
-package sin.materia.entity;
+package sin.mundus.materia.entity;
 
 import sin.Game;
 import sin.display.HUD;
@@ -6,9 +6,9 @@ import sin.lib.Direction;
 import sin.lib.EntityType;
 import sin.lib.Lib;
 import sin.lib.Vector;
-import sin.materia.sprite.Polysprite;
-import sin.materia.tile.Tile;
-import sin.mundus.Teleporter;
+import sin.mundus.materia.sprite.Polysprite;
+import sin.mundus.materia.tile.Tile;
+import sin.mundus.map.Teleporter;
 
 import java.awt.*;
 import java.util.ArrayList;

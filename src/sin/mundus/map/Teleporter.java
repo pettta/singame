@@ -1,6 +1,7 @@
-package sin.mundus;
+package sin.mundus.map;
 
 import sin.Game;
+import sin.mundus.map.Map;
 
 import java.awt.*;
 

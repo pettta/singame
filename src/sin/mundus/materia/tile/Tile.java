@@ -1,7 +1,7 @@
-package sin.materia.tile;
+package sin.mundus.materia.tile;
 
-import sin.materia.Materia;
-import sin.mundus.Map;
+import sin.mundus.materia.Materia;
+import sin.mundus.map.Map;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

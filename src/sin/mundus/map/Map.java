@@ -1,9 +1,9 @@
-package sin.mundus;
+package sin.mundus.map;
 
 import org.json.*;
 import sin.Game;
-import sin.materia.sprite.SpriteSheet;
-import sin.materia.tile.Tile;
+import sin.mundus.materia.sprite.SpriteSheet;
+import sin.mundus.materia.tile.Tile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

@@ -1,4 +1,4 @@
-package sin.materia.entity;
+package sin.mundus.materia.entity;
 
 import sin.Game;
 import sin.lib.EntityType;

@@ -1,4 +1,4 @@
-package sin.materia.sprite;
+package sin.mundus.materia.sprite;
 
 import sin.Game;
 

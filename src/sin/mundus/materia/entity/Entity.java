@@ -1,9 +1,9 @@
-package sin.materia.entity;
+package sin.mundus.materia.entity;
 
 import sin.Game;
 import sin.Handler;
 import sin.lib.EntityType;
-import sin.materia.Materia;
+import sin.mundus.materia.Materia;
 
 public class Entity extends Materia {
 

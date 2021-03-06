@@ -3,9 +3,9 @@ package sin;
 import sin.display.HUD;
 import sin.display.Menu;
 import sin.lib.Lib;
-import sin.materia.entity.Player;
-import sin.materia.entity.WormShooter;
-import sin.mundus.Map;
+import sin.mundus.materia.entity.Player;
+import sin.mundus.materia.entity.WormShooter;
+import sin.mundus.map.Map;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
