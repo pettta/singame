@@ -24,7 +24,7 @@ public class KeyHandler extends KeyAdapter {
     public KeyHandler(Game game) {
         this.game = game;
         playerSpeed = game.playerSpeed;
-        playerSpeedDiagonal = playerSpeed / Lib.root;
+        playerSpeedDiagonal = 4;
     }
 
     @Override

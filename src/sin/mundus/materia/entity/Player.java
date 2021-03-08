@@ -28,7 +28,7 @@ public class Player extends Entity {
         this.lastDirection = Direction.S;
         this.ps = new Polysprite("entities/player.png",4,8, width, height);
         this.image = ps.getCurImage(0, lastDirection, lastDirection);
-        this.hb = new Rectangle((int)x, (int)y + 16, 16, 16);
+        this.hb = new Rectangle((int)x , (int)y + 16, 16, 16);
     }
 
     public void updatePos() {
