@@ -22,6 +22,12 @@ public class Player extends Entity {
     boolean horizCollision;
     boolean vertCollision;
 
+    public int lust, gluttony, greed, sloth, wrath, envy, pride;
+
+    public void doDeath() {
+
+    }
+
     public Player(float x, float y, float speed, Game game) {
         super(x, y, 16, 32, EntityType.Player, game);
         this.speed = speed;

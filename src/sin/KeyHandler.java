@@ -31,41 +31,54 @@ public class KeyHandler extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         int k = e.getKeyCode();
         if(!keys.contains(k)) {
-            if(k == W) {
-                if(keys.contains(A) || keys.contains(D)) {
-                    game.player.setVelY(-playerSpeedDiagonal);
-                    game.player.setVelX(playerSpeedDiagonal * Math.signum(game.player.getVelX()));
-                } else {
-                    game.player.setVelY(-playerSpeed);
+            if(game.gameState == Game.State.Game) {
+                if (k == W) {
+                    if (keys.contains(A) || keys.contains(D)) {
+                        game.player.setVelY(-playerSpeedDiagonal);
+                        game.player.setVelX(playerSpeedDiagonal * Math.signum(game.player.getVelX()));
+                    } else {
+                        game.player.setVelY(-playerSpeed);
+                    }
+                    game.player.updateImage();
                 }
-                game.player.updateImage();
+                if (k == A) {
+                    if (keys.contains(W) || keys.contains(S)) {
+                        game.player.setVelX(-playerSpeedDiagonal);
+                        game.player.setVelY(playerSpeedDiagonal * Math.signum(game.player.getVelY()));
+                    } else {
+                        game.player.setVelX(-playerSpeed);
+                    }
+                    game.player.updateImage();
+                }
+                if (k == S) {
+                    if (keys.contains(A) || keys.contains(D)) {
+                        game.player.setVelY(playerSpeedDiagonal);
+                        game.player.setVelX(playerSpeedDiagonal * Math.signum(game.player.getVelX()));
+                    } else {
+                        game.player.setVelY(playerSpeed);
+                    }
+                    game.player.updateImage();
+                }
+                if (k == D) {
+                    if (keys.contains(W) || keys.contains(S)) {
+                        game.player.setVelX(playerSpeedDiagonal);
+                        game.player.setVelY(playerSpeedDiagonal * Math.signum(game.player.getVelY()));
+                    } else {
+                        game.player.setVelX(playerSpeed);
+                    }
+                    game.player.updateImage();
+                }
             }
-            if(k == A) {
-                if(keys.contains(W) || keys.contains(S)) {
-                    game.player.setVelX(-playerSpeedDiagonal);
-                    game.player.setVelY(playerSpeedDiagonal * Math.signum(game.player.getVelY()));
-                } else {
-                    game.player.setVelX(-playerSpeed);
+            if(k == KeyEvent.VK_E) {
+                System.out.println("E pressed!");
+                if(game.gameState == Game.State.Game) {
+                    System.out.println("State is game!");
+                    game.gameState = Game.State.Inventory;
+                    System.out.println(game.gameState);
+                } else if(game.gameState == Game.State.Inventory) {
+                    game.gameState = Game.State.Game;
                 }
-                game.player.updateImage();
-            }
-            if(k == S) {
-                if(keys.contains(A) || keys.contains(D)) {
-                    game.player.setVelY(playerSpeedDiagonal);
-                    game.player.setVelX(playerSpeedDiagonal * Math.signum(game.player.getVelX()));
-                } else {
-                    game.player.setVelY(playerSpeed);
-                }
-                game.player.updateImage();
-            }
-            if(k == D) {
-                if(keys.contains(W) || keys.contains(S)) {
-                    game.player.setVelX(playerSpeedDiagonal);
-                    game.player.setVelY(playerSpeedDiagonal * Math.signum(game.player.getVelY()));
-                } else {
-                    game.player.setVelX(playerSpeed);
-                }
-                game.player.updateImage();
+                System.out.println(game.gameState);
             }
             keys.add(k);
         }
@@ -74,71 +87,73 @@ public class KeyHandler extends KeyAdapter {
     @Override
     public void keyReleased(KeyEvent e) {
         int k = e.getKeyCode();
-        if(k == W) {
-            game.player.updateLastDirection();
-            if(keys.contains(S)) {
-                if (keys.contains(A) || keys.contains(D)) {
-                    game.player.setVelY(playerSpeedDiagonal);
+        if(game.gameState == Game.State.Game) {
+            if (k == W) {
+                game.player.updateLastDirection();
+                if (keys.contains(S)) {
+                    if (keys.contains(A) || keys.contains(D)) {
+                        game.player.setVelY(playerSpeedDiagonal);
+                    } else {
+                        game.player.setVelY(playerSpeed);
+                    }
                 } else {
-                    game.player.setVelY(playerSpeed);
+                    if (keys.contains(A) || keys.contains(D)) {
+                        game.player.setVelX(playerSpeed * Math.signum(game.player.getVelX()));
+                    }
+                    game.player.setVelY(0);
                 }
-            } else {
-                if (keys.contains(A) || keys.contains(D)) {
-                    game.player.setVelX(playerSpeed * Math.signum(game.player.getVelX()));
-                }
-                game.player.setVelY(0);
+                game.player.updateImage();
             }
-            game.player.updateImage();
-        }
-        if(k == A) {
-            game.player.updateLastDirection();
-            if(keys.contains(D)) {
-                if (keys.contains(W) || keys.contains(S)) {
-                    game.player.setVelX(playerSpeedDiagonal);
-                } else {
-                    game.player.setVelX(playerSpeed);
-                }
+            if (k == A) {
+                game.player.updateLastDirection();
+                if (keys.contains(D)) {
+                    if (keys.contains(W) || keys.contains(S)) {
+                        game.player.setVelX(playerSpeedDiagonal);
+                    } else {
+                        game.player.setVelX(playerSpeed);
+                    }
 
 
-            } else {
-                if (keys.contains(W) || keys.contains(S)) {
-                    game.player.setVelY(playerSpeed * Math.signum(game.player.getVelY()));
-                }
-                game.player.setVelX(0);
-            }
-            game.player.updateImage();
-        }
-        if(k == S) {
-            game.player.updateLastDirection();
-            if(keys.contains(W)) {
-                if (keys.contains(A) || keys.contains(D)) {
-                    game.player.setVelY(-playerSpeedDiagonal);
                 } else {
-                    game.player.setVelY(-playerSpeed);
+                    if (keys.contains(W) || keys.contains(S)) {
+                        game.player.setVelY(playerSpeed * Math.signum(game.player.getVelY()));
+                    }
+                    game.player.setVelX(0);
                 }
-            } else {
-                if (keys.contains(A) || keys.contains(D)) {
-                    game.player.setVelX(playerSpeed * Math.signum(game.player.getVelX()));
-                }
-                game.player.setVelY(0);
+                game.player.updateImage();
             }
-            game.player.updateImage();
-        }
-        if(k == D) {
-            game.player.updateLastDirection();
-            if(keys.contains(A)) {
-                if (keys.contains(W) || keys.contains(S)) {
-                    game.player.setVelX(-playerSpeedDiagonal);
+            if (k == S) {
+                game.player.updateLastDirection();
+                if (keys.contains(W)) {
+                    if (keys.contains(A) || keys.contains(D)) {
+                        game.player.setVelY(-playerSpeedDiagonal);
+                    } else {
+                        game.player.setVelY(-playerSpeed);
+                    }
                 } else {
-                    game.player.setVelX(-playerSpeed);
+                    if (keys.contains(A) || keys.contains(D)) {
+                        game.player.setVelX(playerSpeed * Math.signum(game.player.getVelX()));
+                    }
+                    game.player.setVelY(0);
                 }
-            } else {
-                if (keys.contains(W) || keys.contains(S)) {
-                    game.player.setVelY(playerSpeed * Math.signum(game.player.getVelY()));
-                }
-                game.player.setVelX(0);
+                game.player.updateImage();
             }
-            game.player.updateImage();
+            if (k == D) {
+                game.player.updateLastDirection();
+                if (keys.contains(A)) {
+                    if (keys.contains(W) || keys.contains(S)) {
+                        game.player.setVelX(-playerSpeedDiagonal);
+                    } else {
+                        game.player.setVelX(-playerSpeed);
+                    }
+                } else {
+                    if (keys.contains(W) || keys.contains(S)) {
+                        game.player.setVelY(playerSpeed * Math.signum(game.player.getVelY()));
+                    }
+                    game.player.setVelX(0);
+                }
+                game.player.updateImage();
+            }
         }
         keys.remove(e.getKeyCode());
     }

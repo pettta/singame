@@ -1,6 +1,7 @@
 package sin;
 
 import sin.display.HUD;
+import sin.display.Inventory;
 import sin.display.Menu;
 import sin.lib.Lib;
 import sin.mundus.materia.entity.Player;
@@ -13,6 +14,8 @@ import java.awt.image.BufferStrategy;
 import java.util.Random;
 
 public class Game extends Canvas implements Runnable {
+
+    public static final boolean printFPS = false;
 
     public static final int WIDTH = 320, HEIGHT = 240;
     public static final float playerSpeed = 5;
@@ -33,6 +36,7 @@ public class Game extends Canvas implements Runnable {
     public HUD hud;
     public State gameState;
     public Window window;
+    public Inventory inventory;
 
 
 
@@ -49,10 +53,11 @@ public class Game extends Canvas implements Runnable {
         menu = new Menu(this);
         this.addMouseListener(new MouseHandler(this));
         this.addKeyListener(new KeyHandler(this));
-        hud = new HUD();
+        hud = new HUD(this);
         r = new Random();
         window = new Window(WIDTH, HEIGHT, "Sinbusters", this);
         map = new Map(this,"testMap02.json", "tileset_world.png");
+        inventory = new Inventory(this);
         init();
 
     }
@@ -123,7 +128,9 @@ public class Game extends Canvas implements Runnable {
             frames++;
             if(System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-                System.out.println("FPS: " + frames);
+                if(printFPS) {
+                    System.out.println("FPS: " + frames);
+                }
                 frames = 0;
             }
         }
@@ -196,11 +203,22 @@ public class Game extends Canvas implements Runnable {
             map.renderTop(g);
             // TRANSLATION END
             g2d.translate(difx, dify);
-            //hud.render(g);
+            hud.render(g);
         } else if (gameState == State.Menu) {
             menu.render(g);
         } else if (gameState == State.Inventory) {
-
+            float difx = player.getXMid() - WIDTH / 2;
+            float dify = player.getYMid() - HEIGHT / 2;
+            g2d.translate(-difx, -dify);
+            // TRANSLATION START
+            map.render(g);
+            handler.render(g);
+            handler.renderTop(g);
+            map.renderTop(g);
+            // TRANSLATION END
+            g2d.translate(difx, dify);
+            inventory.render(g);
+            hud.render(g);
         }
 
         encloseFrame(g, g2d);
