@@ -24,6 +24,7 @@ public class MouseHandler extends MouseAdapter  {
         if(game.gameState == Game.State.Menu) {
             game.menu.mousePressed(e);
         }
+        game.onClick();
     }
 
     @Override

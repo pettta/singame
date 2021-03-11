@@ -16,16 +16,20 @@ public class Handler {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics g, int minX, int maxX, int minY, int maxY) {
         for(int i = 0; i < list.size(); i++) {
             Materia mat = list.get(i);
-            mat.render(g);
+            if(mat.getX() > minX - mat.getWidth() && mat.getX() < maxX && mat.getY() > minY - mat.getHeight() && mat.getY() < maxY) {
+                mat.render(g);
+            }
         }
     }
-    public void renderTop(Graphics g) {
+    public void renderTop(Graphics g, int minX, int maxX, int minY, int maxY) {
         for(int i = 0; i < list.size(); i++) {
             Materia mat = list.get(i);
-            mat.renderTop(g);
+            if(mat.getX() > minX - mat.getWidth() && mat.getX() < maxX && mat.getY() > minY - mat.getHeight() && mat.getY() < maxY) {
+                mat.renderTop(g);
+            }
         }
     }
 

@@ -113,30 +113,30 @@ public class Map {
                 BufferedImage image4 = (data[3].getInt(j) == 0) ? null : (tileImages.get(data[3].getInt(j) - 1));
                 BufferedImage image5 = (data[4].getInt(j) == 0) ? null : (tileImages.get(data[4].getInt(j) - 1));
                 BufferedImage image6 = (data[5].getInt(j) == 0) ? null : (tileImages.get(data[5].getInt(j) - 1));
-                boolean collide = data[6].getInt(j) == 1 ? true : false;
+                boolean collide = data[6].getInt(j) == 1;
                 tiles.add(new Tile(x*16, y*16, collide, image1, image2, image3, image4, image5, image6));
                 j++;
             }
         }
     }
 
-    public void render(Graphics g) {
-        float minX = game.player.getXMid() - game.WIDTH / 2 - 16;
-        float maxX = game.player.getXMid() + game.WIDTH / 2;
-        float minY = game.player.getYMid() - game.HEIGHT / 2 - 16;
-        float maxY = game.player.getYMid() + game.HEIGHT / 2;
+    // TODO Organize tiles in a double array for quick more efficient access.
+    public void render(Graphics g, int minX, int maxX, int minY, int maxY) {
         for(int i = 0; i < tiles.size(); i++) {
             Tile curTile = tiles.get(i);
-            if(curTile.getX() > minX && curTile.getX() < maxX && curTile.getY() > minY && curTile.getY() < maxY) {
+            if(curTile.getX() > minX - 16 && curTile.getX() < maxX && curTile.getY() > minY - 16 && curTile.getY() < maxY) {
                 tiles.get(i).render(g);
             }
         }
 
     }
 
-    public void renderTop(Graphics g) {
+    public void renderTop(Graphics g, int minX, int maxX, int minY, int maxY) {
         for(int i = 0; i < tiles.size(); i++) {
-            tiles.get(i).renderTop(g);
+            Tile curTile = tiles.get(i);
+            if(curTile.getX() > minX - 16 && curTile.getX() < maxX && curTile.getY() > minY - 16 && curTile.getY() < maxY) {
+                tiles.get(i).renderTop(g);
+            }
         }
     }
 

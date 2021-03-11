@@ -23,11 +23,15 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;
     private boolean initComplete = false;
 
-    public int curWidth, curHeight;
+
 
     private Thread thread;
     private Random r;
+    private Insets insets;
 
+
+    public int curWidth, curHeight, gapWidth, gapHeight;
+    double expansionX, expansionY, expansion, gameX, gameY;
 
     public Handler handler;
     public Map map;
@@ -36,6 +40,7 @@ public class Game extends Canvas implements Runnable {
     public HUD hud;
     public State gameState;
     public Window window;
+    public Frame frame;
     public Inventory inventory;
 
 
@@ -55,16 +60,25 @@ public class Game extends Canvas implements Runnable {
         this.addKeyListener(new KeyHandler(this));
         hud = new HUD(this);
         r = new Random();
-        window = new Window(WIDTH, HEIGHT, "Sinbusters", this);
+        prepareWindow();
         map = new Map(this,"testMap02.json", "tileset_world.png");
         inventory = new Inventory(this);
         init();
 
     }
 
+    public void prepareWindow() {
+        window = new Window(WIDTH, HEIGHT, "Sinbusters", this);
+        frame = window.frame;
+        frame.pack();
+        insets = frame.getInsets();
+        setInnerSize(WIDTH, HEIGHT);
+        frame.setMinimumSize(getOuterSizeFromInner(WIDTH, HEIGHT));
+    }
+
     public void init() {
         System.out.println(32 / 16 + (32 % 16 > 0 ? 1 : 0));
-        player = new Player(400, 900, playerSpeed, this);
+        player = new Player(370, 900, playerSpeed, this);
         WormShooter worm = new WormShooter(60, 60, this);
         handler.addEnt(player);
         WormShooter worm1 = new WormShooter(714, 475, this);
@@ -137,6 +151,25 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
+    public Dimension getInnerSize() {
+        Dimension size = frame.getSize();
+        Insets insets = frame.getInsets();
+        if (insets != null) {
+            size.height -= insets.top + insets.bottom;
+            size.width -= insets.left + insets.right;
+        }
+        return size;
+    }
+
+    public void setInnerSize(int x, int y) {
+        frame.setSize(getOuterSizeFromInner(x, y));
+    }
+
+    public Dimension getOuterSizeFromInner(int x, int y) {
+        Insets insets = frame.getInsets();
+        return new Dimension(x + insets.left + insets.right, y + insets.top + insets.bottom);
+    }
+
     // The tick method. Called as much as possible.
     private void tick() {
         if(gameState == State.Game) {
@@ -145,39 +178,41 @@ public class Game extends Canvas implements Runnable {
         }
     }
 
-    JFrame frame;
-    double expansionX, expansionY, expansion, gameX, gameY;
+    public void onClick() {
+        dprint("Inner Size: " + getInnerSize().width + ", " + getInnerSize().height);
+        dprint("Frame Size: " + frame.getBounds().width + ", " + frame.getBounds().height);
+        dprint("Insets: " + insets.top + ", " + insets.bottom + ", " + insets.left + ", " + insets.right);
+        dprint("Gaps: " + gapWidth + ", " + gapHeight);
+    }
 
-    private void prepareFrame(Graphics g, Graphics2D g2d) {
+    private void frameRenderStart(Graphics g, Graphics2D g2d) {
         // Make it so these values only update when need be.
-        JFrame frame = window.frame;
-        Dimension frameDimensions = frame.getBounds().getSize();
+        Dimension frameDimensions = getInnerSize();
         curWidth = frameDimensions.width;
         curHeight = frameDimensions.height;
-        expansionX = (double)curWidth / (double)WIDTH;
-        expansionY = (double)curHeight / (double)HEIGHT;
+        expansionX = (double) curWidth / (double) WIDTH;
+        expansionY = (double) curHeight / (double) HEIGHT;
         expansion = expansionX > expansionY ? expansionY : expansionX;
         gameX = expansion * WIDTH;
         gameY = expansion * HEIGHT;
-        g2d.translate((int)(((double)curWidth-(double)gameX)/2d), (int)(((double)curHeight-(double)gameY)/2d));
+        g2d.translate((int)(((double)curWidth-(double)gameX)/2.0), (int)(((double)curHeight-(double)gameY)/2.0));
         g2d.scale(expansion, expansion);
-
         g.setColor(Color.black);
         g.fillRect(0, 0, curWidth, curHeight);
 
     }
 
-    public void encloseFrame(Graphics g, Graphics g2d) {
-        int gapHeight = (curHeight - HEIGHT) / 2;
-        int gapWidth = (curWidth - WIDTH) / 2;
+    public void frameRenderEnd(Graphics g, Graphics2D g2d) {
+        gapHeight = (curHeight - HEIGHT) / 2;
+        gapWidth = (curWidth - WIDTH) / 2;
         g.setColor(Color.black);
 
         g.fillRect(0, HEIGHT, curWidth, gapHeight);
         g.fillRect(WIDTH, 0, gapWidth, curHeight);
 
-        g.fillRect(-gapWidth - 1, -gapHeight - 1, curWidth + 1, gapHeight + 1);
-        g.fillRect(-gapWidth - 1, -gapHeight - 1, gapWidth + 1, curHeight + 1);
-
+        g.fillRect(-gapWidth, -gapHeight, curWidth, gapHeight);
+        g.fillRect(-gapWidth, -gapHeight, gapWidth, curHeight);
+        g2d.scale(1, 1);
         g2d.translate((int)(((double)curWidth-(double)gameX)/-2d), (int)(((double)curHeight-(double)gameY)/-2d));
     }
 
@@ -190,38 +225,32 @@ public class Game extends Canvas implements Runnable {
         }
         Graphics g = bs.getDrawGraphics();
         Graphics2D g2d = (Graphics2D) g;
-        prepareFrame(g, g2d);
 
-        if(gameState == State.Game) {
-            float difx = player.getXMid() - WIDTH / 2;
-            float dify = player.getYMid() - HEIGHT / 2;
-            g2d.translate(-difx, -dify);
-            // TRANSLATION START
-            map.render(g);
-            handler.render(g);
-            handler.renderTop(g);
-            map.renderTop(g);
-            // TRANSLATION END
-            g2d.translate(difx, dify);
-            hud.render(g);
+        frameRenderStart(g, g2d);
+
+        if(gameState != State.Menu) {
+            int difX = (int) (player.getXMid() - WIDTH / 2);
+            int difY = (int) (player.getYMid() - HEIGHT / 2);
+            int minX = (int) (player.getXMid() - WIDTH / 2);
+            int maxX = (int) (player.getXMid() + WIDTH / 2);
+            int minY = (int) (player.getYMid() - HEIGHT / 2);
+            int maxY = (int) (player.getYMid() + HEIGHT / 2);
+            g2d.translate(-difX, -difY);
+                // TRANSLATION START
+                map.render(g, minX, maxX, minY, maxY);
+                handler.render(g, minX, maxX, minY, maxY);
+                handler.renderTop(g, minX, maxX, minY, maxY);
+                map.renderTop(g, minX, maxX, minY, maxY);
+                // TRANSLATION END
+            g2d.translate(difX, difY);
+            if (gameState == State.Inventory) inventory.render(g);
+            else if (gameState == State.Game) hud.render(g);
         } else if (gameState == State.Menu) {
             menu.render(g);
-        } else if (gameState == State.Inventory) {
-            float difx = player.getXMid() - WIDTH / 2;
-            float dify = player.getYMid() - HEIGHT / 2;
-            g2d.translate(-difx, -dify);
-            // TRANSLATION START
-            map.render(g);
-            handler.render(g);
-            handler.renderTop(g);
-            map.renderTop(g);
-            // TRANSLATION END
-            g2d.translate(difx, dify);
-            inventory.render(g);
-            hud.render(g);
         }
 
-        encloseFrame(g, g2d);
+        frameRenderEnd(g, g2d);
+
         bs.show();
     }
 

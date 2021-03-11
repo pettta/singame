@@ -20,13 +20,14 @@ public class KeyHandler extends KeyAdapter {
 
     public Set<Integer> keys = new TreeSet<Integer>();
 
-    // TODO This code might have to be reworked slightly to account for speed changine effects.
+    // TODO This code might have to be reworked slightly to account for speed changing effects.
     public KeyHandler(Game game) {
         this.game = game;
         playerSpeed = game.playerSpeed;
         playerSpeedDiagonal = 4;
     }
 
+    // TODO Make this code work when keys are pressed in menus and off tab.
     @Override
     public void keyPressed(KeyEvent e) {
         int k = e.getKeyCode();
