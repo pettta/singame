@@ -3,6 +3,7 @@ package sin;
 import sin.display.HUD;
 import sin.display.Inventory;
 import sin.display.Menu;
+import sin.lib.Coord;
 import sin.lib.Lib;
 import sin.mundus.materia.entity.Player;
 import sin.mundus.materia.entity.WormShooter;
@@ -183,6 +184,8 @@ public class Game extends Canvas implements Runnable {
         dprint("Frame Size: " + frame.getBounds().width + ", " + frame.getBounds().height);
         dprint("Insets: " + insets.top + ", " + insets.bottom + ", " + insets.left + ", " + insets.right);
         dprint("Gaps: " + gapWidth + ", " + gapHeight);
+        dprint("Expansion: " + expansion);
+        dprint("");
     }
 
     private void frameRenderStart(Graphics g, Graphics2D g2d) {
@@ -203,8 +206,9 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void frameRenderEnd(Graphics g, Graphics2D g2d) {
-        gapHeight = (curHeight - HEIGHT) / 2;
-        gapWidth = (curWidth - WIDTH) / 2;
+        boolean isWide = expansionX > expansionY;
+        gapHeight = isWide ? 0 : (int) (curHeight - (HEIGHT * expansion)) / 2;
+        gapWidth = isWide ? (int) (curWidth - (WIDTH * expansion)) / 2 : 0;
         g.setColor(Color.black);
 
         g.fillRect(0, HEIGHT, curWidth, gapHeight);
@@ -270,5 +274,35 @@ public class Game extends Canvas implements Runnable {
     public Handler getHandler() {
         return handler;
 
+    }
+
+    // From a coordinate on the screen, returns the matching coordinate in the actual unstretched, drawed game window.
+    public Coord getGamePos(int x, int y) {
+        x -= gapWidth;
+        y -= gapHeight;
+        x /= expansion;
+        y /= expansion;
+        return new Coord(x, y);
+    }
+
+    // From a coordinate on the screen, returns the matching coordinate on the map.
+    public Coord getMapPos(int x, int y) {
+        x = getGamePos(x, y).x;
+        y = getGamePos(x, y).y;
+        return getMapPosFromGame(x, y);
+    }
+
+    // From a coordinate on the game screen, gets the corresponding map location.
+    public Coord getMapPosFromGame(int x, int y) {
+        float difX = player.getXMid() - WIDTH / 2;
+        float difY = player.getYMid() - HEIGHT / 2;
+        return new Coord(x + (int) difX, y + (int) difY);
+    }
+
+    // From a coordinate on the map, gets the coordinate in the game that is on screen.
+    public Coord getGamePosFromMap(int x, int y) {
+        float difX = player.getXMid() - WIDTH / 2;
+        float difY = player.getYMid() - HEIGHT / 2;
+        return new Coord(x - (int) difX, y - (int) difY);
     }
 }
