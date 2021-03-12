@@ -1,7 +1,6 @@
 package sin.mundus.map;
 
 import sin.Game;
-import sin.mundus.map.Map;
 
 import java.awt.*;
 
@@ -56,7 +55,7 @@ public class Teleporter {
         System.out.println(xTo);
         game.player.setY(yTo);
         System.out.println(yTo);
-        if(map != "same") {
+        if(!(map == "same" || (map == game.map.map && tileset == game.map.tileset))) {
             game.map = new Map(game, map, tileset);
         }
     }

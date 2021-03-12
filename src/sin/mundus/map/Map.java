@@ -20,14 +20,15 @@ public class Map {
 
     int width, height;
     Game game;
-    String mapLoc;
+    public String map, tileset;
     SpriteSheet ss;
 
     public static BufferedImage collisionBox;
 
     public Map(Game game, String mapLoc, String tilesetLoc) {
         this.game = game;
-        this.mapLoc = mapLoc;
+        this.map = mapLoc;
+        this.tileset = tilesetLoc;
         this.ss = new SpriteSheet("tiles/" + tilesetLoc);
         tileImages = new ArrayList<BufferedImage>();
         tiles = new ArrayList<Tile>();
@@ -63,7 +64,7 @@ public class Map {
 
         JSONObject obj = null;
         try {
-            obj = parseJSONFile("src/resources/maps/" + mapLoc);
+            obj = parseJSONFile("src/resources/maps/" + map);
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -102,7 +103,7 @@ public class Map {
             }
         }
         if(data.length != 7) {
-            System.out.println("Map " + mapLoc + " does not have the correct number of layers!");
+            System.out.println("Map " + map + " does not have the correct number of layers!");
         }
         int j = 0;
         for(int y = 0; y < height; y++) {
@@ -140,7 +141,7 @@ public class Map {
                 tiles.get(i).render(g);
             }
         }
-        renderTeleporters(g);
+        // renderTeleporters(g);
 
     }
 
