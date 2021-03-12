@@ -71,12 +71,17 @@ public class KeyHandler extends KeyAdapter {
                 }
             }
             if(k == KeyEvent.VK_E) {
-                System.out.println("E pressed!");
                 if(game.gameState == Game.State.Game) {
-                    System.out.println("State is game!");
                     game.gameState = Game.State.Inventory;
-                    System.out.println(game.gameState);
                 } else if(game.gameState == Game.State.Inventory) {
+                    game.gameState = Game.State.Game;
+                }
+                System.out.println(game.gameState);
+            }
+            if(k == KeyEvent.VK_ESCAPE) {
+                if(game.gameState == Game.State.Game) {
+                    game.gameState = Game.State.Menu;
+                } else if(game.gameState == Game.State.Menu) {
                     game.gameState = Game.State.Game;
                 }
                 System.out.println(game.gameState);

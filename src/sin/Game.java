@@ -3,6 +3,10 @@ package sin;
 import sin.display.HUD;
 import sin.display.Inventory;
 import sin.display.Menu;
+import sin.item.Item;
+import sin.item.ItemStack;
+import sin.item.ItemType;
+import sin.item.Slot;
 import sin.lib.Coord;
 import sin.lib.Lib;
 import sin.mundus.materia.entity.Player;
@@ -12,6 +16,7 @@ import sin.mundus.map.Map;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class Game extends Canvas implements Runnable {
@@ -24,15 +29,12 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;
     private boolean initComplete = false;
 
-
-
     private Thread thread;
     private Random r;
     private Insets insets;
 
-
     public int curWidth, curHeight, gapWidth, gapHeight;
-    double expansionX, expansionY, expansion, gameX, gameY;
+    public double expansionX, expansionY, expansion, gameX, gameY;
 
     public Handler handler;
     public Map map;
@@ -44,7 +46,7 @@ public class Game extends Canvas implements Runnable {
     public Frame frame;
     public Inventory inventory;
 
-
+    public static BufferedImage error;
 
     public enum State {
         Menu,
@@ -62,6 +64,7 @@ public class Game extends Canvas implements Runnable {
         hud = new HUD(this);
         r = new Random();
         prepareWindow();
+        error = Lib.getImage("src/resources/items/error.png");
         map = new Map(this,"testMap02.json", "tileset_world.png");
         inventory = new Inventory(this);
         init();
@@ -78,7 +81,6 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void init() {
-        System.out.println(32 / 16 + (32 % 16 > 0 ? 1 : 0));
         player = new Player(370, 900, playerSpeed, this);
         WormShooter worm = new WormShooter(60, 60, this);
         handler.addEnt(player);
@@ -91,6 +93,9 @@ public class Game extends Canvas implements Runnable {
         handler.addEnt(worm3);
         handler.addEnt(worm4);
         initComplete = true;
+        player.setGreed(40);
+        player.setEnvy(20);
+        player.setWrath(10);
         dprint("Initialization complete!");
     }
 
@@ -247,6 +252,10 @@ public class Game extends Canvas implements Runnable {
                 map.renderTop(g, minX, maxX, minY, maxY);
                 // TRANSLATION END
             g2d.translate(difX, difY);
+            //Slot slot = new Slot(new ItemStack(null, 5), ItemType.Melee);
+            g.setColor(Color.WHITE);
+            g.drawString("03", 10, 0);
+            //slot.draw(g,0, 0);
             if (gameState == State.Inventory) inventory.render(g);
             else if (gameState == State.Game) hud.render(g);
         } else if (gameState == State.Menu) {

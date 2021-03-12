@@ -1,6 +1,7 @@
 package sin.mundus.materia.sprite;
 
 import sin.Game;
+import sin.lib.Lib;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -16,12 +17,7 @@ public class SpriteSheet {
     public SpriteSheet(String loc) {
         BufferedImage sheet = null;
         String source = "src/resources/";
-        try {
-            sheet = ImageIO.read(new File(source + loc));
-        } catch (IOException e) {
-            Game.dprint("No such thing exists: " + source + loc);
-        }
-        this.sheet = sheet;
+        this.sheet = Lib.getImage(source + loc);
         this.width = this.sheet.getWidth();
         this.height = this.sheet.getHeight();
     }

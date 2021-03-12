@@ -1,7 +1,6 @@
 package sin.mundus.materia.entity;
 
 import sin.Game;
-import sin.lib.EntityType;
 import sin.lib.Lib;
 import sin.lib.Vector;
 import sin.mundus.materia.sprite.Polysprite;

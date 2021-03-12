@@ -1,5 +1,12 @@
 package sin.lib;
 
+import sin.Game;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 public class Lib {
 
     private static float[] tan = new float[361];
@@ -44,11 +51,22 @@ public class Lib {
         else return var;
     }
 
+    public static float clamp(float var, float min, float max) {
+        if(var >= max) return max;
+        else if (var <= min) return min;
+        else return var;
+    }
+
     /**
      * Increments your cur value, setting it back to the min if it is
      * already equal to the max.
      */
     public static int cycle(int cur, int min, int max) {
+        if (cur < max) return cur + 1;
+        else return min;
+    }
+
+    public static float cycle(float cur, float min, float max) {
         if (cur < max) return cur + 1;
         else return min;
     }
@@ -60,6 +78,18 @@ public class Lib {
     public static boolean locIn(int mx, int my, int x, int y, int width, int height) {
         if (mx > x && mx < x + width && my > y && my < y + height) return true;
         return false;
+    }
+
+    public static BufferedImage getImage(String loc) {
+        BufferedImage image = null;
+        String source = "src/resources/items/";
+        try {
+            image = ImageIO.read(new File(loc));
+        } catch (IOException e) {
+            Game.dprint("No such thing exists: " + loc);
+            image = Game.error;
+        }
+        return image;
     }
 
 }

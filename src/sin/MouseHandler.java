@@ -24,6 +24,7 @@ public class MouseHandler extends MouseAdapter  {
         int ly = coL.y;
         System.out.println("Game: (" + x + ", " + y + ")");
         System.out.println("Location: (" + lx + ", " + ly + ")");
+        System.out.println("Tile: (" + lx / 16 + ", " + ly / 16 + ")");
         if(game.gameState == Game.State.Menu) {
             game.menu.mousePressed(e);
         }
@@ -34,4 +35,13 @@ public class MouseHandler extends MouseAdapter  {
     public void mouseReleased(MouseEvent e) {
     }
 
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
 }

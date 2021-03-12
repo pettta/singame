@@ -3,7 +3,6 @@ package sin.mundus.materia.entity;
 import sin.Game;
 import sin.display.HUD;
 import sin.lib.Direction;
-import sin.lib.EntityType;
 import sin.lib.Lib;
 import sin.lib.Vector;
 import sin.mundus.materia.sprite.Polysprite;
@@ -22,7 +21,7 @@ public class Player extends Entity {
     boolean horizCollision;
     boolean vertCollision;
 
-    public int lust, gluttony, greed, sloth, wrath, envy, pride;
+    public float[] sins;
 
     public void doDeath() {
 
@@ -35,6 +34,7 @@ public class Player extends Entity {
         this.ps = new Polysprite("entities/player.png",4,8, width, height);
         this.image = ps.getCurImage(0, lastDirection, lastDirection);
         this.hb = new Rectangle((int)x , (int)y + 16, 16, 16);
+        sins = new float[7];
     }
 
     public void updatePos() {
@@ -67,6 +67,14 @@ public class Player extends Entity {
         vertCollision = false;
         doDamage();
         doTeleport();
+        sins[0] = Lib.clamp(sins[0], 0, 45);
+        sins[1] = Lib.clamp(sins[1], 0, 45);
+        sins[2] = Lib.clamp(sins[2], 0, 45);
+        sins[3] = Lib.clamp(sins[3], 0, 45);
+        sins[4] = Lib.clamp(sins[4], 0, 45);
+        sins[5] = Lib.clamp(sins[5], 0, 45);
+        sins[6] = Lib.clamp(sins[6], 0, 45);
+
 
     }
 
@@ -191,5 +199,50 @@ public class Player extends Entity {
     public void renderTop(Graphics g) {
         g.drawImage(image.getSubimage(0, 0, 16, 16), (int) x, (int) y, null);
     }
+
+
+    public float getPride() {
+        return sins[0];
+    }
+    public float getGreed() {
+        return sins[1];
+    }
+    public float getLust() {
+        return sins[2];
+    }
+    public float getEnvy() {
+        return sins[3];
+    }
+    public float getGuilt() {
+        return sins[4];
+    }
+    public float getWrath() {
+        return sins[5];
+    }
+    public float getSloth() {
+        return sins[6];
+    }
+    public void setPride(float val) {
+        sins[0] = val;
+    }
+    public void setGreed(float val) {
+        sins[1] = val;
+    }
+    public void setLust(float val) {
+        sins[2] = val;
+    }
+    public void setEnvy(float val) {
+        sins[3] = val;
+    }
+    public void setGuilt(float val) {
+        sins[4] = val;
+    }
+    public void setWrath(float val) {
+        sins[5] = val;
+    }
+    public void setSloth(float val) {
+        sins[6] = val;
+    }
+
 
 }

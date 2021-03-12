@@ -1,4 +1,4 @@
-package sin.lib;
+package sin.mundus.materia.entity;
 
 public enum EntityType {
     Enemy,
