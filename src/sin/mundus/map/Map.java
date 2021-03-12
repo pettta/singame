@@ -120,6 +120,18 @@ public class Map {
         }
     }
 
+    public void renderCollision(Graphics g) {
+
+    }
+
+    public void renderTeleporters(Graphics g) {
+        for(int i = 0; i < teles.size(); i++) {
+            g.setColor(Color.blue);
+            Teleporter cur = teles.get(i);
+            g.drawRect(cur.getX(), cur.getY(), cur.getWidth(), cur.getHeight());
+        }
+    }
+
     // TODO Organize tiles in a double array for quick more efficient access.
     public void render(Graphics g, int minX, int maxX, int minY, int maxY) {
         for(int i = 0; i < tiles.size(); i++) {
@@ -128,6 +140,7 @@ public class Map {
                 tiles.get(i).render(g);
             }
         }
+        renderTeleporters(g);
 
     }
 
