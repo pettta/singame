@@ -221,7 +221,7 @@ public class Game extends Canvas implements Runnable {
 
         g.fillRect(-gapWidth, -gapHeight, curWidth, gapHeight);
         g.fillRect(-gapWidth, -gapHeight, gapWidth, curHeight);
-        g2d.scale(1, 1);
+        g2d.scale(1/expansion, 1/expansion);
         g2d.translate((int)(((double)curWidth-(double)gameX)/-2d), (int)(((double)curHeight-(double)gameY)/-2d));
     }
 

@@ -3,6 +3,7 @@ package sin.lib;
 import sin.Game;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -78,6 +79,10 @@ public class Lib {
     public static boolean locIn(int mx, int my, int x, int y, int width, int height) {
         if (mx > x && mx < x + width && my > y && my < y + height) return true;
         return false;
+    }
+
+    public static boolean locIn(int mx, int my, Rectangle rect) {
+        return locIn(mx, my, rect.x, rect.y, rect.width, rect.height);
     }
 
     public static BufferedImage getImage(String loc) {
