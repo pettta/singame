@@ -83,8 +83,15 @@ public class KeyHandler extends KeyAdapter {
                     game.gameState = Game.State.Menu;
                 } else if(game.gameState == Game.State.Menu) {
                     game.gameState = Game.State.Game;
+                } else if(game.gameState == Game.State.Inventory) {
+                    game.gameState = Game.State.Game;
                 }
                 System.out.println(game.gameState);
+            }
+            if(game.gameState == Game.State.Game) {
+                if(k == KeyEvent.VK_F) {
+                    game.player.specialAttack();
+                }
             }
             keys.add(k);
         }

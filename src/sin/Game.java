@@ -3,20 +3,19 @@ package sin;
 import sin.display.HUD;
 import sin.display.Inventory;
 import sin.display.Menu;
-import sin.item.Item;
-import sin.item.ItemStack;
-import sin.item.ItemType;
-import sin.item.Slot;
 import sin.lib.Coord;
 import sin.lib.Lib;
 import sin.mundus.materia.entity.Player;
 import sin.mundus.materia.entity.WormShooter;
 import sin.mundus.map.Map;
+import sin.sound.AudioPlayer;
 
-import javax.swing.*;
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 public class Game extends Canvas implements Runnable {
@@ -45,6 +44,10 @@ public class Game extends Canvas implements Runnable {
     public Window window;
     public Frame frame;
     public Inventory inventory;
+    public AudioPlayer audioPlayer;
+
+    public boolean cycleInc;
+    public int cycle20;
 
     public static BufferedImage error;
 
@@ -54,7 +57,11 @@ public class Game extends Canvas implements Runnable {
         Inventory
     }
 
+
+
     public Game() {
+        cycle20 = 0;
+        cycleInc = true;
         Lib.init();
         gameState = State.Game;
         handler = new Handler();
@@ -67,6 +74,8 @@ public class Game extends Canvas implements Runnable {
         error = Lib.getImage("src/resources/items/error.png");
         map = new Map(this,"testMap02.json", "tileset_world.png");
         inventory = new Inventory(this);
+        audioPlayer = new AudioPlayer();
+        audioPlayer.playAudio("DungeonTrack2.wav");
         init();
 
     }
@@ -178,6 +187,10 @@ public class Game extends Canvas implements Runnable {
 
     // The tick method. Called as much as possible.
     private void tick() {
+        cycle20 += cycleInc ? 1 : -1;
+        if (cycle20 == 0 || cycle20 == 20) {
+            cycleInc = !cycleInc;
+        }
         if(gameState == State.Game) {
             handler.tick();
             hud.tick();

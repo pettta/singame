@@ -4,5 +4,6 @@ public enum EntityType {
     Enemy,
     Player,
     Projectile,
-    Obstacle;
+    Obstacle,
+    Rock;
 }

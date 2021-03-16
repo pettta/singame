@@ -14,7 +14,7 @@ public class WormBullet extends Entity {
         super(x, y, 8, 8, EntityType.Projectile, game);
         int life = 0;
         this.img = img;
-        this.speed = 10;
+        this.speed = 5;
     }
 
     @Override
@@ -37,8 +37,9 @@ public class WormBullet extends Entity {
 
     @Override
     public void renderTop(Graphics g) {
-        g.drawImage(img, (int) x, (int) y, null);
+        Graphics2D g2d = (Graphics2D) g;
 
+        g.drawImage(img, (int) x, (int) y, null);
     }
 
 }

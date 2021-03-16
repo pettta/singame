@@ -16,16 +16,29 @@ public class WormShooter extends Entity {
     public WormShooter(float x, float y, Game game) {
         super(x, y, 16, 22, EntityType.Enemy, game);
         this.speed = 10;
+        this.health = 100;
         ps = new Polysprite("entities/worm.png",15, 1, width, height);
         image = ps.getCurImage(0);
         hb = new Rectangle((int) x, (int) y + 6, width, height - 6);
+    }
+
+    private void doDamage() {
+        for(int i = 0; i < handler.getList().size(); i++) {
+            Entity ent = handler.getList().get(i);
+            if(ent.getType() == EntityType.Rock) {
+                if(getBounds().intersects(ent.getBounds())) {
+                    handler.delEnt(ent);
+                    health -= 34;
+                }
+            }
+        }
     }
 
     public void tick() {
         shootCounter++;
         Vector toPlayer = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid());
         float distance = toPlayer.getMagnitude();
-        if(shootCounter >= 10 && distance < 125) {
+        if(shootCounter >= 30 && distance < 125) {
             WormBullet proj = new WormBullet(getXMid(), getYMid(), game, ps.getCurImage(14));
             Vector vector = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid(), speed);
             proj.setVelX(vector.getHorizComp());
@@ -35,6 +48,10 @@ public class WormShooter extends Entity {
         }
         spriteIndex = Lib.cycle(spriteIndex, 0, 13);
         image = ps.getCurImage(spriteIndex);
+        doDamage();
+        if(health <= 0) {
+            handler.delEnt(this);
+        }
     }
 
     public void render(Graphics g) {

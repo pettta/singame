@@ -228,6 +228,28 @@ public class Vector {
         }
     }
 
+    public static int xSignumFromDirection(Direction dir) {
+        if(dir == Direction.N || dir == Direction.S) {
+            return 0;
+        }
+        if(dir == Direction.E || dir == Direction.SE || dir == Direction.NE) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+    public static int ySignumFromDirection(Direction dir) {
+        if(dir == Direction.E || dir == Direction.W) {
+            return 0;
+        }
+        if(dir == Direction.S || dir == Direction.SE || dir == Direction.SW) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
     /**
      * Takes an angle in 360 form, returns angle in ATAN2 form. See the documentation above getAngle().
      * Uses radians. Call Math.toRadians() if need be.

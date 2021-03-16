@@ -10,7 +10,7 @@ public class Entity extends Materia {
     protected Game game;
     protected EntityType type;
     float speed, velX, velY;
-    int health;
+    float health;
 
     public Entity(float x, float y, int width, int height, EntityType type, Game game) {
         super(x, y, width, height);
@@ -66,7 +66,7 @@ public class Entity extends Materia {
         return speed;
     }
 
-    public int getHealth() {
+    public float getHealth() {
         return health;
     }
 

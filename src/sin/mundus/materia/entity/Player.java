@@ -17,14 +17,59 @@ public class Player extends Entity {
     int invulnCounter, spriteIndex, indexCounter;
     Direction lastDirection;
     Polysprite ps;
+    Polysprite psd;
+    Polysprite psda;
+    Polysprite psa;
 
     boolean horizCollision;
     boolean vertCollision;
 
+    public float maxHealth;
+
     public float[] sins;
 
     public void doDeath() {
+        health = maxHealth;
+        game.gameState = Game.State.Menu;
+    }
 
+    public void meleeAttack() {
+        if(game.inventory.getMeleeSlot().stack != null) {
+            Rectangle rect = new Rectangle((int) x - 20, (int) y - 20, width + 40, height + 40);
+            for(int i = 0; i < handler.getList().size(); i++) {
+                Entity ent = handler.getList().get(i);
+                if(rect.intersects(ent.getBounds()) && ent != game.player) {
+                    ent.health -= 50;
+
+                }
+            }
+
+        }
+    }
+
+    public void specialAttack() {
+
+        if(game.inventory.getSpecialSlot().stack != null) {
+
+            Direction direction = getRoughDirection() == Direction.None ? lastDirection : getRoughDirection();
+            int xs = Vector.xSignumFromDirection(direction);
+            int ys = Vector.ySignumFromDirection(direction);
+
+            Bomb proj = new Bomb(getXMid() - 8 + xs * 16, getYMid() - 8 + ys * 24, game);
+            proj.setVelX(xs * 6);
+            proj.setVelY(ys * 6);
+            handler.addEnt(proj);
+        }
+    }
+
+    public void rangedAttack(int x, int y) {
+        if(game.inventory.getRangedSlot().stack != null) {
+            RangedShot proj = new RangedShot(getXMid() - 4, getYMid() - 4, game);
+            Vector vector = new Vector(getXMid() - 4, getYMid() - 4, x, y, 20);
+            proj.setVelX(vector.getHorizComp());
+            proj.setVelY(vector.getVertComp());
+            handler.addEnt(proj);
+        }
     }
 
     public Player(float x, float y, float speed, Game game) {
@@ -32,9 +77,14 @@ public class Player extends Entity {
         this.speed = speed;
         this.lastDirection = Direction.S;
         this.ps = new Polysprite("entities/player.png",4,8, width, height);
-        this.image = ps.getCurImage(0, lastDirection, lastDirection);
+        this.psd = new Polysprite("entities/playerDagger.png",4,8, width, height);
+        this.psda = new Polysprite("entities/playerShadeCrystalDagger.png",4,8, width, height);
+        this.psa = new Polysprite("entities/playerShadeCrystal.png",4,8, width, height);
         this.hb = new Rectangle((int)x , (int)y + 16, 16, 16);
+        updateImage();
         sins = new float[7];
+        maxHealth = 100;
+        health = 100;
     }
 
     public void updatePos() {
@@ -60,7 +110,7 @@ public class Player extends Entity {
                     spriteIndex = 0;
                 }
             }
-            image = ps.getCurImage(spriteIndex, getRoughDirection(), lastDirection);
+            updateImage();
             indexCounter = 0;
         }
         horizCollision = false;
@@ -74,7 +124,10 @@ public class Player extends Entity {
         sins[4] = Lib.clamp(sins[4], 0, 45);
         sins[5] = Lib.clamp(sins[5], 0, 45);
         sins[6] = Lib.clamp(sins[6], 0, 45);
-
+        health = Lib.clamp(health, 0, 200);
+        if(health == 0) {
+            doDeath();
+        }
 
     }
 
@@ -157,7 +210,7 @@ public class Player extends Entity {
                 if(getBounds().intersects(ent.getBounds())) {
                     handler.delEnt(ent);
                     if(invulnCounter <= 0) {
-                        HUD.health -= 20;
+                        health -= 20;
                         invulnCounter += 20;
                     }
                 }
@@ -176,7 +229,18 @@ public class Player extends Entity {
     }
 
     public void updateImage() {
-        image = ps.getCurImage(spriteIndex, getRoughDirection(), lastDirection);
+        if(game.inventory.getMeleeSlot().stack == null && game.inventory.getArmorSlot().stack == null) {
+            image = ps.getCurImage(spriteIndex, getRoughDirection(), lastDirection);
+        }
+        if(game.inventory.getMeleeSlot().stack != null && game.inventory.getArmorSlot().stack == null) {
+            image = psd.getCurImage(spriteIndex, getRoughDirection(), lastDirection);
+        }
+        if(game.inventory.getMeleeSlot().stack == null && game.inventory.getArmorSlot().stack != null) {
+            image = psa.getCurImage(spriteIndex, getRoughDirection(), lastDirection);
+        }
+        if(game.inventory.getMeleeSlot().stack != null && game.inventory.getArmorSlot().stack != null) {
+            image = psda.getCurImage(spriteIndex, getRoughDirection(), lastDirection);
+        }
     }
 
     public void updateLastDirection() {
@@ -199,7 +263,6 @@ public class Player extends Entity {
     public void renderTop(Graphics g) {
         g.drawImage(image.getSubimage(0, 0, 16, 16), (int) x, (int) y, null);
     }
-
 
     public float getPride() {
         return sins[0];
@@ -243,6 +306,5 @@ public class Player extends Entity {
     public void setSloth(float val) {
         sins[6] = val;
     }
-
 
 }
