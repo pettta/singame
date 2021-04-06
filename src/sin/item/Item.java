@@ -11,14 +11,16 @@ import java.io.IOException;
 public class Item {
 
     public int maxStack;
-    public ItemType type;
     public BufferedImage image;
     public String name;
 
-    public Item(String name, int maxStack, ItemType type) {
+    public Item(String name, int maxStack) {
         this.name = name;
         this.maxStack = maxStack;
-        this.type = type;
         this.image = Lib.getImage("src/resources/items/" + name + ".png");
+    }
+
+    public Item(String name) {
+        this(name, 99);
     }
 }

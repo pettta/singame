@@ -56,9 +56,9 @@ public class Map {
     }
 
     /**
-     * Layer 1 through 3 of the map file are normal.
-     * Layer 4 renders above entities.
-     * Layer 5 is the collision markers.
+     * Layer 1 through 4 of the map file are normal.
+     * Layers 5 and 6 render above entities.
+     * Layer 7 is the collision markers.
      */
     public void populateMap() {
 

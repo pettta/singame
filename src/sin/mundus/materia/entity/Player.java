@@ -2,6 +2,9 @@ package sin.mundus.materia.entity;
 
 import sin.Game;
 import sin.display.HUD;
+import sin.item.ItemMelee;
+import sin.item.ItemRanged;
+import sin.item.ItemSpecial;
 import sin.lib.Direction;
 import sin.lib.Lib;
 import sin.lib.Vector;
@@ -15,7 +18,7 @@ import java.util.ArrayList;
 public class Player extends Entity {
 
     int invulnCounter, spriteIndex, indexCounter;
-    Direction lastDirection;
+    public Direction lastDirection;
     Polysprite ps;
     Polysprite psd;
     Polysprite psda;
@@ -33,42 +36,23 @@ public class Player extends Entity {
         game.gameState = Game.State.Menu;
     }
 
+
+    // TODO change how attacks work such that call a function from the weapon in the players hand, more universal
     public void meleeAttack() {
-        if(game.inventory.getMeleeSlot().stack != null) {
-            Rectangle rect = new Rectangle((int) x - 20, (int) y - 20, width + 40, height + 40);
-            for(int i = 0; i < handler.getList().size(); i++) {
-                Entity ent = handler.getList().get(i);
-                if(rect.intersects(ent.getBounds()) && ent != game.player) {
-                    ent.health -= 50;
-
-                }
-            }
-
+        if(game.inventory.getMeleeSlot().stack != null && game.inventory.getMeleeSlot().stack.item instanceof ItemMelee) {
+            ((ItemMelee) game.inventory.getMeleeSlot().stack.item).onUse(game);
         }
     }
 
     public void specialAttack() {
-
-        if(game.inventory.getSpecialSlot().stack != null) {
-
-            Direction direction = getRoughDirection() == Direction.None ? lastDirection : getRoughDirection();
-            int xs = Vector.xSignumFromDirection(direction);
-            int ys = Vector.ySignumFromDirection(direction);
-
-            Bomb proj = new Bomb(getXMid() - 8 + xs * 16, getYMid() - 8 + ys * 24, game);
-            proj.setVelX(xs * 6);
-            proj.setVelY(ys * 6);
-            handler.addEnt(proj);
+        if(game.inventory.getSpecialSlot().stack != null && game.inventory.getSpecialSlot().stack.item instanceof ItemSpecial) {
+            ((ItemSpecial) game.inventory.getSpecialSlot().stack.item).onUse(game);
         }
     }
 
     public void rangedAttack(int x, int y) {
-        if(game.inventory.getRangedSlot().stack != null) {
-            RangedShot proj = new RangedShot(getXMid() - 4, getYMid() - 4, game);
-            Vector vector = new Vector(getXMid() - 4, getYMid() - 4, x, y, 20);
-            proj.setVelX(vector.getHorizComp());
-            proj.setVelY(vector.getVertComp());
-            handler.addEnt(proj);
+        if(game.inventory.getRangedSlot().stack != null && game.inventory.getRangedSlot().stack.item instanceof ItemRanged) {
+            ((ItemRanged) game.inventory.getRangedSlot().stack.item).onUse(game, x, y);
         }
     }
 
