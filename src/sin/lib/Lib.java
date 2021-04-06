@@ -1,12 +1,16 @@
 package sin.lib;
 
+import org.json.JSONObject;
 import sin.Game;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Lib {
 
@@ -95,6 +99,26 @@ public class Lib {
             image = Game.error;
         }
         return image;
+    }
+
+    public static void writeJSON(JSONObject obj, String loc) {
+        try (FileWriter file = new FileWriter(loc)) {
+            file.write(obj.toString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static JSONObject loadJSON(String filename)  {
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(filename)));
+            return new JSONObject(content);
+        } catch(IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

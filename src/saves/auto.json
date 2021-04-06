@@ -1,0 +1,6 @@
+{
+  "x": 100,
+  "y": 100,
+  "map": "testMap02.json",
+  "tileset": "tileset_world.json"
+}

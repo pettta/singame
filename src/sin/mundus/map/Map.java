@@ -2,6 +2,7 @@ package sin.mundus.map;
 
 import org.json.*;
 import sin.Game;
+import sin.lib.Lib;
 import sin.mundus.materia.sprite.SpriteSheet;
 import sin.mundus.materia.tile.Tile;
 
@@ -50,10 +51,7 @@ public class Map {
         System.out.println("SIZE: " + tileImages.size());
     }
 
-    public static JSONObject parseJSONFile(String filename) throws IOException {
-        String content = new String(Files.readAllBytes(Paths.get(filename)));
-        return new JSONObject(content);
-    }
+
 
     /**
      * Layer 1 through 4 of the map file are normal.
@@ -62,12 +60,7 @@ public class Map {
      */
     public void populateMap() {
 
-        JSONObject obj = null;
-        try {
-            obj = parseJSONFile("src/resources/maps/" + map);
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
+        JSONObject obj = Lib.loadJSON("src/resources/maps/" + map);
         JSONArray layers = obj.getJSONArray("layers");
 
         height = obj.getInt("height");

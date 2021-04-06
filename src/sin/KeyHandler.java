@@ -1,5 +1,6 @@
 package sin;
 
+import sin.display.Menu;
 import sin.lib.Lib;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -81,6 +82,7 @@ public class KeyHandler extends KeyAdapter {
             if(k == KeyEvent.VK_ESCAPE) {
                 if(game.gameState == Game.State.Game) {
                     game.gameState = Game.State.Menu;
+                    game.menu.state = Menu.MenuState.Main;
                 } else if(game.gameState == Game.State.Menu) {
                     game.gameState = Game.State.Game;
                 } else if(game.gameState == Game.State.Inventory) {
