@@ -1,6 +1,7 @@
 package sin.item;
 
 import sin.Game;
+import sin.Registry;
 import sin.lib.Lib;
 
 import javax.imageio.ImageIO;
@@ -12,7 +13,7 @@ public class Item {
 
     public int maxStack;
     public BufferedImage image;
-    public String name;
+    String name;
 
     public Item(String name, int maxStack) {
         this.name = name;
@@ -20,7 +21,12 @@ public class Item {
         this.image = Lib.getImage("src/resources/items/" + name + ".png");
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Item(String name) {
         this(name, 99);
     }
+
 }

@@ -1,13 +1,11 @@
 package sin.display;
 
-import org.json.JSONObject;
 import sin.Game;
+import sin.save.SaveHandler;
 import sin.lib.Coord;
 import sin.lib.Lib;
-import sin.mundus.map.Map;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -48,22 +46,6 @@ public class Menu {
         }
     }
 
-    public void loadSave(String save) {
-        JSONObject obj = Lib.loadJSON("src/saves/" + save);
-        game.player.setX(obj.getFloat("x"));
-        game.player.setY(obj.getFloat("y"));
-        Map map = new Map(game, obj.getString("map"), obj.getString("tileset"));
-        game.map = map;
-    }
-
-    public void save(String save) {
-        JSONObject obj = new JSONObject();
-        obj.put("x", game.player.getX());
-        obj.put("y", game.player.getY());
-        obj.put("map", game.map.map);
-        obj.put("tileset", game.map.tileset);
-        Lib.writeJSON(obj, "src/saves/" + save);
-    }
 
     public void mousePressed(MouseEvent e) {
         Coord gamePos = game.getGamePos(e.getX(), e.getY());
@@ -105,9 +87,9 @@ public class Menu {
 
             } else if (state == MenuState.Saves) {
                 if(selected == 1) {
-                    save("slot1.json");
+                    SaveHandler.save(game, "slot1.json");
                 } else if (selected == 2) {
-                    loadSave("slot1.json");
+                    SaveHandler.loadSave(game, "slot1.json");
                 }
                 game.audioPlayer.playOnce("buttonWorked.wav");
                 selected = 0;
@@ -118,9 +100,9 @@ public class Menu {
 
             } else if (state == MenuState.Saves) {
                 if(selected == 1) {
-                    save("slot2.json");
+                    SaveHandler.save(game, "slot2.json");
                 } else if (selected == 2) {
-                    loadSave("slot2.json");
+                    SaveHandler.loadSave(game,"slot2.json");
                 }
                 game.audioPlayer.playOnce("buttonWorked.wav");
                 selected = 0;
@@ -131,9 +113,9 @@ public class Menu {
 
             } else if (state == MenuState.Saves) {
                 if(selected == 1) {
-                    save("slot3.json");
+                    SaveHandler.save(game, "slot3.json");
                 } else if (selected == 2) {
-                    loadSave("slot3.json");
+                    SaveHandler.loadSave(game,"slot3.json");
                 }
                 game.audioPlayer.playOnce("buttonWorked.wav");
                 selected = 0;
@@ -144,9 +126,9 @@ public class Menu {
                 game.gameState = Game.State.Game;
             } else if (state == MenuState.Saves) {
                 if(selected == 1) {
-                    save("auto.json");
+                    SaveHandler.save(game,"auto.json");
                 } else if (selected == 2) {
-                    loadSave("auto.json");
+                    SaveHandler.loadSave(game, "auto.json");
                 }
                 game.audioPlayer.playOnce("buttonWorked.wav");
                 selected = 0;

@@ -1,14 +1,16 @@
 package sin.mundus.materia.entity;
 
+import org.json.JSONObject;
 import sin.Game;
 import sin.lib.Lib;
 import sin.mundus.materia.sprite.Polysprite;
 import sin.mundus.materia.tile.Tile;
+import sin.save.ISaveable;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Bomb extends Entity {
+public class EntityBomb extends Entity {
 
     int life;
     int explosionProgress;
@@ -16,7 +18,7 @@ public class Bomb extends Entity {
     BufferedImage image;
     BufferedImage preExplosion;
 
-    public Bomb(float x, float y, Game game) {
+    public EntityBomb(float x, float y, Game game) {
         super(x, y, 16, 16, EntityType.Obstacle, game);
         int life = 0;
         preExplosion = Lib.getImage("src/resources/items/bomb.png");
@@ -71,6 +73,21 @@ public class Bomb extends Entity {
         doCollision();
 
     }
+
+    public JSONObject write(JSONObject obj) {
+        JSONObject extra = super.write(obj);
+        extra.put("life", life);
+        extra.put("explosionProgress", explosionProgress);
+        return extra;
+    }
+
+    public ISaveable read(JSONObject obj) {
+        super.read(obj);
+        life = obj.getInt("life");
+        explosionProgress = obj.getInt("explosionProgress");
+        return this;
+    }
+
 
     public void render(Graphics g) {
 

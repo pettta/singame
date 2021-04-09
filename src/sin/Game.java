@@ -5,17 +5,15 @@ import sin.display.Inventory;
 import sin.display.Menu;
 import sin.lib.Coord;
 import sin.lib.Lib;
-import sin.mundus.materia.entity.Player;
-import sin.mundus.materia.entity.WormShooter;
+import sin.mundus.materia.entity.EntityNPC;
+import sin.mundus.materia.entity.EntityPlayer;
+import sin.mundus.materia.entity.EntityWormShooter;
 import sin.mundus.map.Map;
 import sin.sound.AudioPlayer;
 
-import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Random;
 
 public class Game extends Canvas implements Runnable {
@@ -38,7 +36,7 @@ public class Game extends Canvas implements Runnable {
     public Handler handler;
     public Map map;
     public Menu menu;
-    public Player player;
+    public EntityPlayer player;
     public HUD hud;
     public State gameState;
     public Window window;
@@ -90,13 +88,15 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void init() {
-        player = new Player(370, 900, playerSpeed, this);
-        WormShooter worm = new WormShooter(60, 60, this);
+        player = new EntityPlayer(370, 900, playerSpeed, this);
+        EntityWormShooter worm = new EntityWormShooter(60, 60, this);
         handler.addEnt(player);
-        WormShooter worm1 = new WormShooter(714, 475, this);
-        WormShooter worm2 = new WormShooter(1122, 715, this);
-        WormShooter worm3 = new WormShooter(718, 957, this);
-        WormShooter worm4 = new WormShooter(317, 722, this);
+        EntityWormShooter worm1 = new EntityWormShooter(714, 475, this);
+        EntityWormShooter worm2 = new EntityWormShooter(1122, 715, this);
+        EntityWormShooter worm3 = new EntityWormShooter(718, 957, this);
+        EntityWormShooter worm4 = new EntityWormShooter(317, 722, this);
+        EntityNPC npc = new EntityNPC(544, 791, 2, this);
+        handler.addEnt(npc);
         handler.addEnt(worm1);
         handler.addEnt(worm2);
         handler.addEnt(worm3);

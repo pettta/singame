@@ -3,7 +3,7 @@ package sin.item;
 import sin.Game;
 import sin.Handler;
 import sin.mundus.materia.entity.Entity;
-import sin.mundus.materia.entity.Player;
+import sin.mundus.materia.entity.EntityPlayer;
 
 import java.awt.*;
 
@@ -24,7 +24,7 @@ public class ItemMelee extends ItemEquipment {
 
     public void onUse(Game game) {
         Handler handler = game.handler;
-        Player p = game.player;
+        EntityPlayer p = game.player;
         Rectangle rect = new Rectangle((int) p.getX() - 20, (int) p.getY() - 20, p.getWidth() + 40, p.getHeight() + 40);
         for(int i = 0; i < handler.getList().size(); i++) {
             Entity ent = handler.getList().get(i);

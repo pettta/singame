@@ -1,9 +1,8 @@
 package sin.mundus.map;
 
 import sin.Game;
-import sin.Handler;
 import sin.mundus.materia.entity.Entity;
-import sin.mundus.materia.entity.WormShooter;
+import sin.mundus.materia.entity.EntityWormShooter;
 
 import java.awt.*;
 
@@ -66,27 +65,27 @@ public class Teleporter {
         System.out.println("AHJHHHHHHHHH");
         removeAllButPlayer();
         if(map.equals("testMap01.json")) {
-            game.handler.addEnt(new WormShooter(493, 709, game));
-            game.handler.addEnt(new WormShooter(386, 595, game));
-            game.handler.addEnt(new WormShooter(160, 583, game));
-            game.handler.addEnt(new WormShooter(273, 501, game));
-            game.handler.addEnt(new WormShooter(109, 420, game));
-            game.handler.addEnt(new WormShooter(291, 299, game));
+            game.handler.addEnt(new EntityWormShooter(493, 709, game));
+            game.handler.addEnt(new EntityWormShooter(386, 595, game));
+            game.handler.addEnt(new EntityWormShooter(160, 583, game));
+            game.handler.addEnt(new EntityWormShooter(273, 501, game));
+            game.handler.addEnt(new EntityWormShooter(109, 420, game));
+            game.handler.addEnt(new EntityWormShooter(291, 299, game));
 
         }
         if(map.equals("dungeon1.json")) {
             System.out.println("AHHH");
-            game.handler.addEnt(new WormShooter(504, 1205, game));
-            game.handler.addEnt(new WormShooter(662, 1209, game));
-            game.handler.addEnt(new WormShooter(668, 833, game));
-            game.handler.addEnt(new WormShooter(63, 1281, game));
-            game.handler.addEnt(new WormShooter(222, 1279, game));
-            game.handler.addEnt(new WormShooter(169, 831, game));
-            game.handler.addEnt(new WormShooter(175, 705, game));
-            game.handler.addEnt(new WormShooter(352, 282, game));
-            game.handler.addEnt(new WormShooter(390, 157, game));
-            game.handler.addEnt(new WormShooter(508, 116, game));
-            game.handler.addEnt(new WormShooter(610, 222, game));
+            game.handler.addEnt(new EntityWormShooter(504, 1205, game));
+            game.handler.addEnt(new EntityWormShooter(662, 1209, game));
+            game.handler.addEnt(new EntityWormShooter(668, 833, game));
+            game.handler.addEnt(new EntityWormShooter(63, 1281, game));
+            game.handler.addEnt(new EntityWormShooter(222, 1279, game));
+            game.handler.addEnt(new EntityWormShooter(169, 831, game));
+            game.handler.addEnt(new EntityWormShooter(175, 705, game));
+            game.handler.addEnt(new EntityWormShooter(352, 282, game));
+            game.handler.addEnt(new EntityWormShooter(390, 157, game));
+            game.handler.addEnt(new EntityWormShooter(508, 116, game));
+            game.handler.addEnt(new EntityWormShooter(610, 222, game));
 
 
         } else {
