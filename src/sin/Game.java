@@ -7,8 +7,10 @@ import sin.lib.Coord;
 import sin.lib.Lib;
 import sin.mundus.materia.entity.EntityNPC;
 import sin.mundus.materia.entity.EntityPlayer;
+import sin.mundus.materia.entity.EntityWormBoss;
 import sin.mundus.materia.entity.EntityWormShooter;
 import sin.mundus.map.Map;
+import sin.mundus.materia.entity.EntityWormBoss;
 import sin.sound.AudioPlayer;
 
 import java.awt.*;
@@ -89,6 +91,7 @@ public class Game extends Canvas implements Runnable {
 
     public void init() {
         player = new EntityPlayer(370, 900, playerSpeed, this);
+        EntityWormBoss wormboss = new EntityWormBoss(375,860, this);
         EntityWormShooter worm = new EntityWormShooter(60, 60, this);
         handler.addEnt(player);
         EntityWormShooter worm1 = new EntityWormShooter(714, 475, this);
@@ -101,6 +104,7 @@ public class Game extends Canvas implements Runnable {
         handler.addEnt(worm2);
         handler.addEnt(worm3);
         handler.addEnt(worm4);
+        handler.addEnt(wormboss);
         initComplete = true;
         player.setGreed(40);
         player.setEnvy(20);
@@ -220,7 +224,6 @@ public class Game extends Canvas implements Runnable {
         g2d.scale(expansion, expansion);
         g.setColor(Color.black);
         g.fillRect(0, 0, curWidth, curHeight);
-
     }
 
     public void frameRenderEnd(Graphics g, Graphics2D g2d) {
