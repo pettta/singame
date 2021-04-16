@@ -91,7 +91,6 @@ public class Game extends Canvas implements Runnable {
 
     public void init() {
         player = new EntityPlayer(370, 900, playerSpeed, this);
-        EntityWormBoss wormboss = new EntityWormBoss(375,860, this);
         EntityWormShooter worm = new EntityWormShooter(60, 60, this);
         handler.addEnt(player);
         EntityWormShooter worm1 = new EntityWormShooter(714, 475, this);
@@ -104,7 +103,6 @@ public class Game extends Canvas implements Runnable {
         handler.addEnt(worm2);
         handler.addEnt(worm3);
         handler.addEnt(worm4);
-        handler.addEnt(wormboss);
         initComplete = true;
         player.setGreed(40);
         player.setEnvy(20);

@@ -21,6 +21,7 @@ public class EntityWormBoss extends Entity {
         ps = new Polysprite("entities/worm.png",15, 1, width, height); // Kai said there would be 9 images in the sprite sheet
         image = ps.getCurImage(0);
         hb = new Rectangle((int) x, (int) y + 6, width, height - 6);
+        slamming = false;
     }
     public JSONObject write(JSONObject obj) {
         JSONObject extra = super.write(obj);
@@ -53,7 +54,7 @@ public class EntityWormBoss extends Entity {
         Vector toPlayer = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid());
         Vector playerLoc = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid(), 30);
         float distance = toPlayer.getMagnitude();
-        if (distance < 50 || slamming) {
+        if (distance < 60 || slamming) {
             counter++;
             slamming = true;
         }
@@ -79,7 +80,7 @@ public class EntityWormBoss extends Entity {
             counter = 0;
             slamming = false;
         }
-        else if( distance > 60) {
+        else if(distance > 80 && distance < 120) {
             EntityWormBullet proj = new EntityWormBullet(getXMid(), getYMid(), game, ps.getCurImage(14));
             Vector vector = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid(), 2);
             proj.setVelX(vector.getHorizComp());

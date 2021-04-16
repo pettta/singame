@@ -3,6 +3,7 @@ package sin.mundus.map;
 import sin.Game;
 import sin.mundus.materia.entity.Entity;
 import sin.mundus.materia.entity.EntityWormShooter;
+import sin.mundus.materia.entity.EntityWormBoss;
 
 import java.awt.*;
 
@@ -86,6 +87,7 @@ public class Teleporter {
             game.handler.addEnt(new EntityWormShooter(390, 157, game));
             game.handler.addEnt(new EntityWormShooter(508, 116, game));
             game.handler.addEnt(new EntityWormShooter(610, 222, game));
+            game.handler.addEnt(new EntityWormBoss(491, 205, game));
 
 
         } else {
