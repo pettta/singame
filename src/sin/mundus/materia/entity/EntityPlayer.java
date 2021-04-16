@@ -1,5 +1,6 @@
 package sin.mundus.materia.entity;
 
+import org.json.JSONObject;
 import sin.Game;
 import sin.display.HUD;
 import sin.item.ItemMelee;
@@ -11,11 +12,12 @@ import sin.lib.Vector;
 import sin.mundus.materia.sprite.Polysprite;
 import sin.mundus.materia.tile.Tile;
 import sin.mundus.map.Teleporter;
+import sin.save.ISaveable;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Player extends Entity {
+public class EntityPlayer extends Entity {
 
     int invulnCounter, spriteIndex, indexCounter;
     public Direction lastDirection;
@@ -30,6 +32,24 @@ public class Player extends Entity {
     public float maxHealth;
 
     public float[] sins;
+
+    public JSONObject write(JSONObject obj) {
+        JSONObject extra = super.write(obj);
+        extra.put("invulnCounter", invulnCounter);
+        extra.put("spriteIndex", spriteIndex);
+        extra.put("indexCounter", indexCounter);
+        extra.put("lastDirection", lastDirection.value);
+        return extra;
+    }
+
+    public ISaveable read(JSONObject obj) {
+        super.read(obj);
+        invulnCounter = obj.getInt("invulnCounter");
+        spriteIndex = obj.getInt("spriteIndex");
+        indexCounter = obj.getInt("indexCounter");
+        lastDirection = Direction.from(obj.getInt("lastDirection"));
+        return this;
+    }
 
     public void doDeath() {
         health = maxHealth;
@@ -56,7 +76,7 @@ public class Player extends Entity {
         }
     }
 
-    public Player(float x, float y, float speed, Game game) {
+    public EntityPlayer(float x, float y, float speed, Game game) {
         super(x, y, 16, 32, EntityType.Player, game);
         this.speed = speed;
         this.lastDirection = Direction.S;
@@ -138,7 +158,7 @@ public class Player extends Entity {
         // Entities
         for(int i = 0; i < handler.getList().size(); i++) {
             Entity ent = handler.getList().get(i);
-            if(ent.getType() == EntityType.Enemy) {
+            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC) {
                 if(hb.intersects(ent.hb)) {
                     hb.x -= velX;
                     while(!hb.intersects(ent.hb)) {
@@ -170,7 +190,7 @@ public class Player extends Entity {
         // Entities
         for(int i = 0; i < handler.getList().size(); i++) {
             Entity ent = handler.getList().get(i);
-            if(ent.getType() == EntityType.Enemy) {
+            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC) {
                 if(hb.intersects(ent.hb)) {
                     hb.y -= velY;
                     while(!hb.intersects(ent.hb)) {

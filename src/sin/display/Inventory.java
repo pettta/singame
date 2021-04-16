@@ -2,7 +2,7 @@ package sin.display;
 
 import sin.Game;
 import sin.item.Stack;
-import sin.item.Registry;
+import sin.Registry;
 import sin.item.Slot;
 import sin.lib.Coord;
 import sin.lib.Lib;

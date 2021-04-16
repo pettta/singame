@@ -5,30 +5,29 @@ import sin.lib.Vector;
 
 import java.awt.*;
 
-public class Shooter extends Entity {
+public class EntityTracker extends Entity {
 
-    int speed;
-    int counter;
+    int adjustCounter;
 
-    public Shooter(float x, float y, int width, int height, int speed, EntityType type, Game game) {
+    public EntityTracker(float x, float y, int width, int height, float speed, EntityType type, int adjustCounter, Game game) {
         super(x, y, width, height, type, game);
         this.speed = speed;
-        this.counter = 0;
+        this.adjustCounter = adjustCounter;
+
     }
 
     @Override
     public void tick() {
-        if(counter > 20) {
+        if(adjustCounter >= 0) {
             Vector vector = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid(), speed);
-            Projectile proj = new Projectile(getXMid(), getYMid(), 16, 16, EntityType.Enemy, game);
-            proj.setVelX(vector.getHorizComp());
-            proj.setVelY(vector.getVertComp());
-            handler.addEnt(proj);
-            counter = 0;
+            velX = (int) vector.getHorizComp();
+            velY = (int) vector.getVertComp();
+            adjustCounter = 0;
         } else {
-            counter++;
+            adjustCounter++;
         }
         super.tick();
+
     }
 
     @Override

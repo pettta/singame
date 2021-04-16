@@ -1,20 +1,34 @@
 package sin.mundus.materia.entity;
 
+import org.json.JSONObject;
 import sin.Game;
+import sin.save.ISaveable;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class WormBullet extends Entity {
+public class EntityWormBullet extends Entity {
 
     int life;
     BufferedImage img;
 
-    public WormBullet(float x, float y, Game game, BufferedImage img) {
+    public EntityWormBullet(float x, float y, Game game, BufferedImage img) {
         super(x, y, 8, 8, EntityType.Projectile, game);
         int life = 0;
         this.img = img;
         this.speed = 5;
+    }
+
+    public JSONObject write(JSONObject obj) {
+        JSONObject extra = super.write(obj);
+        extra.put("life", life);
+        return extra;
+    }
+
+    public ISaveable read(JSONObject obj) {
+        super.read(obj);
+        life = obj.getInt("life");
+        return this;
     }
 
     @Override

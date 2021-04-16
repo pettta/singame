@@ -1,25 +1,41 @@
 package sin.mundus.materia.entity;
 
+import org.json.JSONObject;
 import sin.Game;
 import sin.lib.Lib;
 import sin.lib.Vector;
 import sin.mundus.materia.sprite.Polysprite;
+import sin.save.ISaveable;
 
 import java.awt.*;
 
-public class WormShooter extends Entity {
+public class EntityWormShooter extends Entity {
 
     private int shootCounter;
     private int spriteIndex;
     Polysprite ps;
 
-    public WormShooter(float x, float y, Game game) {
+    public EntityWormShooter(float x, float y, Game game) {
         super(x, y, 16, 22, EntityType.Enemy, game);
         this.speed = 10;
         this.health = 100;
         ps = new Polysprite("entities/worm.png",15, 1, width, height);
         image = ps.getCurImage(0);
         hb = new Rectangle((int) x, (int) y + 6, width, height - 6);
+    }
+    // TODO is saving sprite index really necesssary? eh sure why not
+    public JSONObject write(JSONObject obj) {
+        JSONObject extra = super.write(obj);
+        extra.put("shootCounter", shootCounter);
+        extra.put("spriteIndex", spriteIndex);
+        return extra;
+    }
+
+    public ISaveable read(JSONObject obj) {
+        super.read(obj);
+        shootCounter = obj.getInt("shootCounter");
+        spriteIndex = obj.getInt("spriteIndex");
+        return this;
     }
 
     private void doDamage() {
@@ -39,7 +55,7 @@ public class WormShooter extends Entity {
         Vector toPlayer = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid());
         float distance = toPlayer.getMagnitude();
         if(shootCounter >= 30 && distance < 125) {
-            WormBullet proj = new WormBullet(getXMid(), getYMid(), game, ps.getCurImage(14));
+            EntityWormBullet proj = new EntityWormBullet(getXMid(), getYMid(), game, ps.getCurImage(14));
             Vector vector = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid(), speed);
             proj.setVelX(vector.getHorizComp());
             proj.setVelY(vector.getVertComp());

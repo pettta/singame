@@ -1,10 +1,14 @@
 package sin.mundus.materia.entity;
 
+import org.json.JSONObject;
 import sin.Game;
 import sin.Handler;
+import sin.lib.Lib;
+import sin.mundus.map.Map;
 import sin.mundus.materia.Materia;
+import sin.save.ISaveable;
 
-public class Entity extends Materia {
+public class Entity extends Materia implements ISaveable {
 
     protected Handler handler;
     protected Game game;
@@ -24,6 +28,24 @@ public class Entity extends Materia {
         y += velY;
         hb.x = (int) x;
         hb.y = (int) y;
+    }
+
+    public JSONObject write(JSONObject obj) {
+        obj.put("x", x);
+        obj.put("y", y);
+        obj.put("velX", velX);
+        obj.put("velY", velY);
+        obj.put("health", health);
+        return obj;
+    }
+
+    public ISaveable read(JSONObject obj) {
+        x = obj.getFloat("x");
+        y = obj.getFloat("y");
+        velX = obj.getFloat("velX");
+        velY = obj.getFloat("velY");
+        health = obj.getFloat("health");
+        return this;
     }
 
     public void setVelX(float velX) {
