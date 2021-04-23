@@ -91,7 +91,6 @@ public class Lib {
 
     public static BufferedImage getImage(String loc) {
         BufferedImage image = null;
-        String source = "src/resources/items/";
         try {
             image = ImageIO.read(new File(loc));
         } catch (IOException e) {
