@@ -1,5 +1,6 @@
 package sin;
 
+import sin.display.Dialogue;
 import sin.display.HUD;
 import sin.display.Inventory;
 import sin.display.Menu;
@@ -31,6 +32,8 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
     private Random r;
     private Insets insets;
+
+    public Dialogue dialogue;
 
     public int curWidth, curHeight, gapWidth, gapHeight;
     public double expansionX, expansionY, expansion, gameX, gameY;
@@ -76,6 +79,7 @@ public class Game extends Canvas implements Runnable {
         inventory = new Inventory(this);
         audioPlayer = new AudioPlayer();
         audioPlayer.playAudio("DungeonTrack2.wav");
+        dialogue = new Dialogue(this);
         init();
 
     }
@@ -270,8 +274,8 @@ public class Game extends Canvas implements Runnable {
             g.setColor(Color.WHITE);
             g.drawString("03", 10, 0);
             //slot.draw(g,0, 0);
-            if (gameState == State.Inventory) inventory.render(g);
-            else if (gameState == State.Game) hud.render(g);
+            if (gameState == State.Inventory) { inventory.render(g); }
+            else if (gameState == State.Game) { hud.render(g); dialogue.render(g); }
         } else if (gameState == State.Menu) {
             menu.render(g);
         }
