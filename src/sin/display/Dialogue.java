@@ -17,6 +17,7 @@ public class Dialogue {
         this.game = game;
         box = Lib.getImage("src/resources/display/textBox.png");
         dialogue = false;
+
     }
 
     public void render(Graphics g) {
@@ -25,6 +26,11 @@ public class Dialogue {
             g2d.scale(2, 2);
             g.drawImage(box, 0, 0, null);
             g2d.scale(.5, .5);
+            Font currentFont = g.getFont();
+            Font newFont = currentFont.deriveFont(currentFont.getSize() * 1.4F);
+            g.setFont(newFont);
+            g.setColor(Color.WHITE);
+
             g.drawString("This ia test string that probably looks dogshit!", 36, 180);
         }
     }
