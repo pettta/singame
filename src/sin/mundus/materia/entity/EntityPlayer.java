@@ -3,6 +3,7 @@ package sin.mundus.materia.entity;
 import org.json.JSONObject;
 import sin.Game;
 import sin.display.HUD;
+import sin.display.Menu;
 import sin.item.ItemMelee;
 import sin.item.ItemRanged;
 import sin.item.ItemSpecial;
@@ -54,6 +55,7 @@ public class EntityPlayer extends Entity {
     public void doDeath() {
         health = maxHealth;
         game.gameState = Game.State.Menu;
+        game.menu.state = Menu.MenuState.Main;
     }
 
 

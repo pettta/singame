@@ -200,6 +200,7 @@ public class Game extends Canvas implements Runnable {
         if(gameState == State.Game) {
             handler.tick();
             hud.tick();
+            dialogue.tick();
         }
     }
 
