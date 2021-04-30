@@ -85,8 +85,6 @@ public class Teleporter {
             game.handler.addEnt(new EntityWormShooter(175, 705, game));
             game.handler.addEnt(new EntityWormShooter(352, 282, game));
             game.handler.addEnt(new EntityWormShooter(390, 157, game));
-            game.handler.addEnt(new EntityWormShooter(508, 116, game));
-            game.handler.addEnt(new EntityWormShooter(610, 222, game));
             game.handler.addEnt(new EntityWormBoss(491, 205, game));
 
 

@@ -24,7 +24,7 @@ public class Game extends Canvas implements Runnable {
     public static final boolean printFPS = false;
 
     public static final int WIDTH = 320, HEIGHT = 240;
-    public static final float playerSpeed = 5;
+    public static final float playerSpeed = 25;
     public static final boolean debugMode = true;
     private boolean running = false;
     private boolean initComplete = false;
