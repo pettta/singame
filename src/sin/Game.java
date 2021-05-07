@@ -24,7 +24,7 @@ public class Game extends Canvas implements Runnable {
     public static final boolean printFPS = false;
 
     public static final int WIDTH = 320, HEIGHT = 240;
-    public static final float playerSpeed = 25;
+    public static final float playerSpeed = 7;
     public static final boolean debugMode = true;
     private boolean running = false;
     private boolean initComplete = false;
@@ -75,7 +75,7 @@ public class Game extends Canvas implements Runnable {
         r = new Random();
         prepareWindow();
         error = Lib.getImage("src/resources/items/error.png");
-        map = new Map(this,"testMap02.json", "tileset_world.png");
+        map = new Map(this,"testMap01.json", "tileset_old.png");
         inventory = new Inventory(this);
         audioPlayer = new AudioPlayer();
         audioPlayer.playAudio("DungeonTrack2.wav");
@@ -94,7 +94,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void init() {
-        player = new EntityPlayer(370, 900, playerSpeed, this);
+        player = new EntityPlayer(365, 468, playerSpeed, this);
         EntityWormShooter worm = new EntityWormShooter(60, 60, this);
         handler.addEnt(player);
         EntityWormShooter worm1 = new EntityWormShooter(714, 475, this);

@@ -26,6 +26,7 @@ public class EntityPlayer extends Entity {
     Polysprite psd;
     Polysprite psda;
     Polysprite psa;
+    Polysprite psattack;
 
     boolean horizCollision;
     boolean vertCollision;
@@ -33,6 +34,8 @@ public class EntityPlayer extends Entity {
     public float maxHealth;
 
     public float[] sins;
+    boolean isAttacking;
+    int attackCounter;
 
     public JSONObject write(JSONObject obj) {
         JSONObject extra = super.write(obj);
@@ -61,9 +64,14 @@ public class EntityPlayer extends Entity {
 
     // TODO change how attacks work such that call a function from the weapon in the players hand, more universal
     public void meleeAttack() {
-        if(game.inventory.getMeleeSlot().stack != null && game.inventory.getMeleeSlot().stack.item instanceof ItemMelee) {
-            ((ItemMelee) game.inventory.getMeleeSlot().stack.item).onUse(game);
+        if(!isAttacking) {
+            if (game.inventory.getMeleeSlot().stack != null && game.inventory.getMeleeSlot().stack.item instanceof ItemMelee) {
+                ((ItemMelee) game.inventory.getMeleeSlot().stack.item).onUse(game);
+            }
+            isAttacking = true;
+            attackCounter = 0;
         }
+
     }
 
     public void specialAttack() {
@@ -86,6 +94,7 @@ public class EntityPlayer extends Entity {
         this.psd = new Polysprite("entities/playerDagger.png",4,8, width, height);
         this.psda = new Polysprite("entities/playerShadeCrystalDagger.png",4,8, width, height);
         this.psa = new Polysprite("entities/playerShadeCrystal.png",4,8, width, height);
+        this.psattack = new Polysprite("entities/PlayerAttack.png", 4, 8, 48, 32);
         this.hb = new Rectangle((int)x , (int)y + 16, 16, 16);
         updateImage();
         sins = new float[7];
@@ -118,6 +127,14 @@ public class EntityPlayer extends Entity {
             }
             updateImage();
             indexCounter = 0;
+        }
+        if(isAttacking) {
+            image = psattack.getCurImage(attackCounter, getRoughDirection(), lastDirection, true);
+            attackCounter++;
+            if(attackCounter == 4) {
+                isAttacking = false;
+                attackCounter = 0;
+            }
         }
         horizCollision = false;
         vertCollision = false;
@@ -263,11 +280,20 @@ public class EntityPlayer extends Entity {
 
     // TODO Change how this is done perhaps to save more memory and for ease of use.
     public void render(Graphics g) {
-        g.drawImage(image.getSubimage(0, 16, 16, 16), (int) x, (int) y + 16, null);
+        if(image.getWidth() == 16) {
+            g.drawImage(image.getSubimage(0, 16, 16, 16), (int) x, (int) y + 16, null);
+        } else {
+            g.drawImage(image.getSubimage(0, 16, 48, 16), (int) x - 16, (int) y + 16, null);
+        }
     }
 
     public void renderTop(Graphics g) {
-        g.drawImage(image.getSubimage(0, 0, 16, 16), (int) x, (int) y, null);
+        if(image.getWidth() == 16) {
+            g.drawImage(image.getSubimage(0, 0, 16, 16), (int) x, (int) y, null);
+        } else {
+            g.drawImage(image.getSubimage(0, 0, 48, 16), (int) x - 16, (int) y, null);
+        }
+
     }
 
     public float getPride() {
