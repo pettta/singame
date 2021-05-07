@@ -81,7 +81,7 @@ public class KeyHandler extends KeyAdapter {
             if(k == KeyEvent.VK_F) {
                 if(game.gameState == Game.State.Game) {
                     if(!game.dialogue.dialogue) {
-                        game.dialogue.talk("Whatever you do, don't go into the hole up north!! That'd be terrible!! Please don't do that!");
+                        game.dialogue.talk("Whatever you do, don't go into the hole down south!! That'd be terrible!! Please don't do that!");
                     } else {
                         game.dialogue.next();
                     }
