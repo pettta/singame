@@ -85,7 +85,7 @@ public class Teleporter {
             game.handler.addEnt(new EntityWormShooter(175, 705, game));
             game.handler.addEnt(new EntityWormShooter(352, 282, game));
             game.handler.addEnt(new EntityWormShooter(390, 157, game));
-            game.handler.addEnt(new EntityWormBoss(491, 205, game));
+            game.handler.addEnt(new EntityWormBoss(480, 64, game));
 
 
         } else {
@@ -94,6 +94,7 @@ public class Teleporter {
     }
 
     public void doTeleport() {
+        String lastMap = game.map.map;
         game.player.setX(xTo);
         System.out.println(xTo);
         game.player.setY(yTo);
@@ -102,7 +103,9 @@ public class Teleporter {
             game.map = new Map(game, map, tileset);
         }
         System.out.println(map);
-        updateEntities();
+        if(!lastMap.equals(game.map.map)) {
+            updateEntities();
+        }
 
 
     }

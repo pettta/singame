@@ -54,8 +54,8 @@ public class EntityPlayer extends Entity {
 
     public void doDeath() {
         health = maxHealth;
-        game.gameState = Game.State.Menu;
-        game.menu.state = Menu.MenuState.Main;
+        //game.gameState = Game.State.Menu;
+        //game.menu.state = Menu.MenuState.Main;
     }
 
 
