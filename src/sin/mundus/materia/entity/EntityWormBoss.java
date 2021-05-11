@@ -29,7 +29,7 @@ public class EntityWormBoss extends Entity {
 
     public EntityWormBoss(float x, float y, Game game) {
         super(x, y, 32, 64, EntityType.Enemy, game); // Kai said the worm would be 32x64 but not positive
-        this.health = 200;
+        this.health = 400;
         ps = new Polysprite("entities/wormBossIdle.png",8, 8, 32, 64); // Kai said there would be 9 images in the sprite sheet
         image = ps.getCurImage(0);
         hb = new Rectangle((int) x, (int) y + 6, width, height - 6);
@@ -109,7 +109,7 @@ public class EntityWormBoss extends Entity {
             counter = 0;
             slamming = false;
         }
-        else if(distance > 80 && distance < 120) {
+        else if(distance > 80 && distance < 140) {
             EntityWormBullet proj = new EntityWormBullet(getXMid(), getYMid(), game, rock);
             Vector vector = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid(), 2);
             proj.setVelX(vector.getHorizComp());
