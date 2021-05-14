@@ -228,6 +228,22 @@ public class Vector {
         }
     }
 
+    public static Direction getCardinalDirection(float horiz, float vert) {
+        if(Math.abs(horiz) < Math.abs(vert)) {
+            if(vert > 0) {
+                return Direction.S;
+            } else {
+                return Direction.N;
+            }
+        } else {
+            if(horiz > 0) {
+                return Direction.W;
+            } else {
+                return Direction.E;
+            }
+        }
+    }
+
     public static int xSignumFromDirection(Direction dir) {
         if(dir == Direction.N || dir == Direction.S) {
             return 0;

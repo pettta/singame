@@ -75,7 +75,7 @@ public class Game extends Canvas implements Runnable {
         r = new Random();
         prepareWindow();
         error = Lib.getImage("src/resources/items/error.png");
-        map = new Map(this,"testMap01.json", "tileset_old.png");
+        map = new Map(this,"testMap02.json", "tileset_world.png");
         inventory = new Inventory(this);
         audioPlayer = new AudioPlayer();
         audioPlayer.playAudio("DungeonTrack2.wav");
@@ -264,12 +264,12 @@ public class Game extends Canvas implements Runnable {
             int minY = (int) (player.getYMid() - HEIGHT / 2);
             int maxY = (int) (player.getYMid() + HEIGHT / 2);
             g2d.translate(-difX, -difY);
-                // TRANSLATION START
-                map.render(g, minX, maxX, minY, maxY);
-                handler.render(g, minX, maxX, minY, maxY);
-                handler.renderTop(g, minX, maxX, minY, maxY);
-                map.renderTop(g, minX, maxX, minY, maxY);
-                // TRANSLATION END
+            // TRANSLATION START
+            map.render(g, minX, maxX, minY, maxY);
+            handler.render(g, minX, maxX, minY, maxY);
+            handler.renderTop(g, minX, maxX, minY, maxY);
+            map.renderTop(g, minX, maxX, minY, maxY);
+            // TRANSLATION END
             g2d.translate(difX, difY);
             //Slot slot = new Slot(new ItemStack(null, 5), ItemType.Melee);
             g.setColor(Color.WHITE);

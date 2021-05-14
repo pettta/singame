@@ -2,6 +2,7 @@ package sin.mundus.materia.entity;
 
 import org.json.JSONObject;
 import sin.Game;
+import sin.lib.Coord;
 import sin.lib.Direction;
 import sin.lib.Lib;
 import sin.lib.Vector;
@@ -26,15 +27,24 @@ public class EntityWormBoss extends Entity {
     int pos = 0;
     boolean moving;
     int cycler;
+    int moveTimer;
+
+    int gunTicker;
+
+    BufferedImage bar;
+    BufferedImage bartop;
 
     public EntityWormBoss(float x, float y, Game game) {
-        super(x, y, 32, 64, EntityType.Enemy, game); // Kai said the worm would be 32x64 but not positive
-        this.health = 200;
+        super(x, y, 32, 64, EntityType.Boss, game); // Kai said the worm would be 32x64 but not positive
+        this.health = 2000;
         ps = new Polysprite("entities/wormBossIdle.png",8, 8, 32, 64); // Kai said there would be 9 images in the sprite sheet
+        eps = new Polysprite("entities/WormBossEmerge.png",7, 8, 32, 64); // Kai said there would be 9 images in the sprite sheet
+        sps = new Polysprite("entities/WormBossSubmerge.png",7, 8, 32, 64); // Kai said there would be 9 images in the sprite sheet
         image = ps.getCurImage(0);
         hb = new Rectangle((int) x, (int) y + 6, width, height - 6);
         slamming = false;
-        rock = Lib.getImage("src/resources/entities/rock.png");
+        rock = Lib.getImage("src/resources/entities/redRock.png");
+
         pos = 0;
         posx = new int[3];
         posy = new int[3];
@@ -42,9 +52,10 @@ public class EntityWormBoss extends Entity {
         posx[1] = 352;
         posx[2] = 608;
 
-        posy[0] = 64;
-        posy[1] = 240;
-        posy[2] = 240;
+        posy[0] = 66;
+        posy[1] = 242;
+        posy[2] = 242;
+        pos = 0;
     }
     public JSONObject write(JSONObject obj) {
         JSONObject extra = super.write(obj);
@@ -55,9 +66,10 @@ public class EntityWormBoss extends Entity {
 
     public void doMove() {
         Random random = new Random();
-        int loc = random.nextInt(3);
-        this.x = posx[loc];
-        this.y = posy[loc];
+        int r = random.nextInt(2);
+        pos = pos == 1 ? r == 0 ? 0 : 2 : pos == 2 ? r == 0 ? 0 : 1 : pos == 0 ? r == 0 ? 1 : 2 : 0;
+        this.x = posx[pos];
+        this.y = posy[pos];
     }
 
     public ISaveable read(JSONObject obj) {
@@ -83,6 +95,12 @@ public class EntityWormBoss extends Entity {
         Vector toPlayer = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid());
         Vector playerLoc = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid(), 30);
         float distance = toPlayer.getMagnitude();
+        if(distance < 400) {
+           game.hud.drawb1 = true;
+           game.hud.b1health = (int) health;
+        } else {
+            game.hud.drawb1 = false;
+        }
         if (distance < 60 || slamming) {
             counter++;
             slamming = true;
@@ -109,12 +127,16 @@ public class EntityWormBoss extends Entity {
             counter = 0;
             slamming = false;
         }
-        else if(distance > 80 && distance < 120) {
-            EntityWormBullet proj = new EntityWormBullet(getXMid(), getYMid(), game, rock);
-            Vector vector = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid(), 2);
-            proj.setVelX(vector.getHorizComp());
-            proj.setVelY(vector.getVertComp());
-            handler.addEnt(proj);
+        if(distance > 80 && distance < 500) {
+            if(gunTicker > 7) {
+                EntityWormBullet proj = new EntityWormBullet(getXMid(), getYMid() - 20, game, rock);
+                Vector vector = new Vector(getXMid(), getYMid() - 20, game.player.getXMid(), game.player.getYMid() - 20, 7);
+                proj.setVelX(vector.getHorizComp());
+                proj.setVelY(vector.getVertComp());
+                handler.addEnt(proj);
+                gunTicker = 0;
+            }
+            gunTicker++;
         }
         cycler = Lib.cycle(cycler, 0, 3);
         if(cycler == 2) {
@@ -125,10 +147,25 @@ public class EntityWormBoss extends Entity {
         if (health <= 0) {
             // This is where a death animation would go I think
             handler.delEnt(this);
+            game.hud.drawb1 = false;
         }
         Random random = new Random();
-        if(random.nextInt(1000) > 980) {
-            doMove();
+        if(random.nextInt(1000) > 980 && !moving) {
+            moving = true;
+            moveTimer = 0;
+        }
+        if(moving) {
+
+            if(moveTimer < 7) {
+                image = sps.getCurImage(moveTimer, getDirectionToPlayer(), Direction.S);
+            } else if(moveTimer == 7) {
+                doMove();
+            } else if(moveTimer > 7 && moveTimer < 15) {
+                image = eps.getCurImage(moveTimer - 8, getDirectionToPlayer(), Direction.S);
+            } else {
+                moving = false;
+            }
+            moveTimer++;
         }
 
     }
@@ -138,18 +175,16 @@ public class EntityWormBoss extends Entity {
         return vector.getDirection();
     }
 
+
     public void render(Graphics g) {
-        g.drawImage(image, (int) x, (int) y, null);
-    }
-    /*
-    public void render(Graphics g) {
-        g.drawImage(image.getSubimage(0, 6, 16, 16), (int) x, (int) y + 6, null);
+        g.drawImage(image.getSubimage(0, 32, 32, 32), (int) x, (int) y + 32, null);
     }
 
     public void renderTop(Graphics g) {
-        g.drawImage(image.getSubimage(0, 0, 16, 6), (int) x, (int) y, null);
+        g.drawImage(image.getSubimage(0, 0, 32, 32), (int) x, (int) y, null);
+
     }
-    */
+
 }
 
 

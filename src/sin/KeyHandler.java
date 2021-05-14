@@ -81,7 +81,7 @@ public class KeyHandler extends KeyAdapter {
             if(k == KeyEvent.VK_F) {
                 if(game.gameState == Game.State.Game) {
                     if(!game.dialogue.dialogue) {
-                        game.dialogue.talk("Whatever you do, don't go into the hole down south!! That'd be terrible!! Please don't do that!");
+                        game.player.doInteract();
                     } else {
                         game.dialogue.next();
                     }
@@ -99,7 +99,7 @@ public class KeyHandler extends KeyAdapter {
                 System.out.println(game.gameState);
             }
             if(game.gameState == Game.State.Game) {
-                if(k == KeyEvent.VK_F) {
+                if(k == KeyEvent.VK_Q) {
                     game.player.specialAttack();
                 }
             }

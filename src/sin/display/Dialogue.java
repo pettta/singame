@@ -2,6 +2,7 @@ package sin.display;
 
 import sin.lib.Lib;
 import sin.Game;
+import sin.mundus.materia.entity.Entity;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,6 +14,7 @@ public class Dialogue {
 
     public boolean dialogue;
     public boolean cycling;
+    Entity talker;
 
     public Game game;
     public BufferedImage box;
@@ -55,15 +57,14 @@ public class Dialogue {
     }
 
     // Don't have words longer than 30 characters for this please. :D
-    public void talk(String string) {
+    public void talk(Entity talker, String string) {
         String[] splitStr = string.split("\\s+");
-
+        this.talker = talker;
         String line = "";
         for(int i = 0; i < splitStr.length; i++) {
             String word = splitStr[i];
             String tmpLine = line;
             tmpLine += (tmpLine.equals("") ? "" : " ") + word;
-            System.out.println(tmpLine.length());
             if(tmpLine.length() > 30) {
                 lines.add(line);
                 line = word;
@@ -74,12 +75,7 @@ public class Dialogue {
             if(i == splitStr.length - 1) {
                 lines.add(line);
             }
-            System.out.println(i);
-            System.out.println(splitStr.length);
-            System.out.println(word + "___________________");
-        }
-        for (String a : lines) {
-            System.out.println(a);
+
         }
         dialogue = true;
         cycling = true;
@@ -91,6 +87,7 @@ public class Dialogue {
         secondIndex = 0;
         lines = new ArrayList<String>();
         dialogue = false;
+        talker.onInteract(1);
     }
 
     public void next() {

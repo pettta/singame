@@ -33,6 +33,9 @@ public class EntityPlayer extends Entity {
 
     public float maxHealth;
 
+    boolean frozen;
+    Direction frozendir;
+
     public float[] sins;
     boolean isAttacking;
     int attackCounter;
@@ -44,6 +47,17 @@ public class EntityPlayer extends Entity {
         extra.put("indexCounter", indexCounter);
         extra.put("lastDirection", lastDirection.value);
         return extra;
+    }
+
+    public void freeze() {
+        frozen = true;
+        Direction rd = getRoughDirection();
+        frozendir = rd != Direction.None ? rd : lastDirection != Direction.None ? lastDirection : Direction.S;
+
+    }
+
+    public void unfreeze() {
+        frozen = false;
     }
 
     public ISaveable read(JSONObject obj) {
@@ -61,6 +75,21 @@ public class EntityPlayer extends Entity {
         //game.menu.state = Menu.MenuState.Main;
     }
 
+    public void doInteract() {
+        for(int i = 0; i < handler.getList().size(); i++) {
+            Entity ent = handler.getList().get(i);
+
+            Direction rd = getRoughDirection();
+            Direction dir = rd != Direction.None ? rd : lastDirection != Direction.None ? lastDirection : Direction.S;
+            Rectangle thb = getBounds();
+            thb.x += 8 * Vector.xSignumFromDirection(dir);
+            thb.y += 8 * Vector.ySignumFromDirection(dir);
+            if(thb.intersects(ent.getBounds())) {
+                ent.onInteract(0);
+            }
+
+        }
+    }
 
     // TODO change how attacks work such that call a function from the weapon in the players hand, more universal
     public void meleeAttack() {
@@ -100,6 +129,7 @@ public class EntityPlayer extends Entity {
         sins = new float[7];
         maxHealth = 100;
         health = 100;
+        frozendir = Direction.S;
     }
 
     public void updatePos() {
@@ -108,7 +138,12 @@ public class EntityPlayer extends Entity {
     }
 
     public void tick() {
+
         doCollision();
+        if(frozen) {
+            velX = 0;
+            velY = 0;
+        }
         x += horizCollision ? 0 : velX;
         y += vertCollision ? 0 : velY;
         updatePos();
@@ -252,18 +287,20 @@ public class EntityPlayer extends Entity {
     }
 
     public void updateImage() {
+        Polysprite cur = ps;
         if(game.inventory.getMeleeSlot().stack == null && game.inventory.getArmorSlot().stack == null) {
-            image = ps.getCurImage(spriteIndex, getRoughDirection(), lastDirection);
+            cur = ps;
         }
         if(game.inventory.getMeleeSlot().stack != null && game.inventory.getArmorSlot().stack == null) {
-            image = psd.getCurImage(spriteIndex, getRoughDirection(), lastDirection);
+            cur = psd;
         }
         if(game.inventory.getMeleeSlot().stack == null && game.inventory.getArmorSlot().stack != null) {
-            image = psa.getCurImage(spriteIndex, getRoughDirection(), lastDirection);
+            cur = psa;
         }
-        if(game.inventory.getMeleeSlot().stack != null && game.inventory.getArmorSlot().stack != null) {
-            image = psda.getCurImage(spriteIndex, getRoughDirection(), lastDirection);
+        if (game.inventory.getMeleeSlot().stack != null && game.inventory.getArmorSlot().stack != null) {
+            cur = psda;
         }
+        image = cur.getCurImage(frozen ? 0 : spriteIndex, frozen ? frozendir : getRoughDirection(), frozen ? frozendir : lastDirection );
     }
 
     public void updateLastDirection() {

@@ -23,6 +23,13 @@ public class Entity extends Materia implements ISaveable {
         this.handler = game.getHandler();
     }
 
+    // 1: generic start
+    // 2: generic end
+    // rest: dependent on entity
+    public void onInteract(int num) {
+
+    }
+
     public void tick() {
         x += velX;
         y += velY;

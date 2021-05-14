@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import sin.Game;
 import sin.lib.Lib;
 import sin.mundus.map.Map;
+import sin.mundus.map.Teleporter;
 
 public class SaveHandler {
 
@@ -16,6 +17,7 @@ public class SaveHandler {
         game.player.setY(obj.getFloat("y"));
         Map map = new Map(game, obj.getString("map"), obj.getString("tileset"));
         game.map = map;
+        Teleporter.updateEntities(game.map);
     }
 
     public static void save(Game game, String save) {
