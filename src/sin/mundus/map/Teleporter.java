@@ -2,6 +2,7 @@ package sin.mundus.map;
 
 import sin.Game;
 import sin.mundus.materia.entity.Entity;
+import sin.mundus.materia.entity.EntityNPC;
 import sin.mundus.materia.entity.EntityWormShooter;
 import sin.mundus.materia.entity.EntityWormBoss;
 
@@ -88,7 +89,11 @@ public class Teleporter {
             game.handler.addEnt(new EntityWormBoss(480, 66, game));
 
 
-        } else {
+        }
+        if(map.equals("house.json")){
+            game.handler.addEnt(new EntityNPC(184, 140, 1, game));
+
+        }else {
             System.out.println("AHHHHH");
         }
     }
