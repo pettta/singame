@@ -74,6 +74,7 @@ public class KeyHandler extends KeyAdapter {
             if(k == KeyEvent.VK_E) {
                 if(game.gameState == Game.State.Game) {
                     game.gameState = Game.State.Inventory;
+                    game.inventory.deselect();
                 } else if(game.gameState == Game.State.Inventory) {
                     game.gameState = Game.State.Game;
                 }

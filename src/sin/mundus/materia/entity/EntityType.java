@@ -8,5 +8,6 @@ public enum EntityType {
     NPC,
     Rock,
     Boss,
-    Item;
+    Item,
+    Chest;
 }

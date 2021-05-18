@@ -4,12 +4,10 @@ import sin.display.Dialogue;
 import sin.display.HUD;
 import sin.display.Inventory;
 import sin.display.Menu;
+import sin.item.Stack;
 import sin.lib.Coord;
 import sin.lib.Lib;
-import sin.mundus.materia.entity.EntityNPC;
-import sin.mundus.materia.entity.EntityPlayer;
-import sin.mundus.materia.entity.EntityWormBoss;
-import sin.mundus.materia.entity.EntityWormShooter;
+import sin.mundus.materia.entity.*;
 import sin.mundus.map.Map;
 import sin.mundus.materia.entity.EntityWormBoss;
 import sin.sound.AudioPlayer;
@@ -95,6 +93,12 @@ public class Game extends Canvas implements Runnable {
 
     public void init() {
         player = new EntityPlayer(365, 468, playerSpeed, this);
+        EntityStack stack = new EntityStack(370, 480, this, new Stack(Registry.dagger));
+        EntityStack stack2 = new EntityStack(370, 530, this, new Stack(Registry.wormHide, 200));
+        EntityChest chest = new EntityChest(400, 530, this, new Stack(Registry.azulShard, 10));
+        handler.addEnt(stack);
+        handler.addEnt(stack2);
+        handler.addEnt(chest);
         EntityWormShooter worm = new EntityWormShooter(60, 60, this);
         handler.addEnt(player);
         EntityWormShooter worm1 = new EntityWormShooter(714, 475, this);
@@ -271,6 +275,7 @@ public class Game extends Canvas implements Runnable {
             map.renderTop(g, minX, maxX, minY, maxY);
             // TRANSLATION END
             g2d.translate(difX, difY);
+            handler.renderHud(g);
             //Slot slot = new Slot(new ItemStack(null, 5), ItemType.Melee);
             g.setColor(Color.WHITE);
             g.drawString("03", 10, 0);

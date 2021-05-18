@@ -12,7 +12,7 @@ public class ItemMelee extends ItemEquipment {
     public int damage, swingDelay, range;
 
     public ItemMelee(String name, int damage, int swingDelay, int range) {
-        super(name, 1);
+        super(name, 1, ItemType.Melee);
         this.damage = damage;
         this.swingDelay = swingDelay;
         this.range = range;

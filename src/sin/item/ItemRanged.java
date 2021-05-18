@@ -9,7 +9,7 @@ import sin.mundus.materia.entity.EntityRangedShot;
 public class ItemRanged extends ItemEquipment {
 
     public ItemRanged(String name) {
-        super(name, 1);
+        super(name, 1, ItemType.Ranged);
     }
 
     public void onEquip() {

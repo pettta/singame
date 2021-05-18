@@ -10,7 +10,7 @@ import sin.mundus.materia.entity.EntityPlayer;
 public class ItemSpecial extends ItemEquipment {
 
     public ItemSpecial(String name, int maxStack) {
-        super(name, maxStack);
+        super(name, maxStack, ItemType.Special);
     }
 
     public void onEquip() {

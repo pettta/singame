@@ -33,6 +33,13 @@ public class Handler {
         }
     }
 
+    public void renderHud(Graphics g) {
+        for(int i = 0; i < list.size(); i++) {
+            Materia mat = list.get(i);
+            mat.renderHUD(g);
+        }
+    }
+
     public void addEnt(Entity ent) {
         this.list.add(ent);
     }

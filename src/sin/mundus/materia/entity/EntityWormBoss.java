@@ -20,6 +20,7 @@ public class EntityWormBoss extends Entity {
     Polysprite ps;
     Polysprite eps;
     Polysprite sps;
+    Polysprite attack;
     public BufferedImage rock;
 
     public int[] posx;
@@ -40,6 +41,7 @@ public class EntityWormBoss extends Entity {
         ps = new Polysprite("entities/wormBossIdle.png",8, 8, 32, 64); // Kai said there would be 9 images in the sprite sheet
         eps = new Polysprite("entities/WormBossEmerge.png",7, 8, 32, 64); // Kai said there would be 9 images in the sprite sheet
         sps = new Polysprite("entities/WormBossSubmerge.png",7, 8, 32, 64); // Kai said there would be 9 images in the sprite sheet
+        attack = new Polysprite("entities/wormbossworking.png", 8, 4, 176, 160);
         image = ps.getCurImage(0);
         hb = new Rectangle((int) x, (int) y + 6, width, height - 6);
         slamming = false;
@@ -177,12 +179,19 @@ public class EntityWormBoss extends Entity {
 
 
     public void render(Graphics g) {
-        g.drawImage(image.getSubimage(0, 32, 32, 32), (int) x, (int) y + 32, null);
+        if(image.getWidth() == 32) {
+            g.drawImage(image.getSubimage(0, 32, 32, 32), (int) x, (int) y + 32, null);
+        } else {
+
+        }
     }
 
     public void renderTop(Graphics g) {
-        g.drawImage(image.getSubimage(0, 0, 32, 32), (int) x, (int) y, null);
+        if(image.getWidth() == 32) {
+            g.drawImage(image.getSubimage(0, 0, 32, 32), (int) x, (int) y, null);
+        } else {
 
+        }
     }
 
 }

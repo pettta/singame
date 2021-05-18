@@ -41,8 +41,8 @@ public class EntityNPC extends Entity {
     }
 
 
-    public void onInteract(int start) {
-        if(start == 0) {
+    public void onInteract(int id) {
+        if(id == 0) {
             if (!game.dialogue.dialogue) {
                 notbusy = false;
                 game.dialogue.talk(this, "Whatever you do, don't go into the hole down south!! That'd be terrible!! Please don't do that!");

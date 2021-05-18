@@ -15,10 +15,10 @@ public class EntityCupidShooter extends Entity {
     Polysprite ps;
 
     public EntityCupidShooter(float x, float y, Game game) {
-        super(x, y, 16, 22, EntityType.Enemy, game);
+        super(x, y, 32, 22, EntityType.Enemy, game);
         this.speed = 10;
         this.health = 100;
-        ps = new Polysprite("entities/worm.png", 15, 1, width, height);
+        ps = new Polysprite("entities/Cupididle.png", 2, 4, 32, 32);
         image = ps.getCurImage(0);
         hb = new Rectangle((int) x, (int) y + 6, width, height - 6);
     }

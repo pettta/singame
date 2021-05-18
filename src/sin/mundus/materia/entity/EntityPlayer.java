@@ -212,7 +212,7 @@ public class EntityPlayer extends Entity {
         // Entities
         for(int i = 0; i < handler.getList().size(); i++) {
             Entity ent = handler.getList().get(i);
-            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC) {
+            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC || ent.getType() == EntityType.Chest) {
                 if(hb.intersects(ent.hb)) {
                     hb.x -= velX;
                     while(!hb.intersects(ent.hb)) {
@@ -244,7 +244,7 @@ public class EntityPlayer extends Entity {
         // Entities
         for(int i = 0; i < handler.getList().size(); i++) {
             Entity ent = handler.getList().get(i);
-            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC) {
+            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC || ent.getType() == EntityType.Chest) {
                 if(hb.intersects(ent.hb)) {
                     hb.y -= velY;
                     while(!hb.intersects(ent.hb)) {

@@ -5,5 +5,5 @@ public enum ItemType {
     Ranged,
     Armor,
     Special,
-    Misc;
+    Resource;
 }

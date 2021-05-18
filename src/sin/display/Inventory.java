@@ -1,6 +1,7 @@
 package sin.display;
 
 import sin.Game;
+import sin.item.ItemType;
 import sin.item.Stack;
 import sin.Registry;
 import sin.item.Slot;
@@ -26,7 +27,6 @@ public class Inventory {
     ArrayList<Slot> armorySlots;
 
     ArrayList<ArrayList<Stack>> armoryStacks;
-
 
     public int armoryIndex;
 
@@ -115,7 +115,6 @@ public class Inventory {
         armoryStacks.get(0).add(new Stack(Registry.grassBlade));
         armoryStacks.get(0).add(new Stack(Registry.waterSword));
         armoryStacks.get(0).add(new Stack(Registry.fireSword));
-        armoryStacks.get(0).add(new Stack(Registry.dagger));
 
         armoryStacks.get(1).add(new Stack(Registry.oldSlingshot));
         armoryStacks.get(1).add(new Stack(Registry.shoddyBow));
@@ -269,28 +268,93 @@ public class Inventory {
         return armoryStacks.get(3);
     }
 
-    /*
-    public void addStackToSlot(Slot slot, Stack stack) {
-        if(slot.stack == null) {
-            slot.stack = stack;
-        } else {
-            slot.stack.count += stack.count;
+    public void deselect() {
+        if(selected != null) {
+            selected.selected = false;
+            selected = null;
         }
     }
-    public void addStack(Stack stack) {
-        Slot firstMatch = null;
-        for(int i = 0; i < slots.size(); i++) {
-            Slot curSlot = slots.get(i);
-            if(curSlot.stack == null || curSlot.stack.item == stack.item) {
-                if(curSlot.stack.item.maxStack >= stack.count + curSlot.stack.count)
-                firstMatch = curSlot;
-                break;
+
+
+    public Stack addStack(Stack stack) {
+        ItemType type = stack.item.type;
+        int count = stack.count;
+        ArrayList<Stack> rightStacks = null;
+        if(type == ItemType.Melee) {
+            rightStacks = getMeleeStacks();
+        } else if(type == ItemType.Ranged) {
+            rightStacks = getRangedStacks();
+        } else if(type == ItemType.Armor) {
+            rightStacks = getArmorStacks();
+        } else if(type == ItemType.Special) {
+            rightStacks = getSpecialStacks();
+        }
+
+        if(rightStacks == null) {
+            for(int i = 0; i < resourceSlots.size(); i++) {
+                Stack slotStack = resourceSlots.get(i).stack;
+                if (slotStack == null) {
+                    int max = stack.item.maxStack;
+                    if(stack.count > max) {
+                        resourceSlots.get(i).stack = new Stack(stack.item, max);
+                        stack.count -= max;
+                    } else {
+                        resourceSlots.get(i).stack = stack;
+                        return null;
+                    }
+                } else if(slotStack.item == stack.item) {
+                    int max = stack.item.maxStack;
+                    if(slotStack.count != max) {
+                        int room = max - slotStack.count;
+                        int moved = room >= stack.count ? stack.count : room;
+                        stack.count -= moved;
+                        slotStack.count += moved;
+                    }
+                }
+                if(stack.count == 0) {
+                    return null;
+                }
+
             }
+            return stack;
+        } else {
+            for(int i = 0; i < rightStacks.size(); i++) {
+                Stack slotStack = rightStacks.get(i);
+                if(slotStack.item == stack.item) {
+                    int max = stack.item.maxStack;
+                    if(slotStack.count != max) {
+                        int room = max - slotStack.count;
+                        int moved = room >= stack.count ? stack.count : room;
+                        stack.count -= moved;
+                        slotStack.count += moved;
+                    }
+                }
+                if(stack.count == 0) {
+                    return null;
+                }
+
+            }
+            int max = stack.item.maxStack;
+            if(stack.count > max) {
+                rightStacks.add(new Stack(stack.item, max));
+                stack.count -= max;
+            } else {
+                rightStacks.add(stack);
+                return null;
+            }
+            if(stack.count == 0) {
+                return null;
+            } else {
+                return stack;
+            }
+
         }
-        if(firstMatch != null) {
-            addStackToSlot(firstMatch, stack);
-        }
+
     }
-    */
+
+
+
+
+
 
 }
