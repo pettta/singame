@@ -16,7 +16,9 @@ import java.util.Random;
 public class EntityWormBoss extends Entity {
     private int counter;
     private Boolean slamming;
+    Direction slamDirection;
     private int spriteIndex;
+    private int slamDelay;
     Polysprite ps;
     Polysprite eps;
     Polysprite sps;
@@ -29,7 +31,7 @@ public class EntityWormBoss extends Entity {
     boolean moving;
     int cycler;
     int moveTimer;
-
+    int moveDelay;
     int gunTicker;
 
     BufferedImage bar;
@@ -67,11 +69,14 @@ public class EntityWormBoss extends Entity {
     }
 
     public void doMove() {
-        Random random = new Random();
-        int r = random.nextInt(2);
-        pos = pos == 1 ? r == 0 ? 0 : 2 : pos == 2 ? r == 0 ? 0 : 1 : pos == 0 ? r == 0 ? 1 : 2 : 0;
-        this.x = posx[pos];
-        this.y = posy[pos];
+        if(!slamming) {
+            Random random = new Random();
+            int r = random.nextInt(2);
+            pos = pos == 1 ? r == 0 ? 0 : 2 : pos == 2 ? r == 0 ? 0 : 1 : pos == 0 ? r == 0 ? 1 : 2 : 0;
+            this.x = posx[pos];
+            this.y = posy[pos];
+            moveDelay = 40;
+        }
     }
 
     public ISaveable read(JSONObject obj) {
@@ -103,33 +108,52 @@ public class EntityWormBoss extends Entity {
         } else {
             game.hud.drawb1 = false;
         }
-        if (distance < 60 || slamming) {
+        slamDelay--;
+        moveDelay--;
+        if ((distance < 60 || slamming) && slamDelay < 0 && !moving) {
             counter++;
-            slamming = true;
+            if(!slamming) {
+                velX = playerLoc.getHorizComp();
+                velY = playerLoc.getVertComp();
+                slamDirection = Vector.getCardinalDirectionMirrored(velX, velY);
+                image = attack.getCurImage(0, slamDirection, slamDirection);
+                slamming = true;
+            }
         }
-        if (counter == 30){
-            velX = playerLoc.getHorizComp();
-            velY = playerLoc.getVertComp();
-            x += velX;
-            y += velY;
-            hb.x = (int) x;
-            hb.y = (int) y;
+        if(slamming && counter < 20) {
+            image = attack.getCurImage(counter < 7 ? 0 : 1, slamDirection, slamDirection);
         }
-        else if ( counter == 50) {
-            velX *= -1;
-            velY *= -1;
-            x += velX;
-            y += velY;
-            hb.x = (int) x;
-            hb.y = (int) y;
+        if (counter >= 20 && counter < 30){
+            image = attack.getCurImage(counter < 21 ? 2 : 3, slamDirection, slamDirection);
+            if(counter > 26 && counter < 35) {
+                Rectangle slambox = null;
+                if(slamDirection == Direction.W) {
+                    slambox = new Rectangle((int) x + 16, (int) y + 32, 80, 24);
+                }
+                if(slamDirection == Direction.E) {
+                    slambox = new Rectangle((int) x + 16 - 80, (int) y + 32, 80, 24);
+                }
+                if(slamDirection == Direction.N) {
+                    slambox = new Rectangle((int) x, (int) y - 32, 32, 80);
+                }
+                if(slamDirection == Direction.S) {
+                    slambox = new Rectangle((int) x, (int) y + 64, 32, 80);
+                }
+                if(slambox.intersects(game.player.getBounds())) {
+                    game.player.health -= 10;
+                }
+            }
         }
-        else if (counter > 70) {
-            velX = 0;
-            velY = 0;
-            counter = 0;
+        if(counter >= 30 && counter < 35) {
+            image = attack.getCurImage(counter <= 31 ? 4 : counter <= 32 ? 5 : counter <= 33 ? 6 : 7, slamDirection, slamDirection);
+        }
+        if(counter > 40) {
             slamming = false;
+            counter = 0;
+            slamDelay = 40;
         }
-        if(distance > 80 && distance < 500) {
+
+        if(distance > 60 && distance < 500) {
             if(gunTicker > 7) {
                 EntityWormBullet proj = new EntityWormBullet(getXMid(), getYMid() - 20, game, rock);
                 Vector vector = new Vector(getXMid(), getYMid() - 20, game.player.getXMid(), game.player.getYMid() - 20, 7);
@@ -144,7 +168,9 @@ public class EntityWormBoss extends Entity {
         if(cycler == 2) {
             spriteIndex = Lib.cycle(spriteIndex, 0, 7);
         }
-        image = ps.getCurImage(spriteIndex, getDirectionToPlayer(), Direction.S);
+        if(!slamming) {
+            image = ps.getCurImage(spriteIndex, getDirectionToPlayer(), Direction.S);
+        }
         doDamage();
         if (health <= 0) {
             // This is where a death animation would go I think
@@ -152,7 +178,7 @@ public class EntityWormBoss extends Entity {
             game.hud.drawb1 = false;
         }
         Random random = new Random();
-        if(random.nextInt(1000) > 980 && !moving) {
+        if(random.nextInt(1000) > 980 && !moving && !slamming && moveDelay < 0) {
             moving = true;
             moveTimer = 0;
         }
@@ -190,7 +216,7 @@ public class EntityWormBoss extends Entity {
         if(image.getWidth() == 32) {
             g.drawImage(image.getSubimage(0, 0, 32, 32), (int) x, (int) y, null);
         } else {
-
+            g.drawImage(image, (int) x - 80, (int) y - 32, null);
         }
     }
 

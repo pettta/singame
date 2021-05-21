@@ -19,7 +19,7 @@ import java.util.Random;
 
 public class Game extends Canvas implements Runnable {
 
-    public static final boolean printFPS = false;
+    public static final boolean printFPS = true;
 
     public static final int WIDTH = 320, HEIGHT = 240;
     public static final float playerSpeed = 7;
@@ -96,6 +96,10 @@ public class Game extends Canvas implements Runnable {
         EntityStack stack = new EntityStack(370, 480, this, new Stack(Registry.dagger));
         EntityStack stack2 = new EntityStack(370, 530, this, new Stack(Registry.wormHide, 200));
         EntityChest chest = new EntityChest(400, 530, this, new Stack(Registry.azulShard, 10));
+        EntityRock rock = new EntityRock(400, 600, this);
+        EntityCupidShooter cupid = new EntityCupidShooter(400, 680, this);
+        handler.addEnt(cupid);
+        handler.addEnt(rock);
         handler.addEnt(stack);
         handler.addEnt(stack2);
         handler.addEnt(chest);

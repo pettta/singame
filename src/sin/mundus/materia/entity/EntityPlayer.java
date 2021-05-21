@@ -7,6 +7,7 @@ import sin.display.Menu;
 import sin.item.ItemMelee;
 import sin.item.ItemRanged;
 import sin.item.ItemSpecial;
+import sin.lib.Coord;
 import sin.lib.Direction;
 import sin.lib.Lib;
 import sin.lib.Vector;
@@ -16,6 +17,7 @@ import sin.mundus.map.Teleporter;
 import sin.save.ISaveable;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 public class EntityPlayer extends Entity {
@@ -27,6 +29,10 @@ public class EntityPlayer extends Entity {
     Polysprite psda;
     Polysprite psa;
     Polysprite psattack;
+
+    int attackDelay;
+
+    int displayRanged;
 
     boolean horizCollision;
     boolean vertCollision;
@@ -93,12 +99,15 @@ public class EntityPlayer extends Entity {
 
     // TODO change how attacks work such that call a function from the weapon in the players hand, more universal
     public void meleeAttack() {
-        if(!isAttacking) {
-            if (game.inventory.getMeleeSlot().stack != null && game.inventory.getMeleeSlot().stack.item instanceof ItemMelee) {
-                ((ItemMelee) game.inventory.getMeleeSlot().stack.item).onUse(game);
+        if(attackDelay < 0) {
+            if (!isAttacking) {
+                if (game.inventory.getMeleeSlot().stack != null && game.inventory.getMeleeSlot().stack.item instanceof ItemMelee) {
+                    ((ItemMelee) game.inventory.getMeleeSlot().stack.item).onUse(game);
+                }
+                isAttacking = true;
+                attackCounter = 0;
             }
-            isAttacking = true;
-            attackCounter = 0;
+            attackDelay = 10;
         }
 
     }
@@ -110,8 +119,12 @@ public class EntityPlayer extends Entity {
     }
 
     public void rangedAttack(int x, int y) {
-        if(game.inventory.getRangedSlot().stack != null && game.inventory.getRangedSlot().stack.item instanceof ItemRanged) {
-            ((ItemRanged) game.inventory.getRangedSlot().stack.item).onUse(game, x, y);
+        if(attackDelay < 0) {
+            if (game.inventory.getRangedSlot().stack != null && game.inventory.getRangedSlot().stack.item instanceof ItemRanged) {
+                ((ItemRanged) game.inventory.getRangedSlot().stack.item).onUse(game, x, y);
+            }
+            attackDelay = 10;
+            displayRanged = 30;
         }
     }
 
@@ -130,6 +143,7 @@ public class EntityPlayer extends Entity {
         maxHealth = 100;
         health = 100;
         frozendir = Direction.S;
+        isAttacking = false;
     }
 
     public void updatePos() {
@@ -138,7 +152,8 @@ public class EntityPlayer extends Entity {
     }
 
     public void tick() {
-
+        attackDelay--;
+        displayRanged--;
         doCollision();
         if(frozen) {
             velX = 0;
@@ -163,7 +178,7 @@ public class EntityPlayer extends Entity {
             updateImage();
             indexCounter = 0;
         }
-        if(isAttacking) {
+        if(isAttacking && game.inventory.getMeleeSlot().stack != null) {
             image = psattack.getCurImage(attackCounter, getRoughDirection(), lastDirection, true);
             attackCounter++;
             if(attackCounter == 4) {
@@ -212,7 +227,7 @@ public class EntityPlayer extends Entity {
         // Entities
         for(int i = 0; i < handler.getList().size(); i++) {
             Entity ent = handler.getList().get(i);
-            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC || ent.getType() == EntityType.Chest) {
+            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC || ent.getType() == EntityType.Chest || ent.getType() == EntityType.Rock) {
                 if(hb.intersects(ent.hb)) {
                     hb.x -= velX;
                     while(!hb.intersects(ent.hb)) {
@@ -244,7 +259,7 @@ public class EntityPlayer extends Entity {
         // Entities
         for(int i = 0; i < handler.getList().size(); i++) {
             Entity ent = handler.getList().get(i);
-            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC || ent.getType() == EntityType.Chest) {
+            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC || ent.getType() == EntityType.Chest || ent.getType() == EntityType.Rock) {
                 if(hb.intersects(ent.hb)) {
                     hb.y -= velY;
                     while(!hb.intersects(ent.hb)) {
@@ -325,11 +340,22 @@ public class EntityPlayer extends Entity {
     }
 
     public void renderTop(Graphics g) {
+        if(game.inventory.getRangedSlot().stack != null && displayRanged > 0 && game.gameState == Game.State.Game) {
+            Graphics2D g2d = (Graphics2D) g;
+            AffineTransform old = g2d.getTransform();
+            Point point = MouseInfo.getPointerInfo().getLocation();
+            Coord coord = game.getMapPos(point.x, point.y);
+            Vector vector = new Vector(getXMid(), getYMid(), coord.x, coord.y);
+            g2d.rotate(vector != null ? vector.getAngle() : 0, getXMid(), getYMid());
+            g.drawImage(game.inventory.getRangedSlot().stack.item.image, (int) x + 15, (int) y + 8, null);
+            g2d.setTransform(old);
+        }
         if(image.getWidth() == 16) {
             g.drawImage(image.getSubimage(0, 0, 16, 16), (int) x, (int) y, null);
         } else {
             g.drawImage(image.getSubimage(0, 0, 48, 16), (int) x - 16, (int) y, null);
         }
+
 
     }
 

@@ -50,4 +50,8 @@ public class Polysprite {
         return images[0][index];
     }
 
+    public BufferedImage getCurImage(int index, Direction direction) {
+        return images[direction != Direction.None ? direction.value : Direction.S.value][index];
+    }
+
 }
