@@ -110,6 +110,7 @@ public class Teleporter {
         System.out.println(map);
         if(!lastMap.equals(game.map.map)) {
             updateEntities(game.map);
+            game.audioPlayer.playAudio("DungeonTrack3.wav");
         }
 
 
