@@ -33,7 +33,7 @@ public class AudioPlayer {
     public void playOnce(String loc) {
         try {
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src/resources/music/" + loc));
-            clip = AudioSystem.getClip();
+            Clip clip = AudioSystem.getClip();
             clip.open(inputStream);
         } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
             System.out.println("Error loading music.");
