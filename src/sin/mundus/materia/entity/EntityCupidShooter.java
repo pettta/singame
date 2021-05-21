@@ -135,18 +135,26 @@ public class EntityCupidShooter extends Entity {
         doCollision();
         updateCounter--;
 
+        Vector toPlayer = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid());
+        float distance = toPlayer.getMagnitude();
+
         if(updateCounter < 0) {
-            velX = game.player.velX * 2;
-            velY = game.player.velY * 2;
+            velX = game.player.velX * 5;
+            velY = game.player.velY * 5;
+            if (distance < 50){
+                velX += toPlayer.getHorizComp() * 1000;
+                velY += toPlayer.getVertComp() * 1000;
+            }
             updateCounter = 5;
+
+
         }
 
         x += horizCollision ? 0 : velX;
         y += vertCollision ? 0 : velY;
-        Vector toPlayer = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid());
-        float distance = toPlayer.getMagnitude();
+
         if(counter < 0 && distance < 125) {
-            if(counter < -10) {
+            if (counter < -10) {
                 EntityRangedShot proj = new EntityRangedShot(getXMid(), getYMid(), game, 0, EntityType.Player);
                 Vector vector = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid(), speed);
                 proj.setVelX(vector.getHorizComp());
@@ -154,7 +162,7 @@ public class EntityCupidShooter extends Entity {
                 handler.addEnt(proj);
                 counter = 60;
             } else {
-                image = psa.getCurImage((counter * -1 - 1)/2, Vector.getCardinalDirection(toPlayer.getHorizComp(), toPlayer.getVertComp()));
+                image = psa.getCurImage((counter * -1 - 1) / 2, Vector.getCardinalDirection(toPlayer.getHorizComp(), toPlayer.getVertComp()));
             }
         }
         spriteIndex = Lib.cycle(spriteIndex, 0, 19);
