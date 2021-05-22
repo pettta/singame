@@ -4,8 +4,8 @@ import sin.Game;
 
 public class ItemEquipment extends Item {
 
-    public ItemEquipment(String name, int maxStack) {
-        super(name, 1);
+    public ItemEquipment(String name, int maxStack, ItemType type) {
+        super(name, 1, type);
     }
 
     public void onEquip() {

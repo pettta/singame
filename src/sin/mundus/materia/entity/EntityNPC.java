@@ -24,6 +24,10 @@ public class EntityNPC extends Entity {
     int counter;
     public Direction lastDirection;
     Polysprite ps;
+    int busyticker;
+
+
+    boolean notbusy;
 
     boolean horizCollision;
     boolean vertCollision;
@@ -34,6 +38,24 @@ public class EntityNPC extends Entity {
         extra.put("indexCounter", indexCounter);
         extra.put("lastDirection", lastDirection.value);
         return extra;
+    }
+
+
+    public void onInteract(int id) {
+        if(id == 0) {
+            if (!game.dialogue.dialogue) {
+                notbusy = false;
+                game.dialogue.talk(this, "Whatever you do, don't go into the hole down south!! That'd be terrible!! Please don't do that!");
+                velX = 0;
+                velY = 0;
+                lastDirection = Vector.getCardinalDirection(game.player.getXMid() - getXMid(), game.player.getYMid() - getYMid());
+                updateImage();
+                game.player.freeze();
+            }
+        } else {
+            notbusy = true;
+            game.player.unfreeze();
+        }
     }
 
     public ISaveable read(JSONObject obj) {
@@ -52,6 +74,7 @@ public class EntityNPC extends Entity {
         this.hb = new Rectangle((int)x , (int)y + 16, 16, 16);
         updateImage();
         health = 100;
+        notbusy = true;
     }
 
     public void updatePos() {
@@ -61,20 +84,22 @@ public class EntityNPC extends Entity {
 
     // Returns number between 0-9: int nxt = ran.nextInt(10);
     public void randomMovement() {
-        counter++;
-        if (counter >= 20) {
-            Random r = new Random();
-            int r1 = r.nextInt(2) == 0 ? 1 : -1;
-            int r2 = r.nextInt(2);
-            if (r2 == 0) {
-                velX = r1 * speed;
-                velY = 0;
-            } else {
-                velY = r1 * speed;
-                velX = 0;
+        if(notbusy) {
+            counter++;
+            if (counter >= 20) {
+                Random r = new Random();
+                int r1 = r.nextInt(2) == 0 ? 1 : -1;
+                int r2 = r.nextInt(2);
+                if (r2 == 0) {
+                    velX = r1 * speed;
+                    velY = 0;
+                } else {
+                    velY = r1 * speed;
+                    velX = 0;
+                }
+                updateImage();
+                counter = 0;
             }
-            updateImage();
-            counter = 0;
         }
     }
 

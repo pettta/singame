@@ -26,6 +26,10 @@ public abstract class Materia {
 
     }
 
+    public void renderHUD(Graphics g) {
+
+    }
+
     public void setX(float x) {
         this.x = x;
         this.hb.x = (int) x;

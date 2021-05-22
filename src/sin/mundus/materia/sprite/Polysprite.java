@@ -40,8 +40,18 @@ public class Polysprite {
         return images[direction != Direction.None ? direction.value : lastDirection != Direction.None ? lastDirection.value : Direction.S.value][direction != Direction.None ? index : 0];
     }
 
+    // TODO make this better
+    public BufferedImage getCurImage(int index, Direction direction, Direction lastDirection, boolean arbitrary) {
+        return images[direction != Direction.None ? direction.value : lastDirection != Direction.None ? lastDirection.value : Direction.S.value][index];
+    }
+
+
     public BufferedImage getCurImage(int index) {
         return images[0][index];
+    }
+
+    public BufferedImage getCurImage(int index, Direction direction) {
+        return images[direction != Direction.None ? direction.value : Direction.S.value][index];
     }
 
 }

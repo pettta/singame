@@ -40,6 +40,9 @@ public class EntityBomb extends Entity {
             if(ent.getType() == EntityType.Enemy && ent.getBounds().intersects(getBounds())) {
                 life = 20;
             }
+            if(ent.getType() == EntityType.Rock && ent.getBounds().intersects(getBounds())) {
+                life = 20;
+            }
         }
     }
 
@@ -63,7 +66,9 @@ public class EntityBomb extends Entity {
                    Entity ent = handler.getList().get(i);
                    if(hb.intersects(ent.getBounds())) {
                        ent.health -= 200;
-
+                       if(ent.type == EntityType.Rock) {
+                           ent.onInteract(4);
+                       }
                    }
                }
                handler.delEnt(this);

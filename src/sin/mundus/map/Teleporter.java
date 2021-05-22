@@ -2,6 +2,7 @@ package sin.mundus.map;
 
 import sin.Game;
 import sin.mundus.materia.entity.Entity;
+import sin.mundus.materia.entity.EntityNPC;
 import sin.mundus.materia.entity.EntityWormShooter;
 import sin.mundus.materia.entity.EntityWormBoss;
 
@@ -53,7 +54,7 @@ public class Teleporter {
         return height;
     }
 
-    public void removeAllButPlayer() {
+    public static void removeAllButPlayer(Game game) {
         for(int i = 0; i < game.handler.getList().size(); i++) {
             Entity ent = game.handler.getList().get(i);
             if(ent != game.player) {
@@ -62,10 +63,11 @@ public class Teleporter {
         }
     }
 
-    public void updateEntities() {
+    public static void updateEntities(Map map) {
         System.out.println("AHJHHHHHHHHH");
-        removeAllButPlayer();
-        if(map.equals("testMap01.json")) {
+        removeAllButPlayer(map.game);
+        Game game = map.game;
+        if(map.map.equals("testMap01.json")) {
             game.handler.addEnt(new EntityWormShooter(493, 709, game));
             game.handler.addEnt(new EntityWormShooter(386, 595, game));
             game.handler.addEnt(new EntityWormShooter(160, 583, game));
@@ -74,7 +76,7 @@ public class Teleporter {
             game.handler.addEnt(new EntityWormShooter(291, 299, game));
 
         }
-        if(map.equals("dungeon1.json")) {
+        if(map.map.equals("dungeon1.json")) {
             System.out.println("AHHH");
             game.handler.addEnt(new EntityWormShooter(504, 1205, game));
             game.handler.addEnt(new EntityWormShooter(662, 1209, game));
@@ -83,19 +85,21 @@ public class Teleporter {
             game.handler.addEnt(new EntityWormShooter(222, 1279, game));
             game.handler.addEnt(new EntityWormShooter(169, 831, game));
             game.handler.addEnt(new EntityWormShooter(175, 705, game));
-            game.handler.addEnt(new EntityWormShooter(352, 282, game));
             game.handler.addEnt(new EntityWormShooter(390, 157, game));
-            game.handler.addEnt(new EntityWormShooter(508, 116, game));
-            game.handler.addEnt(new EntityWormShooter(610, 222, game));
-            game.handler.addEnt(new EntityWormBoss(491, 205, game));
+            game.handler.addEnt(new EntityWormBoss(480, 66, game));
 
 
-        } else {
+        }
+        if(map.equals("house.json")){
+            game.handler.addEnt(new EntityNPC(184, 140, 1, game));
+
+        }else {
             System.out.println("AHHHHH");
         }
     }
 
     public void doTeleport() {
+        String lastMap = game.map.map;
         game.player.setX(xTo);
         System.out.println(xTo);
         game.player.setY(yTo);
@@ -104,7 +108,10 @@ public class Teleporter {
             game.map = new Map(game, map, tileset);
         }
         System.out.println(map);
-        updateEntities();
+        if(!lastMap.equals(game.map.map)) {
+            updateEntities(game.map);
+            game.audioPlayer.playAudio("DungeonTrack3.wav");
+        }
 
 
     }

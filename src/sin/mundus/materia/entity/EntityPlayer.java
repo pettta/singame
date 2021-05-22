@@ -3,9 +3,11 @@ package sin.mundus.materia.entity;
 import org.json.JSONObject;
 import sin.Game;
 import sin.display.HUD;
+import sin.display.Menu;
 import sin.item.ItemMelee;
 import sin.item.ItemRanged;
 import sin.item.ItemSpecial;
+import sin.lib.Coord;
 import sin.lib.Direction;
 import sin.lib.Lib;
 import sin.lib.Vector;
@@ -15,6 +17,7 @@ import sin.mundus.map.Teleporter;
 import sin.save.ISaveable;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 public class EntityPlayer extends Entity {
@@ -25,13 +28,23 @@ public class EntityPlayer extends Entity {
     Polysprite psd;
     Polysprite psda;
     Polysprite psa;
+    Polysprite psattack;
+
+    int attackDelay;
+
+    int displayRanged;
 
     boolean horizCollision;
     boolean vertCollision;
 
     public float maxHealth;
 
+    boolean frozen;
+    Direction frozendir;
+
     public float[] sins;
+    boolean isAttacking;
+    int attackCounter;
 
     public JSONObject write(JSONObject obj) {
         JSONObject extra = super.write(obj);
@@ -40,6 +53,17 @@ public class EntityPlayer extends Entity {
         extra.put("indexCounter", indexCounter);
         extra.put("lastDirection", lastDirection.value);
         return extra;
+    }
+
+    public void freeze() {
+        frozen = true;
+        Direction rd = getRoughDirection();
+        frozendir = rd != Direction.None ? rd : lastDirection != Direction.None ? lastDirection : Direction.S;
+
+    }
+
+    public void unfreeze() {
+        frozen = false;
     }
 
     public ISaveable read(JSONObject obj) {
@@ -53,15 +77,39 @@ public class EntityPlayer extends Entity {
 
     public void doDeath() {
         health = maxHealth;
-        game.gameState = Game.State.Menu;
+        //game.gameState = Game.State.Menu;
+        //game.menu.state = Menu.MenuState.Main;
     }
 
+    public void doInteract() {
+        for(int i = 0; i < handler.getList().size(); i++) {
+            Entity ent = handler.getList().get(i);
+
+            Direction rd = getRoughDirection();
+            Direction dir = rd != Direction.None ? rd : lastDirection != Direction.None ? lastDirection : Direction.S;
+            Rectangle thb = getBounds();
+            thb.x += 8 * Vector.xSignumFromDirection(dir);
+            thb.y += 8 * Vector.ySignumFromDirection(dir);
+            if(thb.intersects(ent.getBounds())) {
+                ent.onInteract(0);
+            }
+
+        }
+    }
 
     // TODO change how attacks work such that call a function from the weapon in the players hand, more universal
     public void meleeAttack() {
-        if(game.inventory.getMeleeSlot().stack != null && game.inventory.getMeleeSlot().stack.item instanceof ItemMelee) {
-            ((ItemMelee) game.inventory.getMeleeSlot().stack.item).onUse(game);
+        if(attackDelay < 0) {
+            if (!isAttacking) {
+                if (game.inventory.getMeleeSlot().stack != null && game.inventory.getMeleeSlot().stack.item instanceof ItemMelee) {
+                    ((ItemMelee) game.inventory.getMeleeSlot().stack.item).onUse(game);
+                }
+                isAttacking = true;
+                attackCounter = 0;
+            }
+            attackDelay = 10;
         }
+
     }
 
     public void specialAttack() {
@@ -71,8 +119,12 @@ public class EntityPlayer extends Entity {
     }
 
     public void rangedAttack(int x, int y) {
-        if(game.inventory.getRangedSlot().stack != null && game.inventory.getRangedSlot().stack.item instanceof ItemRanged) {
-            ((ItemRanged) game.inventory.getRangedSlot().stack.item).onUse(game, x, y);
+        if(attackDelay < 0) {
+            if (game.inventory.getRangedSlot().stack != null && game.inventory.getRangedSlot().stack.item instanceof ItemRanged) {
+                ((ItemRanged) game.inventory.getRangedSlot().stack.item).onUse(game, x, y);
+            }
+            attackDelay = 10;
+            displayRanged = 30;
         }
     }
 
@@ -84,11 +136,14 @@ public class EntityPlayer extends Entity {
         this.psd = new Polysprite("entities/playerDagger.png",4,8, width, height);
         this.psda = new Polysprite("entities/playerShadeCrystalDagger.png",4,8, width, height);
         this.psa = new Polysprite("entities/playerShadeCrystal.png",4,8, width, height);
+        this.psattack = new Polysprite("entities/PlayerAttack.png", 4, 8, 48, 32);
         this.hb = new Rectangle((int)x , (int)y + 16, 16, 16);
         updateImage();
         sins = new float[7];
         maxHealth = 100;
         health = 100;
+        frozendir = Direction.S;
+        isAttacking = false;
     }
 
     public void updatePos() {
@@ -97,7 +152,13 @@ public class EntityPlayer extends Entity {
     }
 
     public void tick() {
+        attackDelay--;
+        displayRanged--;
         doCollision();
+        if(frozen) {
+            velX = 0;
+            velY = 0;
+        }
         x += horizCollision ? 0 : velX;
         y += vertCollision ? 0 : velY;
         updatePos();
@@ -116,6 +177,14 @@ public class EntityPlayer extends Entity {
             }
             updateImage();
             indexCounter = 0;
+        }
+        if(isAttacking && game.inventory.getMeleeSlot().stack != null) {
+            image = psattack.getCurImage(attackCounter, getRoughDirection(), lastDirection, true);
+            attackCounter++;
+            if(attackCounter == 4) {
+                isAttacking = false;
+                attackCounter = 0;
+            }
         }
         horizCollision = false;
         vertCollision = false;
@@ -158,7 +227,7 @@ public class EntityPlayer extends Entity {
         // Entities
         for(int i = 0; i < handler.getList().size(); i++) {
             Entity ent = handler.getList().get(i);
-            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC) {
+            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC || ent.getType() == EntityType.Chest || ent.getType() == EntityType.Rock) {
                 if(hb.intersects(ent.hb)) {
                     hb.x -= velX;
                     while(!hb.intersects(ent.hb)) {
@@ -190,7 +259,7 @@ public class EntityPlayer extends Entity {
         // Entities
         for(int i = 0; i < handler.getList().size(); i++) {
             Entity ent = handler.getList().get(i);
-            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC) {
+            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC || ent.getType() == EntityType.Chest || ent.getType() == EntityType.Rock) {
                 if(hb.intersects(ent.hb)) {
                     hb.y -= velY;
                     while(!hb.intersects(ent.hb)) {
@@ -233,18 +302,20 @@ public class EntityPlayer extends Entity {
     }
 
     public void updateImage() {
+        Polysprite cur = ps;
         if(game.inventory.getMeleeSlot().stack == null && game.inventory.getArmorSlot().stack == null) {
-            image = ps.getCurImage(spriteIndex, getRoughDirection(), lastDirection);
+            cur = ps;
         }
         if(game.inventory.getMeleeSlot().stack != null && game.inventory.getArmorSlot().stack == null) {
-            image = psd.getCurImage(spriteIndex, getRoughDirection(), lastDirection);
+            cur = psd;
         }
         if(game.inventory.getMeleeSlot().stack == null && game.inventory.getArmorSlot().stack != null) {
-            image = psa.getCurImage(spriteIndex, getRoughDirection(), lastDirection);
+            cur = psa;
         }
-        if(game.inventory.getMeleeSlot().stack != null && game.inventory.getArmorSlot().stack != null) {
-            image = psda.getCurImage(spriteIndex, getRoughDirection(), lastDirection);
+        if (game.inventory.getMeleeSlot().stack != null && game.inventory.getArmorSlot().stack != null) {
+            cur = psda;
         }
+        image = cur.getCurImage(frozen ? 0 : spriteIndex, frozen ? frozendir : getRoughDirection(), frozen ? frozendir : lastDirection );
     }
 
     public void updateLastDirection() {
@@ -261,11 +332,31 @@ public class EntityPlayer extends Entity {
 
     // TODO Change how this is done perhaps to save more memory and for ease of use.
     public void render(Graphics g) {
-        g.drawImage(image.getSubimage(0, 16, 16, 16), (int) x, (int) y + 16, null);
+        if(image.getWidth() == 16) {
+            g.drawImage(image.getSubimage(0, 16, 16, 16), (int) x, (int) y + 16, null);
+        } else {
+            g.drawImage(image.getSubimage(0, 16, 48, 16), (int) x - 16, (int) y + 16, null);
+        }
     }
 
     public void renderTop(Graphics g) {
-        g.drawImage(image.getSubimage(0, 0, 16, 16), (int) x, (int) y, null);
+        if(game.inventory.getRangedSlot().stack != null && displayRanged > 0 && game.gameState == Game.State.Game) {
+            Graphics2D g2d = (Graphics2D) g;
+            AffineTransform old = g2d.getTransform();
+            Point point = MouseInfo.getPointerInfo().getLocation();
+            Coord coord = game.getMapPos(point.x, point.y);
+            Vector vector = new Vector(getXMid(), getYMid(), coord.x, coord.y);
+            g2d.rotate(vector != null ? vector.getAngle() : 0, getXMid(), getYMid());
+            g.drawImage(game.inventory.getRangedSlot().stack.item.image, (int) x + 15, (int) y + 8, null);
+            g2d.setTransform(old);
+        }
+        if(image.getWidth() == 16) {
+            g.drawImage(image.getSubimage(0, 0, 16, 16), (int) x, (int) y, null);
+        } else {
+            g.drawImage(image.getSubimage(0, 0, 48, 16), (int) x - 16, (int) y, null);
+        }
+
+
     }
 
     public float getPride() {

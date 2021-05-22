@@ -12,13 +12,16 @@ import java.net.URL;
 
 public class AudioPlayer {
 
-    //public Clip clip;
+    public Clip clip;
 
 
     public void playAudio(String loc) {
+        if(clip != null) {
+            clip.stop();
+        }
         try {
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src/resources/music/" + loc));
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             clip.open(inputStream);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {

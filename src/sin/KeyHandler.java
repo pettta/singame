@@ -74,10 +74,19 @@ public class KeyHandler extends KeyAdapter {
             if(k == KeyEvent.VK_E) {
                 if(game.gameState == Game.State.Game) {
                     game.gameState = Game.State.Inventory;
+                    game.inventory.deselect();
                 } else if(game.gameState == Game.State.Inventory) {
                     game.gameState = Game.State.Game;
                 }
-                System.out.println(game.gameState);
+            }
+            if(k == KeyEvent.VK_F) {
+                if(game.gameState == Game.State.Game) {
+                    if(!game.dialogue.dialogue) {
+                        game.player.doInteract();
+                    } else {
+                        game.dialogue.next();
+                    }
+                }
             }
             if(k == KeyEvent.VK_ESCAPE) {
                 if(game.gameState == Game.State.Game) {
@@ -91,7 +100,7 @@ public class KeyHandler extends KeyAdapter {
                 System.out.println(game.gameState);
             }
             if(game.gameState == Game.State.Game) {
-                if(k == KeyEvent.VK_F) {
+                if(k == KeyEvent.VK_Q) {
                     game.player.specialAttack();
                 }
             }

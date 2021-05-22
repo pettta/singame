@@ -4,12 +4,10 @@ import sin.display.Dialogue;
 import sin.display.HUD;
 import sin.display.Inventory;
 import sin.display.Menu;
+import sin.item.Stack;
 import sin.lib.Coord;
 import sin.lib.Lib;
-import sin.mundus.materia.entity.EntityNPC;
-import sin.mundus.materia.entity.EntityPlayer;
-import sin.mundus.materia.entity.EntityWormBoss;
-import sin.mundus.materia.entity.EntityWormShooter;
+import sin.mundus.materia.entity.*;
 import sin.mundus.map.Map;
 import sin.mundus.materia.entity.EntityWormBoss;
 import sin.sound.AudioPlayer;
@@ -21,10 +19,10 @@ import java.util.Random;
 
 public class Game extends Canvas implements Runnable {
 
-    public static final boolean printFPS = false;
+    public static final boolean printFPS = true;
 
     public static final int WIDTH = 320, HEIGHT = 240;
-    public static final float playerSpeed = 5;
+    public static final float playerSpeed = 7;
     public static final boolean debugMode = true;
     private boolean running = false;
     private boolean initComplete = false;
@@ -94,7 +92,17 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void init() {
-        player = new EntityPlayer(370, 900, playerSpeed, this);
+        player = new EntityPlayer(365, 468, playerSpeed, this);
+        EntityStack stack = new EntityStack(370, 480, this, new Stack(Registry.dagger));
+        EntityStack stack2 = new EntityStack(370, 530, this, new Stack(Registry.wormHide, 200));
+        EntityChest chest = new EntityChest(400, 530, this, new Stack(Registry.azulShard, 10));
+        EntityRock rock = new EntityRock(400, 600, this);
+        EntityCupidShooter cupid = new EntityCupidShooter(400, 680, this);
+        handler.addEnt(cupid);
+        handler.addEnt(rock);
+        handler.addEnt(stack);
+        handler.addEnt(stack2);
+        handler.addEnt(chest);
         EntityWormShooter worm = new EntityWormShooter(60, 60, this);
         handler.addEnt(player);
         EntityWormShooter worm1 = new EntityWormShooter(714, 475, this);
@@ -200,6 +208,7 @@ public class Game extends Canvas implements Runnable {
         if(gameState == State.Game) {
             handler.tick();
             hud.tick();
+            dialogue.tick();
         }
     }
 
@@ -263,13 +272,14 @@ public class Game extends Canvas implements Runnable {
             int minY = (int) (player.getYMid() - HEIGHT / 2);
             int maxY = (int) (player.getYMid() + HEIGHT / 2);
             g2d.translate(-difX, -difY);
-                // TRANSLATION START
-                map.render(g, minX, maxX, minY, maxY);
-                handler.render(g, minX, maxX, minY, maxY);
-                handler.renderTop(g, minX, maxX, minY, maxY);
-                map.renderTop(g, minX, maxX, minY, maxY);
-                // TRANSLATION END
+            // TRANSLATION START
+            map.render(g, minX, maxX, minY, maxY);
+            handler.render(g, minX, maxX, minY, maxY);
+            handler.renderTop(g, minX, maxX, minY, maxY);
+            map.renderTop(g, minX, maxX, minY, maxY);
+            // TRANSLATION END
             g2d.translate(difX, difY);
+            handler.renderHud(g);
             //Slot slot = new Slot(new ItemStack(null, 5), ItemType.Melee);
             g.setColor(Color.WHITE);
             g.drawString("03", 10, 0);

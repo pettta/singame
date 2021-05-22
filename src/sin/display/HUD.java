@@ -9,12 +9,16 @@ import java.awt.image.BufferedImage;
 public class HUD {
 
     //public static int health = 100;
-    Game game;
     BufferedImage barLeft;
     BufferedImage barEnd;
     Color brightPink;
     Color darkPink;
     Color gray;
+
+    Game game;
+
+    public boolean drawb1;
+    public float b1health;
 
     public HUD(Game game) {
         this.game = game;
@@ -46,6 +50,15 @@ public class HUD {
 
     public void render(Graphics g) {
         drawHealth(g,8, 8);
-
+        if(drawb1) {
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.scale(2, 2);
+            BufferedImage bar = Lib.getImage("src/resources/display/boss1bar.png");
+            BufferedImage bartop = Lib.getImage("src/resources/display/bossbar1dumbway.png");
+            g.drawImage(bar, 0, 10, null);
+            int health138 = (int) (b1health / 2000.0 * 138.0);
+            g.drawImage(bartop.getSubimage(0, 0, 11 + health138, 110), 0, 10, null);
+            g2d.scale(.5, .5);
+        }
     }
 }

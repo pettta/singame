@@ -21,7 +21,7 @@ public class Slot {
     }
 
     public Slot(Stack stack, int x, int y) {
-        this(stack, x, y, ItemType.Misc);
+        this(stack, x, y, ItemType.Resource);
     }
 
     public Slot(int x, int y, ItemType acceptedType) {
