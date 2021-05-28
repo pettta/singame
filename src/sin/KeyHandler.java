@@ -77,6 +77,12 @@ public class KeyHandler extends KeyAdapter {
                     game.inventory.deselect();
                 } else if(game.gameState == Game.State.Inventory) {
                     game.gameState = Game.State.Game;
+                    if(game.inventory.shop) {
+                        if(game.inventory.shopkeep != null) {
+                            game.inventory.shopkeep.onInteract(1);
+                        }
+                    }
+                    game.inventory.shop = false;
                 }
             }
             if(k == KeyEvent.VK_F) {
@@ -96,6 +102,13 @@ public class KeyHandler extends KeyAdapter {
                     game.gameState = Game.State.Game;
                 } else if(game.gameState == Game.State.Inventory) {
                     game.gameState = Game.State.Game;
+                    if(game.inventory.shop) {
+                        if(game.inventory.shopkeep != null) {
+                            game.inventory.shopkeep.onInteract(1);
+                        }
+                    }
+                    game.inventory.shop = false;
+
                 }
                 System.out.println(game.gameState);
             }

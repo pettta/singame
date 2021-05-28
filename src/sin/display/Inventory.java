@@ -1,12 +1,14 @@
 package sin.display;
 
 import sin.Game;
+import sin.item.Item;
 import sin.item.ItemType;
 import sin.item.Stack;
 import sin.Registry;
 import sin.item.Slot;
 import sin.lib.Coord;
 import sin.lib.Lib;
+import sin.mundus.materia.entity.EntityShopkeeper;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -19,6 +21,10 @@ public class Inventory {
     BufferedImage background;
     BufferedImage slot;
     BufferedImage arrows;
+    BufferedImage shopimg;
+    BufferedImage sinimg;
+
+    public EntityShopkeeper shopkeep;
 
     // Invariable Slots
     ArrayList<Slot> equipmentSlots;
@@ -28,9 +34,13 @@ public class Inventory {
 
     ArrayList<ArrayList<Stack>> armoryStacks;
 
+    ArrayList<Slot> shopSlots;
+
     public int armoryIndex;
 
     public Slot selected;
+
+    public boolean shop;
 
     public Color[] sinBackgrounds;
     public Color[] sinForegrounds;
@@ -40,8 +50,11 @@ public class Inventory {
     public Inventory(Game game) {
         this.game = game;
         this.background = Lib.getImage("src/resources/display/inventory.png");
+        this.shopimg = Lib.getImage("src/resources/display/shop.png");
+        this.sinimg = Lib.getImage("src/resources/display/sinbars.png");
         this.slot = Lib.getImage("src/resources/display/slot.png");
         this.arrows = Lib.getImage("src/resources/display/arrows.png");
+
         loadNums();
         initSlots();
         initColors();
@@ -69,11 +82,21 @@ public class Inventory {
         }
         return images;
     }
+    public void drawCount(Game game, Graphics g, int xc, int yc) {
+        ArrayList<BufferedImage> nums = game.inventory.intToImages(game.player.schmoney);
+        int l = nums.size();
+        for(int i = 0; i < l; i++) {
+            g.drawImage(nums.get(i), xc - (l * 4) + i * 4 + 1, yc - 5, null);
+        }
+    }
+
 
     public void initSlots() {
         equipmentSlots = new ArrayList<Slot>();
         armorySlots = new ArrayList<Slot>();
         resourceSlots = new ArrayList<Slot>();
+        shopSlots = new ArrayList<Slot>();
+
         for(int i = 6; i < 70; i += 21) {
             equipmentSlots.add(new Slot(i, 18));
             armorySlots.add(new Slot(i, 39));
@@ -82,6 +105,21 @@ public class Inventory {
         }
         for(int i = 6; i < 70; i += 21) {
             resourceSlots.add(new Slot(i, 94));
+        }
+
+        for(int i = 96; i < 150; i += 21) {
+            shopSlots.add(new Slot(i, 18));
+        }
+
+        for(int i = 96; i < 150; i += 21) {
+            shopSlots.add(new Slot(i, 39));
+        }
+
+        for(int i = 96; i < 150; i += 21) {
+            shopSlots.add(new Slot(i, 73));
+        }
+        for(int i = 96; i < 150; i += 21) {
+            shopSlots.add(new Slot(i, 94));
         }
     }
 
@@ -114,7 +152,6 @@ public class Inventory {
 
         armoryStacks.get(0).add(new Stack(Registry.grassBlade));
         armoryStacks.get(0).add(new Stack(Registry.waterSword));
-        armoryStacks.get(0).add(new Stack(Registry.fireSword));
 
         armoryStacks.get(1).add(new Stack(Registry.oldSlingshot));
         armoryStacks.get(1).add(new Stack(Registry.shoddyBow));
@@ -125,6 +162,11 @@ public class Inventory {
 
         resourceSlots.get(0).stack = new Stack(Registry.azulShard, 2);
         resourceSlots.get(1).stack = new Stack(Registry.wormHide, 99);
+
+        shopSlots.get(0).stack = new Stack(Registry.wormHide, 3);
+        shopSlots.get(1).stack = new Stack(Registry.azulShard, 15);
+        shopSlots.get(2).stack = new Stack(Registry.fireSword, 200);
+
 
     }
 
@@ -146,6 +188,11 @@ public class Inventory {
         for(int i = 0; i < resourceSlots.size(); i++) {
             resourceSlots.get(i).render(game, g);
         }
+        if(shop) {
+            for(int i = 0; i < shopSlots.size(); i++) {
+                shopSlots.get(i).render(game, g);
+            }
+        }
     }
 
     public void renderVariableSlots(Graphics g) {
@@ -162,15 +209,38 @@ public class Inventory {
         //System.out.println(selected);
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(2, 2);
-        renderSinBars(g);
+
         g.drawImage(background, 0, 0, null);
+        if(!shop) {
+
+            renderSinBars(g);
+            g.drawImage(sinimg, 0, 0, null);
+
+        } else {
+            g.drawImage(shopimg, 0, 0, null);
+        }
         if(equipmentSlots.contains(selected)) {
             renderVariableSlots(g);
         }
         renderInvariableSlots(g);
+        drawCount(game, g, 78, 12);
         g2d.scale(.5, .5);
         game.hud.drawHealth(g, 8, 8);
 
+    }
+
+    public void buy(Slot shopSlot) {
+        if(shopSlot != null) {
+            Stack stack = shopSlot.stack;
+            Item item = stack.item;
+            int price = stack.count;
+            if(price < game.player.schmoney) {
+                Stack bought = new Stack(item, 1);
+                addStack(bought);
+                game.player.schmoney -= price;
+                game.player.setGreed(game.player.getGreed() + 5);
+            }
+        }
     }
 
     public void updateArmorySlots(ArrayList<Stack> stack) {
@@ -213,6 +283,14 @@ public class Inventory {
                 doSelect(resourceSlot);
             }
         }
+        if(shop) {
+            for (int i = 0; i < shopSlots.size(); i++) {
+                Slot shopSlot = shopSlots.get(i);
+                if (Lib.locIn(x, y, shopSlot.getBounds())) {
+                    buy(shopSlot);
+                }
+            }
+        }
         if(equipmentSlots.contains(selected)) {
             for (int i = 0; i < armorySlots.size(); i++) {
                 Slot armorySlot = armorySlots.get(i);
@@ -223,14 +301,8 @@ public class Inventory {
                         armoryStack.add(i < armoryStack.size() ? i : armoryStack.size(), selected.stack);
                     }
                     selected.stack = armorySlot.stack;
-
-
-
                     updateArmorySlots(armoryStack);
-
-
                     game.player.updateImage();
-
                 }
             }
         }
@@ -274,6 +346,7 @@ public class Inventory {
             selected = null;
         }
     }
+
 
 
     public Stack addStack(Stack stack) {
@@ -351,10 +424,5 @@ public class Inventory {
         }
 
     }
-
-
-
-
-
 
 }

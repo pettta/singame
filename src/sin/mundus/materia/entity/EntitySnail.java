@@ -12,20 +12,22 @@ import sin.save.ISaveable;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class EntityCupidShooter extends Entity {
+public class EntitySnail extends Entity {
+
     private int counter;
     private int spriteIndex;
     Polysprite ps;
-    Polysprite psa;
+
     Direction lastDirection;
+
+    int damageCounter;
 
     boolean vertCollision;
     boolean horizCollision;
 
+    public int bloodCounter;
+
     int updateCounter;
-
-    int bloodCounter;
-
     BufferedImage blood;
 
     public void doCollision() {
@@ -48,21 +50,6 @@ public class EntityCupidShooter extends Entity {
         }
 
 
-        // Entities
-        for(int i = 0; i < handler.getList().size(); i++) {
-            Entity ent = handler.getList().get(i);
-            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC || ent.getType() == EntityType.Chest || ent.getType() == EntityType.Rock) {
-                if(hb.intersects(ent.hb)) {
-                    hb.x -= velX;
-                    while(!hb.intersects(ent.hb)) {
-                        hb.x += Math.signum(velX);
-                    }
-                    hb.x -= Math.signum(velX);
-                    horizCollision = true;
-                    x = hb.x;
-                }
-            }
-        }
         // VERTICAL COLLISION
         hb.y += velY;
         // Tiles
@@ -80,36 +67,25 @@ public class EntityCupidShooter extends Entity {
             }
         }
 
-        // Entities
-        for(int i = 0; i < handler.getList().size(); i++) {
-            Entity ent = handler.getList().get(i);
-            if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC || ent.getType() == EntityType.Chest || ent.getType() == EntityType.Rock) {
-                if(hb.intersects(ent.hb)) {
-                    hb.y -= velY;
-                    while(!hb.intersects(ent.hb)) {
-                        hb.y += Math.signum(velY);
-                    }
-                    hb.y -= Math.signum(velY);
-                    vertCollision = true;
-                    y = hb.y - 16;
-                }
-            }
-        }
 
     }
 
-    public EntityCupidShooter(float x, float y, Game game) {
-        super(x, y, 32, 22, EntityType.Enemy, game);
+    public EntitySnail(float x, float y, Game game) {
+        super(x, y, 32, 32, EntityType.Enemy, game);
         this.speed = 10;
         this.health = 100;
-        ps = new Polysprite("entities/Cupididle.png", 2, 4, 32, 32);
-        psa = new Polysprite("entities/CupAttackSheet.png", 5, 4, 32, 32);
-        blood = Lib.getImage("src/resources/entities/blood.png");
+        ps = new Polysprite("entities/SnailEnemy.png", 4, 4, 32, 32);
         image = ps.getCurImage(0);
         hb = new Rectangle((int) x, (int) y, width, height);
+        blood = Lib.getImage("src/resources/entities/blood.png");
         lastDirection = Direction.S;
         velX = 0;
         velY = 0;
+    }
+
+    public void damaged() {
+        bloodCounter = 6;
+
     }
 
     public JSONObject write(JSONObject obj) {
@@ -131,30 +107,45 @@ public class EntityCupidShooter extends Entity {
             Entity ent = handler.getList().get(i);
             if (ent.getType() == EntityType.Player) {
                 if (getBounds().intersects(ent.getBounds())) {
-                    ent.health -= 30;
+                    if(damageCounter < 0) {
+                        ent.health -= 30;
+                        damageCounter = 15;
+                    }
                 }
             }
         }
     }
-
-    public void damaged() {
-        bloodCounter = 6;
-
-    }
-
     public void tick() {
-        bloodCounter--;
         counter--;
         doCollision();
         updateCounter--;
+        damageCounter--;
+        bloodCounter--;
 
         Vector toPlayer = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid());
         float distance = toPlayer.getMagnitude();
 
         if(updateCounter < 0) {
-            velX = game.player.velX / 5;
-            velY = game.player.velY / 5;
-            updateCounter = 5;
+            if (distance < 1000){
+                lastDirection = Vector.getCardinalDirection(toPlayer.getHorizComp(), toPlayer.getVertComp());
+                if(lastDirection == Direction.N) {
+                    velY = -2;
+                    velX = 0;
+                }
+                if(lastDirection == Direction.E) {
+                    velY = 0;
+                    velX = 2;
+                }
+                if(lastDirection == Direction.S) {
+                    velY = 2;
+                    velX = 0;
+                }
+                if(lastDirection == Direction.W) {
+                    velY = 0;
+                    velX = -2;
+                }
+            }
+            updateCounter = 20;
 
 
         }
@@ -162,43 +153,27 @@ public class EntityCupidShooter extends Entity {
         x += horizCollision ? 0 : velX;
         y += vertCollision ? 0 : velY;
 
-        if(counter < 0 && distance < 125) {
-            if (counter < -10) {
-                EntityRangedShot proj = new EntityRangedShot(getXMid(), getYMid(), game, 0, EntityType.Player);
-                Vector vector = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid(), speed);
-                proj.setVelX(vector.getHorizComp());
-                proj.setVelY(vector.getVertComp());
-                handler.addEnt(proj);
-                counter = 60;
-            } else {
-                image = psa.getCurImage((counter * -1 - 1) / 2, Vector.getCardinalDirection(toPlayer.getHorizComp(), toPlayer.getVertComp()));
-            }
-        }
-        spriteIndex = Lib.cycle(spriteIndex, 0, 19);
-        if(counter >= 0) {
-            image = ps.getCurImage(spriteIndex / 10, Vector.getCardinalDirection(toPlayer.getHorizComp(), toPlayer.getVertComp()));
-        }
+        spriteIndex = Lib.cycle(spriteIndex, 0, 31);
+        image = ps.getCurImage(spriteIndex / 8, lastDirection);
+
         doDamage();
         if(health <= 0) {
             handler.delEnt(this);
             game.player.schmoney += 3;
-            game.player.setWrath(game.player.getWrath() + 5);
         }
         horizCollision = false;
         vertCollision = false;
-        //hb.x = (int) x;
-        //hb.y = (int) y;
     }
 
     public void render(Graphics g) {
-
-    }
-
-    public void renderTop(Graphics g) {
         g.drawImage(image, (int) x, (int) y, null);
         if(bloodCounter > 0) {
 
             g.drawImage(blood.getSubimage(0, 0, width, height), (int) x, (int) y, null);
         }
+    }
+
+    public void renderTop(Graphics g) {
+
     }
 }

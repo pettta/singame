@@ -48,7 +48,8 @@ public class EntityNPC extends Entity {
                 game.dialogue.talk(this, "Whatever you do, don't go into the hole down south!! That'd be terrible!! Please don't do that!");
                 velX = 0;
                 velY = 0;
-                lastDirection = Vector.getCardinalDirection(game.player.getXMid() - getXMid(), game.player.getYMid() - getYMid());
+                Direction dir = Vector.getCardinalDirection(game.player.getXMid() - getXMid(), game.player.getYMid() - getYMid());
+                lastDirection = dir == Direction.W ? Direction.E : dir == Direction.E ? Direction.W : dir;
                 updateImage();
                 game.player.freeze();
             }

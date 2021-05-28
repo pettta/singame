@@ -30,6 +30,10 @@ public class Entity extends Materia implements ISaveable {
 
     }
 
+    public void damaged() {
+
+    }
+
     public void tick() {
         x += velX;
         y += velY;

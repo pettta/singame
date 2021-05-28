@@ -98,7 +98,11 @@ public class Game extends Canvas implements Runnable {
         EntityChest chest = new EntityChest(400, 530, this, new Stack(Registry.azulShard, 10));
         EntityRock rock = new EntityRock(400, 600, this);
         EntityCupidShooter cupid = new EntityCupidShooter(400, 680, this);
+        EntitySnail snail = new EntitySnail(500, 730, this);
+        EntityShopkeeper npc1 = new EntityShopkeeper(500, 780, 2, this);
+        handler.addEnt(npc1);
         handler.addEnt(cupid);
+        handler.addEnt(snail);
         handler.addEnt(rock);
         handler.addEnt(stack);
         handler.addEnt(stack2);

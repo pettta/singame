@@ -2,12 +2,15 @@ package sin.mundus.materia.entity;
 
 import org.json.JSONObject;
 import sin.Game;
+import sin.Registry;
+import sin.item.Stack;
 import sin.lib.Lib;
 import sin.lib.Vector;
 import sin.mundus.materia.sprite.Polysprite;
 import sin.save.ISaveable;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class EntityWormShooter extends Entity {
 
@@ -15,11 +18,16 @@ public class EntityWormShooter extends Entity {
     private int spriteIndex;
     Polysprite ps;
 
+    public int bloodCounter;
+
+    BufferedImage blood;
+
     public EntityWormShooter(float x, float y, Game game) {
         super(x, y, 16, 22, EntityType.Enemy, game);
         this.speed = 10;
         this.health = 100;
         ps = new Polysprite("entities/worm.png",15, 1, width, height);
+        blood = Lib.getImage("src/resources/entities/blood.png");
         image = ps.getCurImage(0);
         hb = new Rectangle((int) x, (int) y + 6, width, height - 6);
     }
@@ -50,8 +58,14 @@ public class EntityWormShooter extends Entity {
         }
     }
 
+    public void damaged() {
+        bloodCounter = 6;
+
+    }
+
     public void tick() {
         shootCounter++;
+        bloodCounter--;
         Vector toPlayer = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid());
         float distance = toPlayer.getMagnitude();
         if(shootCounter >= 30 && distance < 125) {
@@ -67,6 +81,10 @@ public class EntityWormShooter extends Entity {
         doDamage();
         if(health <= 0) {
             handler.delEnt(this);
+            game.player.schmoney += 3;
+            EntityStack stack2 = new EntityStack(x, y, game, new Stack(Registry.wormHide, 1));
+            handler.addEnt(stack2);
+            game.player.setWrath(game.player.getWrath() + 5);
         }
     }
 
@@ -76,6 +94,10 @@ public class EntityWormShooter extends Entity {
 
     public void renderTop(Graphics g) {
         g.drawImage(image.getSubimage(0, 0, 16, 6), (int) x, (int) y, null);
+        if(bloodCounter > 0) {
+
+            g.drawImage(blood.getSubimage(0, 0, width, height), (int) x, (int) y, null);
+        }
     }
 
 }

@@ -30,6 +30,8 @@ public class EntityPlayer extends Entity {
     Polysprite psa;
     Polysprite psattack;
 
+    public int schmoney;
+
     int attackDelay;
 
     int displayRanged;
@@ -144,6 +146,7 @@ public class EntityPlayer extends Entity {
         health = 100;
         frozendir = Direction.S;
         isAttacking = false;
+        schmoney = 311;
     }
 
     public void updatePos() {
@@ -152,6 +155,7 @@ public class EntityPlayer extends Entity {
     }
 
     public void tick() {
+        schmoney = Lib.clamp(schmoney, 0, 500);
         attackDelay--;
         displayRanged--;
         doCollision();
@@ -229,13 +233,15 @@ public class EntityPlayer extends Entity {
             Entity ent = handler.getList().get(i);
             if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC || ent.getType() == EntityType.Chest || ent.getType() == EntityType.Rock) {
                 if(hb.intersects(ent.hb)) {
-                    hb.x -= velX;
-                    while(!hb.intersects(ent.hb)) {
-                        hb.x += Math.signum(velX);
+                    if (!(ent instanceof EntitySnail)) {
+                        hb.x -= velX;
+                        while (!hb.intersects(ent.hb)) {
+                            hb.x += Math.signum(velX);
+                        }
+                        hb.x -= Math.signum(velX);
+                        horizCollision = true;
+                        x = hb.x;
                     }
-                    hb.x -= Math.signum(velX);
-                    horizCollision = true;
-                    x = hb.x;
                 }
             }
         }
@@ -260,14 +266,16 @@ public class EntityPlayer extends Entity {
         for(int i = 0; i < handler.getList().size(); i++) {
             Entity ent = handler.getList().get(i);
             if(ent.getType() == EntityType.Enemy || ent.getType() == EntityType.NPC || ent.getType() == EntityType.Chest || ent.getType() == EntityType.Rock) {
-                if(hb.intersects(ent.hb)) {
-                    hb.y -= velY;
-                    while(!hb.intersects(ent.hb)) {
-                        hb.y += Math.signum(velY);
+                if(!(ent instanceof EntitySnail)) {
+                    if (hb.intersects(ent.hb)) {
+                        hb.y -= velY;
+                        while (!hb.intersects(ent.hb)) {
+                            hb.y += Math.signum(velY);
+                        }
+                        hb.y -= Math.signum(velY);
+                        vertCollision = true;
+                        y = hb.y - 16;
                     }
-                    hb.y -= Math.signum(velY);
-                    vertCollision = true;
-                    y = hb.y - 16;
                 }
             }
         }

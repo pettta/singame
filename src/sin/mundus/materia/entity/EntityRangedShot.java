@@ -49,6 +49,7 @@ public class EntityRangedShot extends Entity {
                 if(getBounds().intersects(ent.getBounds())) {
                     handler.delEnt(this);
                     ent.health -= 30;
+                    ent.damaged();
                 }
             }
         }
