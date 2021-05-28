@@ -73,7 +73,7 @@ public class Game extends Canvas implements Runnable {
         r = new Random();
         prepareWindow();
         error = Lib.getImage("src/resources/items/error.png");
-        map = new Map(this,"testMap02.json", "tileset_world.png");
+        map = new Map(this,"playerhouse.json", "tileset_world.png");
         inventory = new Inventory(this);
         audioPlayer = new AudioPlayer();
         audioPlayer.playAudio("DungeonTrack2.wav");
@@ -92,33 +92,10 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void init() {
-        player = new EntityPlayer(365, 468, playerSpeed, this);
-        EntityStack stack = new EntityStack(370, 480, this, new Stack(Registry.dagger));
-        EntityStack stack2 = new EntityStack(370, 530, this, new Stack(Registry.wormHide, 200));
-        EntityChest chest = new EntityChest(400, 530, this, new Stack(Registry.azulShard, 10));
-        EntityRock rock = new EntityRock(400, 600, this);
-        EntityCupidShooter cupid = new EntityCupidShooter(400, 680, this);
-        EntitySnail snail = new EntitySnail(500, 730, this);
-        EntityShopkeeper npc1 = new EntityShopkeeper(500, 780, 2, this);
-        handler.addEnt(npc1);
-        handler.addEnt(cupid);
-        handler.addEnt(snail);
-        handler.addEnt(rock);
-        handler.addEnt(stack);
-        handler.addEnt(stack2);
+        player = new EntityPlayer(130, 130, playerSpeed, this);
+        EntityChest chest = new EntityChest(130, 190, this, new Stack(Registry.dagger));
         handler.addEnt(chest);
-        EntityWormShooter worm = new EntityWormShooter(60, 60, this);
         handler.addEnt(player);
-        EntityWormShooter worm1 = new EntityWormShooter(714, 475, this);
-        EntityWormShooter worm2 = new EntityWormShooter(1122, 715, this);
-        EntityWormShooter worm3 = new EntityWormShooter(718, 957, this);
-        EntityWormShooter worm4 = new EntityWormShooter(317, 722, this);
-        EntityNPC npc = new EntityNPC(544, 791, 2, this);
-        handler.addEnt(npc);
-        handler.addEnt(worm1);
-        handler.addEnt(worm2);
-        handler.addEnt(worm3);
-        handler.addEnt(worm4);
         initComplete = true;
         player.setGreed(40);
         player.setEnvy(20);

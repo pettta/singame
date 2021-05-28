@@ -1,10 +1,7 @@
 package sin.mundus.map;
 
 import sin.Game;
-import sin.mundus.materia.entity.Entity;
-import sin.mundus.materia.entity.EntityNPC;
-import sin.mundus.materia.entity.EntityWormShooter;
-import sin.mundus.materia.entity.EntityWormBoss;
+import sin.mundus.materia.entity.*;
 
 import java.awt.*;
 
@@ -74,7 +71,8 @@ public class Teleporter {
             game.handler.addEnt(new EntityWormShooter(273, 501, game));
             game.handler.addEnt(new EntityWormShooter(109, 420, game));
             game.handler.addEnt(new EntityWormShooter(291, 299, game));
-
+            game.handler.addEnt(new EntityShopkeeper(500, 780, 2, game));
+            game.handler.addEnt(new EntityNPC(400, 700, 2, game));
         }
         if(map.map.equals("dungeon1.json")) {
             System.out.println("AHHH");
