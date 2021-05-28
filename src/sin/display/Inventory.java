@@ -150,15 +150,8 @@ public class Inventory {
         armoryStacks.add(new ArrayList<Stack>());
 
 
-        armoryStacks.get(0).add(new Stack(Registry.grassBlade));
-        armoryStacks.get(0).add(new Stack(Registry.waterSword));
-
-        armoryStacks.get(1).add(new Stack(Registry.oldSlingshot));
-        armoryStacks.get(1).add(new Stack(Registry.shoddyBow));
 
         armoryStacks.get(2).add(new Stack(Registry.shadeCrystalArmor));
-
-        armoryStacks.get(3).add(new Stack(Registry.bomb));
 
         resourceSlots.get(0).stack = new Stack(Registry.azulShard, 2);
         resourceSlots.get(1).stack = new Stack(Registry.wormHide, 99);
@@ -166,6 +159,8 @@ public class Inventory {
         shopSlots.get(0).stack = new Stack(Registry.wormHide, 3);
         shopSlots.get(1).stack = new Stack(Registry.azulShard, 15);
         shopSlots.get(2).stack = new Stack(Registry.fireSword, 200);
+        shopSlots.get(3).stack = new Stack(Registry.bomb, 200);
+        shopSlots.get(4).stack = new Stack(Registry.shoddyBow, 100);
 
 
     }
