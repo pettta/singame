@@ -25,6 +25,8 @@ public class EntityWormBoss extends Entity {
     Polysprite attack;
     public BufferedImage rock;
 
+    float lastHealth;
+
     public int[] posx;
     public int[] posy;
     int pos = 0;
@@ -105,6 +107,7 @@ public class EntityWormBoss extends Entity {
         if(distance < 400) {
            game.hud.drawb1 = true;
            game.hud.b1health = (int) health;
+           game.audioPlayer.playAudio("DungeonTrack3.wav");
         } else {
             game.hud.drawb1 = false;
         }
@@ -176,6 +179,7 @@ public class EntityWormBoss extends Entity {
             // This is where a death animation would go I think
             handler.delEnt(this);
             game.hud.drawb1 = false;
+            game.audioPlayer.playAudio("DungeonTrack1.wav");
         }
         Random random = new Random();
         if(random.nextInt(1000) > 980 && !moving && !slamming && moveDelay < 0) {
@@ -195,6 +199,8 @@ public class EntityWormBoss extends Entity {
             }
             moveTimer++;
         }
+
+
 
     }
 

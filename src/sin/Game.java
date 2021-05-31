@@ -76,7 +76,7 @@ public class Game extends Canvas implements Runnable {
         map = new Map(this,"playerhouse.json", "tileset_world.png");
         inventory = new Inventory(this);
         audioPlayer = new AudioPlayer();
-        audioPlayer.playAudio("DungeonTrack2.wav");
+        audioPlayer.playAudio("DungeonTrack4.wav");
         dialogue = new Dialogue(this);
         init();
 
@@ -92,6 +92,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void init() {
+        //130
         player = new EntityPlayer(130, 130, playerSpeed, this);
         EntityChest chest = new EntityChest(130, 190, this, new Stack(Registry.dagger));
         handler.addEnt(chest);

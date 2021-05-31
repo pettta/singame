@@ -19,6 +19,8 @@ public class EntityGoat extends Entity {
     int walkIndex;
     int attackIndex;
 
+    boolean drawBar;
+
     int attackTimer;
 
     float lastHealth;
@@ -144,6 +146,8 @@ public class EntityGoat extends Entity {
 
         if(lastHealth != health && state == State.Idle) {
             state = State.Walk;
+            drawBar = true;
+            game.audioPlayer.playAudio("DungeonTrack7.wav");
         }
         lastHealth = health;
         if (health <= 0) {
@@ -162,6 +166,19 @@ public class EntityGoat extends Entity {
 
     public void render(Graphics g) {
 
+    }
+
+    public void renderHUD(Graphics g) {
+        if(drawBar) {
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.scale(2, 2);
+            BufferedImage bar = Lib.getImage("src/resources/display/goatBar.png");
+            BufferedImage bartop = Lib.getImage("src/resources/display/goatBarHealth.png");
+            g.drawImage(bar, 0, 10, null);
+            int health138 = (int) (health / 3000.0 * 138.0);
+            g.drawImage(bartop.getSubimage(0, 0, 11 + health138, 110), 0, 10, null);
+            g2d.scale(.5, .5);
+        }
     }
 
     public void renderTop(Graphics g) {
