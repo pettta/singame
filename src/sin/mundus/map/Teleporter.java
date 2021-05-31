@@ -73,6 +73,7 @@ public class Teleporter {
             game.handler.addEnt(new EntityWormShooter(291, 299, game));
             game.handler.addEnt(new EntityShopkeeper(500, 780, 2, game));
             game.handler.addEnt(new EntityNPC(400, 700, 2, game));
+            game.handler.addEnt(new EntityGoat(494, 443, game));
         }
         if(map.map.equals("dungeon1.json")) {
             System.out.println("AHHH");

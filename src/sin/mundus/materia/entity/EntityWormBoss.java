@@ -156,7 +156,7 @@ public class EntityWormBoss extends Entity {
         if(distance > 60 && distance < 500) {
             if(gunTicker > 7) {
                 EntityWormBullet proj = new EntityWormBullet(getXMid(), getYMid() - 20, game, rock);
-                Vector vector = new Vector(getXMid(), getYMid() - 20, game.player.getXMid(), game.player.getYMid() - 20, 7);
+                Vector vector = new Vector(getXMid(), getYMid() - 20, game.player.getXMid(), game.player.getYMid(), 7);
                 proj.setVelX(vector.getHorizComp());
                 proj.setVelY(vector.getVertComp());
                 handler.addEnt(proj);
