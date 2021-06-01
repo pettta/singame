@@ -24,7 +24,7 @@ public class EntityDragon extends Entity {
 
     @Override
     public void onInteract(int id) {
-        game.dialogue.talk(this, "Thanks your playing the demo!!!!");
+        game.dialogue.talk(this, "Thanks for playing the demo!!!!");
     }
 
     private void doDamage() {
@@ -69,7 +69,7 @@ public class EntityDragon extends Entity {
 
         if(lastHealth != health) {
             game.audioPlayer.playAudio("zachmediocretheme.wav");
-            game.dialogue.talk(this, "Thanks for playing the demo!!!!");
+            game.dialogue.talk(this, "Thanks for playing the demo!!!");
         }
         lastHealth = health;
         doDamage();
