@@ -4,7 +4,13 @@ import sin.Game;
 import sin.mundus.materia.entity.*;
 
 import java.awt.*;
-
+/**
+ * Name: Teleporter.java
+ * Purpose: Handles teleporting in and between maps.
+ * Last Updated: 6/1/2021
+ * Authors: Functionality - Zach, Entity Spawn Lists - Tommy
+ * Dependencies: None
+ */
 public class Teleporter {
 
     private String map, tileset;
