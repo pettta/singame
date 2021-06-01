@@ -63,7 +63,9 @@ public class Teleporter {
     public static void updateEntities(Map map) {
         removeAllButPlayer(map.game);
         Game game = map.game;
+        System.out.println(map.map);
         if(map.map.equals("testMap01.json")) {
+            System.out.println("Ajjjjjjjjjjjjj");
             game.handler.addEnt(new EntityWormShooter(493, 709, game));
             game.handler.addEnt(new EntityWormShooter(386, 595, game));
             game.handler.addEnt(new EntityWormShooter(160, 583, game));
@@ -89,19 +91,28 @@ public class Teleporter {
 
         } else if(map.map.equals("dungeon2.json")) {
             game.audioPlayer.playAudio("DungeonTrack5.wav");
+
         } else if(map.map.equals("village2.json")) {
             game.audioPlayer.playAudio("DungeonTrack2.wav");
-        } else if(map.map.equals("village2.json")) {
-            game.audioPlayer.playAudio("DungeonTrack2.wav");
-        } else if(map.equals("house.json")){
+
+        } else if(map.equals("house.json")) {
             game.handler.addEnt(new EntityNPC(184, 140, 1, game));
             game.audioPlayer.playAudio("DungeonTrack4.wav");
-        } else if(map.equals("testMap02.json")){
+
+        } else if(map.equals("testMap02.json")) {
             game.audioPlayer.playAudio("zachmediocretheme.wav");
-        } else if(map.equals("playerhouse.json")){
+
+        } else if(map.equals("playerhouse.json")) {
             game.audioPlayer.playAudio("DungeonTrack4.wav");
+
+        } else if(map.map.equals("connectormap.json")) {
+            System.out.println("ASHFHHFHJFHJFJJFJFJFJFJFJFJ");
+            game.audioPlayer.playAudio("zachmediocretheme.wav");
+            game.handler.addEnt(new EntityDragon(1684, 1220, game));
+
         } else {
             game.audioPlayer.playAudio("zachmediocretheme.wav");
+
         }
     }
 
