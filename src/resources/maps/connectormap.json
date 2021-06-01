@@ -105,8 +105,6 @@
    "map":"village2.json",
    "tileset":"tileset_world.png"
   }],
-
-
  "nextlayerid":8,
  "nextobjectid":1,
  "orientation":"orthogonal",

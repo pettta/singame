@@ -29,7 +29,7 @@ public class ItemMelee extends ItemEquipment {
         for(int i = 0; i < handler.getList().size(); i++) {
             Entity ent = handler.getList().get(i);
             if(rect.intersects(ent.getBounds()) && ent != game.player) {
-                ent.health -= 50 + p.getWrath() * .1;
+                ent.health -= 275 + p.getWrath() * .1;
                 ent.damaged();
             }
         }
