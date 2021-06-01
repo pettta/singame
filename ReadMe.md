@@ -36,4 +36,6 @@ If you want to add changes to the code of our game and you are using an IntelliJ
 
 ## Running the game
 
-Since the program is written in Java without any dependencies, the program should theoretically be able to run on any platform that has Java installed. This includes Windows, MacOS, and Linux. 
+Since the program is written in Java without any dependencies, the program should theoretically be able to run on any platform that has Java installed. This includes Windows, MacOS, and Linux. You run it with the green "run" arrow pictured below.
+
+![](Images/IntelliJRun.PNG)
