@@ -33,3 +33,7 @@ If you want to create new maps or edit the current ones, open the JSON file you 
 If you want to add changes to the code of our game and you are using an IntelliJ project like we have been, it is extremely simple to do so. In the picture below, you will seen the version control ability built into IntelliJ. Pick whichever files you have changed or created and write a commit message, then you can commit and push from that tab. 
 
 ![](Images/IntelliJVCS.PNG)
+
+## Running the game
+
+Since the program is written in Java without any dependencies, the program should theoretically be able to run on any platform that has Java installed. This includes Windows, MacOS, and Linux. 
