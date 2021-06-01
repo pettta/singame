@@ -2,7 +2,13 @@ package sin.mundus.materia;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
+/**
+ * Name: Materia.java
+ * Purpose: Base functionality for every single game object such as hitbox and location.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public abstract class Materia {
 
     protected float x, y;

@@ -1,10 +1,15 @@
 package sin;
 
 import sin.item.*;
-import sin.mundus.materia.entity.Species;
 
 import java.util.HashMap;
-
+/**
+ * Name: Registry.java
+ * Purpose: Registers all items for use in the game.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class Registry {
 
     public static HashMap<String, Item> items = new HashMap<String, Item>();

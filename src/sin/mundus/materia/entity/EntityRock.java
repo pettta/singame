@@ -5,7 +5,13 @@ import sin.lib.Lib;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
+/**
+ * Name: EntityRock.java
+ * Purpose: A collideable rock that can be exploded by a bomb.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class EntityRock extends Entity {
 
     BufferedImage image;

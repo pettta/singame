@@ -12,7 +12,13 @@ import sin.save.ISaveable;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-
+/**
+ * Name: EntityGoat.java
+ * Purpose: Renders and ticks the goat boss entity.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class EntityGoat extends Entity {
 
     int idleIndex;

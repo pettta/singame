@@ -7,7 +7,13 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+/**
+ * Name: SpriteSheet.java
+ * Purpose: Simply loads a sprite sheet.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class SpriteSheet {
 
     private BufferedImage sheet;

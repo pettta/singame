@@ -5,7 +5,13 @@ import sin.Game;
 import sin.lib.Lib;
 import sin.mundus.map.Map;
 import sin.mundus.map.Teleporter;
-
+/**
+ * Name: SaveHandler.java
+ * Purpose: Handles saves.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class SaveHandler {
 
     public float x, y;

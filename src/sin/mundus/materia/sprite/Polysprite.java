@@ -3,7 +3,14 @@ package sin.mundus.materia.sprite;
 import sin.lib.Direction;
 
 import java.awt.image.BufferedImage;
-
+/**
+ * Name: Polysprite.java
+ * Purpose: Sorts a tilesheet into a double array of individual sprites with functionality for getting specific
+ * ones based on directions and such.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class Polysprite {
 
     private BufferedImage[][] images;
@@ -44,7 +51,6 @@ public class Polysprite {
     public BufferedImage getCurImage(int index, Direction direction, Direction lastDirection, boolean arbitrary) {
         return images[direction != Direction.None ? direction.value : lastDirection != Direction.None ? lastDirection.value : Direction.S.value][index];
     }
-
 
     public BufferedImage getCurImage(int index) {
         return images[0][index];

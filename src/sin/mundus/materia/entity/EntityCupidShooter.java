@@ -12,6 +12,13 @@ import sin.save.ISaveable;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Name: EntityCupidShooter.java
+ * Purpose: Cupid enemy class, manages its functionality.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class EntityCupidShooter extends Entity {
     private int counter;
     private int spriteIndex;

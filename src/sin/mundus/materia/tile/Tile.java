@@ -5,7 +5,13 @@ import sin.mundus.map.Map;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
+/**
+ * Name: Tile.java
+ * Purpose: Base class for a tile. Saves images to be displayed and whether it collides with player.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class Tile extends Materia {
 
     protected boolean collides;

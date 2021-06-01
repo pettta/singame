@@ -2,7 +2,13 @@ package sin;
 
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * Name: Window.java
+ * Purpose: Handles basic window display.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class Window extends Canvas {
 
     JFrame frame;

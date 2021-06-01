@@ -7,7 +7,13 @@ import sin.item.Stack;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
+/**
+ * Name: EntityStack.java
+ * Purpose: A stack on the ground that can be picked up and added to the player's inventory.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class EntityStack extends Entity {
 
     BufferedImage image;

@@ -7,6 +7,14 @@ import sin.lib.Vector;
 import sin.mundus.materia.entity.EntityBomb;
 import sin.mundus.materia.entity.EntityPlayer;
 
+/**
+ * Name: ItemPotion.java
+ * Purpose: A potion item. Heals player on activation.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
+
 public class ItemPotion extends ItemSpecial {
 
     public ItemPotion(String name) {

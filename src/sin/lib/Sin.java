@@ -3,6 +3,13 @@ package sin.lib;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Name: Sin.java
+ * Purpose: Keeps track of the sin types.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public enum Sin {
 
     pride(0),

@@ -13,6 +13,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+/**
+ * Name: Map.java
+ * Purpose: Loads and renders the map the player resides in.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class Map {
 
     ArrayList<BufferedImage> tileImages;

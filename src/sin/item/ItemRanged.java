@@ -6,6 +6,14 @@ import sin.lib.Vector;
 import sin.mundus.materia.entity.EntityPlayer;
 import sin.mundus.materia.entity.EntityRangedShot;
 
+/**
+ * Name: ItemRanged.java
+ * Purpose: Item ranged base. Shoots a projectile on use.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
+
 public class ItemRanged extends ItemEquipment {
 
     int projtype;

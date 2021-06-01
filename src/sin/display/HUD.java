@@ -6,6 +6,13 @@ import sin.lib.Lib;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Name: Hud.java
+ * Purpose: Displays HUd, such as health bar.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class HUD {
 
     //public static int health = 100;
@@ -50,6 +57,7 @@ public class HUD {
 
     public void render(Graphics g) {
         drawHealth(g,8, 8);
+        // holy crap this is such a silly way to do this but it works ig im in a rush!!
         if(drawb1) {
             Graphics2D g2d = (Graphics2D) g;
             g2d.scale(2, 2);

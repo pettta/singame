@@ -13,6 +13,13 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Name: EntityRangedShot.java
+ * Purpose: Manages a more universal projectile that shoots and deals damage to listed entity types. Arrow or ball.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class EntityRangedShot extends Entity {
 
     int life;

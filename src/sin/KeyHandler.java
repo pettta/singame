@@ -6,7 +6,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Set;
 import java.util.TreeSet;
-
+/**
+ * Name: KeyHandler.java
+ * Purpose: Handles keyboard input.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class KeyHandler extends KeyAdapter {
 
     public static final int W = KeyEvent.VK_W;

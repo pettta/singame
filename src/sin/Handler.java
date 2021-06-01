@@ -4,7 +4,13 @@ import sin.mundus.materia.Materia;
 import sin.mundus.materia.entity.Entity;
 import java.awt.*;
 import java.util.LinkedList;
-
+/**
+ * Name: Handler.java
+ * Purpose: Ticks and renders entities.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class Handler {
 
     LinkedList<Entity> list = new LinkedList<Entity>();

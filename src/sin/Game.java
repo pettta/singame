@@ -16,7 +16,13 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-
+/**
+ * Name: Game.java
+ * Purpose: Every single thing that runs, runs from here.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class Game extends Canvas implements Runnable {
 
     public static final boolean printFPS = true;

@@ -17,7 +17,13 @@ import sin.save.ISaveable;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
-
+/**
+ * Name: EntityShopkeeper.java
+ * Purpose: An entity that when interacted with displays a shop menu.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class EntityShopkeeper extends Entity {
 
     int spriteIndex, indexCounter;

@@ -15,6 +15,14 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+
+/**
+ * Name: Inventory.java
+ * Purpose: PURPOSE
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class Inventory {
 
     Game game;

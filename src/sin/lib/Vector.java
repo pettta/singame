@@ -1,5 +1,13 @@
 package sin.lib;
 
+
+/**
+ * Name: Vector.java
+ * Purpose: Useful class for all things vectors!
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class Vector {
 
     /*

@@ -6,7 +6,13 @@ import sin.save.ISaveable;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
+/**
+ * Name: EntityCupidArrow.java
+ * Purpose: The arrow the cupid enemy shoots.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class EntityCupidArrow extends Entity {
     int life;
     BufferedImage img;

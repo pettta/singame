@@ -19,7 +19,13 @@ import sin.save.ISaveable;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
-
+/**
+ * Name: EntityPlayer.java
+ * Purpose: Handles almost everything for the player.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class EntityPlayer extends Entity {
 
     int invulnCounter, spriteIndex, indexCounter;

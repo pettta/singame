@@ -7,7 +7,13 @@ import sin.lib.Lib;
 import sin.mundus.map.Map;
 import sin.mundus.materia.Materia;
 import sin.save.ISaveable;
-
+/**
+ * Name: Entity.java
+ * Purpose: Base class for all entities with all their universal functionality.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class Entity extends Materia implements ISaveable {
 
     protected Handler handler;

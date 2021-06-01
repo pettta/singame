@@ -7,6 +7,13 @@ import sin.mundus.materia.entity.EntityPlayer;
 
 import java.awt.*;
 
+/**
+ * Name: ItemMelee.java
+ * Purpose: Base class for all melee weapon. Deals damage on activation.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class ItemMelee extends ItemEquipment {
 
     public int damage, swingDelay, range;

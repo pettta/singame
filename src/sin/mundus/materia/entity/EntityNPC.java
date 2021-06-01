@@ -17,7 +17,13 @@ import sin.save.ISaveable;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
-
+/**
+ * Name: EntityNPC.java
+ * Purpose: Renders and ticks an entity that can talk to you.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class EntityNPC extends Entity {
 
     int spriteIndex, indexCounter;

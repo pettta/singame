@@ -6,7 +6,13 @@ import sin.lib.Direction;
 import sin.lib.Vector;
 import sin.mundus.materia.entity.EntityBomb;
 import sin.mundus.materia.entity.EntityPlayer;
-
+/**
+ * Name: ItemBomb.java
+ * Purpose: A bomb item that throws an exploding bomb when activated.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class ItemBomb extends ItemSpecial {
 
     public ItemBomb(String name, int maxStack) {

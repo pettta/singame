@@ -10,6 +10,13 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * Name: Menu.java
+ * Purpose: Manages the menu interaction and display.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class Menu {
 
     // TODO change the way i render this cuz i do it silly, just dont feel like messing with annoying text rendering

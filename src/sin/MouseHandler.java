@@ -5,7 +5,13 @@ import sin.lib.Coord;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+/**
+ * Name: MouseHandler.java
+ * Purpose: Handles mouse input.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class MouseHandler extends MouseAdapter  {
 
     Game game;

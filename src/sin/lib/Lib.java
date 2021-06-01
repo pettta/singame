@@ -12,6 +12,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * Name: Lib.java
+ * Purpose: All purpose mathy class.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class Lib {
 
     private static float[] tan = new float[361];

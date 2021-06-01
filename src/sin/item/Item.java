@@ -9,6 +9,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Name: Item.java
+ * Purpose: Serves as the base class for all items and manages their universal functionality.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class Item {
 
     public int maxStack;

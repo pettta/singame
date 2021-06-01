@@ -9,7 +9,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-
+/**
+ * Name: AudioPlayer.java
+ * Purpose: Plays audio, makes sure there isn't overlap, and loops.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class AudioPlayer {
 
     public Clip clip;

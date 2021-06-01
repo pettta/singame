@@ -6,7 +6,13 @@ import sin.save.ISaveable;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
+/**
+ * Name: EntityWormBullet.java
+ * Purpose: Manages a projectile that shoots and deals damage to the player, shot by the worm.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class EntityWormBullet extends Entity {
 
     int life;

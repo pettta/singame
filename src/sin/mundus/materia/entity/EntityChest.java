@@ -10,7 +10,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
+/**
+ * Name: EntityChest.java
+ * Purpose: Openable chest that stores and gives player a stack on interaction.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class EntityChest extends Entity {
 
     BufferedImage image;

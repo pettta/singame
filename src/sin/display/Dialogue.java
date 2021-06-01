@@ -10,6 +10,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Name: Dialogue.java
+ * Purpose: Displays inputted dialogue on the screen.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class Dialogue {
 
     public boolean dialogue;

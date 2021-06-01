@@ -5,7 +5,13 @@ import sin.Game;
 import sin.save.ISaveable;
 
 import java.awt.*;
-
+/**
+ * Name: EntityProjectile.java
+ * Purpose: Manages a projectile that shoots and deals damage.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class EntityProjectile extends Entity {
 
     int life;

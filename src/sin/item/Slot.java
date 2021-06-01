@@ -6,6 +6,13 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * Name: Slot.java
+ * Purpose: Holds and displays items.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class Slot {
 
     public Stack stack;

@@ -9,7 +9,13 @@ import sin.save.ISaveable;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
+/**
+ * Name: EntityBomb.java
+ * Purpose: A bomb that blows up, damages entities, and breaks rock entities.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class EntityBomb extends Entity {
 
     int life;

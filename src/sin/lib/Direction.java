@@ -2,7 +2,13 @@ package sin.lib;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Name: Direction.java
+ * Purpose: Keeps track of directions such as directions faced and their corresponding tileset row IDs.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public enum Direction {
 
     N(0),

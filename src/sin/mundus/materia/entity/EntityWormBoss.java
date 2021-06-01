@@ -12,7 +12,13 @@ import sin.save.ISaveable;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-
+/**
+ * Name: EntityWormBoss.java
+ * Purpose: Manages the worm boss which teleports around and shoots and slams.
+ * Last Updated: 6/1/2021
+ * Author: Zacharia Bridgers
+ * Dependencies: None
+ */
 public class EntityWormBoss extends Entity {
     private int counter;
     private Boolean slamming;
