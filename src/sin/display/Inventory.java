@@ -27,7 +27,7 @@ public class Inventory {
     public EntityShopkeeper shopkeep;
 
     // Invariable Slots
-    ArrayList<Slot> equipmentSlots;
+    public ArrayList<Slot> equipmentSlots;
     ArrayList<Slot> resourceSlots;
     // Variable Slots
     ArrayList<Slot> armorySlots;
@@ -150,8 +150,8 @@ public class Inventory {
         armoryStacks.add(new ArrayList<Stack>());
 
 
-
         armoryStacks.get(2).add(new Stack(Registry.shadeCrystalArmor));
+        armoryStacks.get(1).add(new Stack(Registry.shoddyBow));
 
         resourceSlots.get(0).stack = new Stack(Registry.azulShard, 2);
         resourceSlots.get(1).stack = new Stack(Registry.wormHide, 99);
@@ -161,7 +161,7 @@ public class Inventory {
         shopSlots.get(2).stack = new Stack(Registry.fireSword, 200);
         shopSlots.get(3).stack = new Stack(Registry.bomb, 200);
         shopSlots.get(4).stack = new Stack(Registry.shoddyBow, 100);
-
+        shopSlots.get(4).stack = new Stack(Registry.healthPotion, 20);
 
     }
 
@@ -388,9 +388,13 @@ public class Inventory {
         } else {
             for(int i = 0; i < rightStacks.size(); i++) {
                 Stack slotStack = rightStacks.get(i);
+                System.out.println("AH");
                 if(slotStack.item == stack.item) {
+                    System.out.println("hlelelleoe");
                     int max = stack.item.maxStack;
+                    System.out.println(slotStack.count + " " + max);
                     if(slotStack.count != max) {
+                        System.out.println("CUCMCMCMCMCMMCm");
                         int room = max - slotStack.count;
                         int moved = room >= stack.count ? stack.count : room;
                         stack.count -= moved;
