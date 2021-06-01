@@ -19,16 +19,6 @@ public class ItemSpecial extends ItemEquipment {
 
     public void onUse(Game game) {
 
-        Handler handler = game.handler;
-        EntityPlayer p = game.player;
-        Direction direction = p.getRoughDirection() == Direction.None ? p.lastDirection : p.getRoughDirection();
-        int xs = Vector.xSignumFromDirection(direction);
-        int ys = Vector.ySignumFromDirection(direction);
-
-        EntityBomb proj = new EntityBomb(p.getXMid() - 8 + xs * 16, p.getYMid() - 8 + ys * 24, game);
-        proj.setVelX(xs * 6);
-        proj.setVelY(ys * 6);
-        handler.addEnt(proj);
 
     }
 

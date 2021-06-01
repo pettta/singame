@@ -9,7 +9,7 @@ public class Registry {
 
     public static HashMap<String, Item> items = new HashMap<String, Item>();
 
-    public static final Item bomb = new ItemSpecial("bomb", 20);
+    public static final Item bomb = new ItemBomb("bomb", 20);
     public static final Item azulShard = new Item("azulShard", 99);
     public static final Item wormHide = new Item("wormHide", 99);
     public static final Item dagger = new ItemMelee("dagger", 20, 20, 16);
@@ -19,6 +19,7 @@ public class Registry {
     public static final Item shoddyBow = new ItemRanged("shoddyBow", 0);
     public static final Item oldSlingshot = new ItemRanged("oldSlingshot", 1);
     public static final Item shadeCrystalArmor = new ItemArmor("shadeCrystalArmor");
+    public static final Item healthPotion = new ItemPotion("potion");
 
     public void register() {
         registerItem(bomb);
