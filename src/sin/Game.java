@@ -106,7 +106,7 @@ public class Game extends Canvas implements Runnable {
         initComplete = true;
         player.setGreed(40);
         player.setEnvy(20);
-        player.setWrath(10);
+        player.setWrath(5);
         dprint("Initialization complete!");
     }
 

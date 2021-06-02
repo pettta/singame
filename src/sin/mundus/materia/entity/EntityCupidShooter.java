@@ -169,7 +169,7 @@ public class EntityCupidShooter extends Entity {
         x += horizCollision ? 0 : velX;
         y += vertCollision ? 0 : velY;
 
-        if(counter < 0 && distance < 125) {
+        if(counter < 0 && distance < 90) {
             if (counter < -10) {
                 EntityRangedShot proj = new EntityRangedShot(getXMid(), getYMid(), game, 0, EntityType.Player);
                 Vector vector = new Vector(getXMid(), getYMid(), game.player.getXMid(), game.player.getYMid(), speed);
