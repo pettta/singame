@@ -3,6 +3,8 @@ A top down game made in Java
 
 Influenced by various SNES-era games like Zelda, Final Fantasy, and more modern games like Pokemon 
 
+This github repo is a copy of the Gitlab project that my partners and I did for CI102 and CI103
+
 ## Setting up the Project
 Since this project was made using Java, we reccomend you install Java if you have not already. Other than that, IntelliJ should set up the rest for you after you create a project through cloning our repository.
 
